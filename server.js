@@ -1,0 +1,38 @@
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const cron = require('node-cron');
+const dotenv = require('dotenv');
+
+const indexRoutes = require('./Routes/index_route');
+const { cleanupExpiredOTPs } = require('./Controllers/Public Controllers/signIn_Controller/cleanupOTP');
+
+dotenv.config(); // Load .env variables
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Middlewares
+app.use(cookieParser());
+app.use(express.json());
+app.use(cors({
+  credentials: true,
+  origin: ['http://localhost:3000', 'http://localhost:4200']
+}));
+
+// Routes
+app.get('/', (req, res) => {
+  res.json({ message: "sample api" });
+});
+
+app.use('/api', indexRoutes);
+
+// Scheduled Tasks
+cron.schedule('*/5 * * * *', () => {
+  cleanupExpiredOTPs();
+});
+
+// Server Listen
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

@@ -1,0 +1,353 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// otp verification
+model OTPVerification {
+  id           Int      @id @default(autoincrement()) @map("id")
+  email        String   @unique @map("email")
+  otp          String   @map("otp")
+  createdDate  DateTime @default(now()) @map("created_date")
+  expiredDate  DateTime? @map("expired_date")
+  verified     Boolean  @default(false) @map("verified")
+  workflow     String   @default("initial") @map("workflow")
+  token        String?  @map("token")
+
+  @@map("otp_verification")
+}
+
+// login account
+model LoginAccount {
+  id           Int      @id @default(autoincrement()) @map("id")
+  email        String   @unique @map("email")
+  password     String   @map("password")
+  active       Boolean  @default(true) @map("active")
+  createdDate  DateTime @default(now()) @map("created_date")
+  expiredDate  DateTime? @map("expired_date")
+  
+  @@map("login_account")
+}
+
+// user registration
+model UserRegistration {
+  id            Int     @id @default(autoincrement()) @map("id")
+  firstName     String  @map("first_name")
+  lastName      String  @map("last_name")
+  email         String  @unique @map("email")
+  phone         BigInt? @map("phone") // Use BigInt for larger numbers
+  customerType  String  @map("customer_type")
+
+  @@map("user_registration")
+  UserAddress UserAddress[]
+  UserRole UserRole[]
+  AddToCart AddToCart[]
+}
+
+
+// user address
+model UserAddress {
+  id        Int     @id @default(autoincrement()) @map("id")
+  address   String  @map("address")
+  state     String  @map("state")
+  city      String  @map("city")
+  zipCode   String  @map("zip_code")
+  userId    Int     @map("user_id")
+  user      UserRegistration @relation(fields: [userId], references: [id])
+
+  @@map("user_address")
+}
+
+
+// role
+model Role {
+  role_id    Int     @id @default(autoincrement())
+  role_name  String  @unique
+  description String?
+  role_type  String?
+ 
+  @@map("role")
+}
+
+
+// user roles
+model UserRole {
+  id        Int   @id @default(autoincrement()) @map("id")
+  userId    Int   @map("user_id")
+  roleId    Int   @map("role_id")
+
+  user      UserRegistration @relation(fields: [userId], references: [id])
+
+  @@map("user_roles")
+}
+
+// private page
+// business profile
+model BusinessProfile {
+  id             Int      @id @default(autoincrement())
+  companyName    String
+  companyOwnerName String
+  email          String   @unique
+  whatsappNumber String?
+  websiteUrl     String?
+  streetAddress  String
+  city           String
+  country        String
+  state          String
+  zipcode        String
+  phone          String
+
+   @@map("BusinessProfile")
+}
+
+
+model MainCategory {
+  categoryId                Int      @id @default(autoincrement()) @map("category_id")
+  categoryName              String   @unique @map("category_name")
+  description       String?  @map("category_description")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  subCategories     SubCategory[] @relation("MainCategoryToSubCategory")
+  
+  @@map("main_categories")
+  Product Product[] @relation("ProductMainCategory")
+}
+
+
+model SubCategory {
+  subCategoryId   Int          @id @default(autoincrement()) @map("subcategory_id")
+  categoryId      Int          @map("category_id")
+  categoryTypeId  Int          @map("category_type_id") // No unique constraint here
+  subCategoryName String       @map("subcategory_name")
+  description     String?      @map("subcategory_description")
+  images          Bytes?       @map("images")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt      @map("updated_at")
+
+  // Relations
+  mainCategory    MainCategory @relation("MainCategoryToSubCategory", fields: [categoryId], references: [categoryId])
+  categoryType    CategoryType @relation("CategoryTypeToSubCategory", fields: [categoryTypeId], references: [categoryTypeId])
+
+  @@index([categoryId])
+  @@map("subcategories")
+  Product Product[] @relation("ProductSubcategory")
+}
+
+
+model CategoryType {
+  categoryTypeId Int    @id @default(autoincrement()) @map("category_type_id")
+  typeName       String @map("type_name") // Remove @unique here
+  
+  subCategories  SubCategory[] @relation("CategoryTypeToSubCategory")
+  products       Product[]     @relation("ProductCategoryType")
+
+  @@map("category_types")
+}
+
+
+model Product {
+  productId           Int                @id @default(autoincrement()) @map("product_id")
+  categoryId          Int?               @map("category_id")
+  subcategoryId       Int?               @map("subcategory_id")
+  categoryTypeId      Int?               @map("category_type_id")
+  materialType        String?            @map("material_type")
+  productCode         String             @unique @map("product_code")
+  productName         String             @map("product_name")
+  brand               String             @map("brand")
+  price               Float              @map("price")
+  totalStock          Int                @map("total_stock")
+  stockQuantity       Int                @map("stock_quantity")
+  reorderLevel        Int                @map("reorder_level")
+  availability        String             @map("availability") // Enum for better consistency
+  productDescription  String             @map("product_description")
+  createdAt           DateTime           @default(now()) @map("created_date")
+  updatedAt           DateTime           @updatedAt @map("modified_date")
+  createdBy           Int                @map("created_by")
+  modifiedBy          Int                @map("modified_by")
+
+  // Relations
+  subcategory         SubCategory?       @relation("ProductSubcategory", fields: [subcategoryId], references: [subCategoryId])
+  mainCategory        MainCategory?      @relation("ProductMainCategory", fields: [categoryId], references: [categoryId])
+  categoryType        CategoryType?      @relation("ProductCategoryType", fields: [categoryTypeId], references: [categoryTypeId])
+  seoInformation      SEOInformation?
+  shippingInformation ShippingInformation?
+  productImages       ProductImage[]
+  productSizes        ProductSize[]
+  productOffers       ProductOffer[] @relation("ProductToProductOffers")
+
+  @@map("products")
+  // ProductOffer ProductOffer[] @relation("ProductToProductOffers")
+  AddToCart AddToCart[]
+  CustomerSavedOrder CustomerSavedOrder[]
+}
+
+
+model SEOInformation {
+  seoId             Int      @id @default(autoincrement()) @map("seo_id")
+  productId         Int?     @map("product_id") @unique
+  metaTitle         String?  @map("meta_title")
+  metaDescription   String?  @map("meta_description")
+  keywords          String?  @map("keywords")
+  careInstructions  String?  @map("care_instructions")
+  returnPolicy      String?  @map("return_policy")
+  createdDate       DateTime @default(now()) @map("created_date")
+  modifiedDate      DateTime @updatedAt @map("modified_date")
+
+  // Relations
+  product           Product? @relation(fields: [productId], references: [productId])
+
+  @@map("seo_information")
+}
+
+model ShippingInformation {
+  shippingId       Int      @id @default(autoincrement()) @map("shipping_id")
+  productId        Int?     @map("product_id") @unique
+  weight           Decimal? @map("weight")
+  dimensions       String?  @map("dimensions")
+  shippingClass    String?  @map("shipping_class")
+  createdDate      DateTime @default(now()) @map("created_date")
+  modifiedDate     DateTime @updatedAt @map("modified_date")
+
+  // Relations
+  product          Product? @relation(fields: [productId], references: [productId])
+
+  @@map("shipping_information")
+}
+
+
+model ProductSize {
+  id            Int      @id @default(autoincrement()) @map("id")
+  productId     Int      @map("product_id")
+  sizeId        String   @map("size_id")
+  totalQuantity Int      @map("total_quantity")
+  stockQuantity Int      @map("stock_quantity")
+
+  // Relations
+  product       Product  @relation(fields: [productId], references: [productId])
+
+  @@map("product_size")
+}
+
+
+model ProductImage {
+  id            Int       @id @default(autoincrement()) @map("id")
+  productId     Int       @map("product_id")
+  imageId       Int       @default(autoincrement()) @map("image_id")
+  images        Bytes?    @map("images")  // For storing binary data
+  imageName     String    @map("image_name")
+  imageTitle    String    @map("image_title")
+  imageUrl      String    @map("image_url")
+  createdDate   DateTime  @default(now()) @map("created_date")
+  modifiedDate  DateTime  @updatedAt @map("modified_date")
+  createdBy     Int    @map("created_by")
+  modifiedBy    Int    @map("modified_by")
+
+  // Relations
+  product       Product? @relation(fields: [productId], references: [productId])
+
+  @@map("product_image")
+}
+
+
+model ProductOffer {
+  offerId             Int                @id @default(autoincrement()) @map("offer_id")
+  productId           Int                @map("product_id")
+  offerName           String             @map("offer_name")
+  description         String             @map("description")
+  discountPercentage  Int?               @map("discount_percentage")
+  discountPrice       Int?               @map("discount_price")
+  startDate           DateTime           @map("start_date")
+  endDate             DateTime           @map("end_date")
+  expiredDate         DateTime?          @default(now()) @map("expired_date")
+  createdDate         DateTime?          @default(now()) @map("created_date")
+  modifiedDate        DateTime?          @default(now()) @map("modified_date")
+  createdBy           String             @map("created_by")
+  modifiedBy          String             @map("modified_by")
+  product             Product            @relation("ProductToProductOffers", fields: [productId], references: [productId])
+
+  @@map("product_offers")
+}
+
+
+model AddToCart {
+  cartId         Int       @id @default(autoincrement()) @map("cart_id")
+  productId      Int       @map("product_id")
+  customerId     Int?      @map("customer_id")  // optional for guest users
+  guestUserId    String?   @map("guest_user_id") // optional for logged-in users
+  createdDate    DateTime  @default(now()) @map("created_date")
+  modifiedDate   DateTime  @updatedAt @map("modified_date")
+  createdAt      String    @map("created_at")
+  modifiedAt     String    @map("modified_at")
+
+  // Relations
+  product          Product           @relation(fields: [productId], references: [productId])
+  userRegistration UserRegistration? @relation(fields: [customerId], references: [id])
+
+  @@map("add_to_cart")
+}
+
+model CustomerSavedOrder {
+  savedOrderId Int      @id @default(autoincrement()) @map("saved_order_id")
+  productId    Int      @map("product_id")
+  guestUserId  String  @map("guest_user_id")
+  createdDate  DateTime @default(now()) @map("created_date")
+
+  product      Product  @relation(fields: [productId], references: [productId])
+
+  @@map("customer_saved_order")
+}
+
+model CustomerAddress {
+  customerAddressId Int      @id @default(autoincrement()) @map("customer_address_id")
+  customerId        Int      @map("customer_id")
+  address           String
+  city              String
+  state             String
+  zipCode           String   @map("zip_code")
+  phone             String
+  paymentMethod     String   @map("payment_method")
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  orders            Order[]
+
+  @@map("customer_address")
+}
+
+model Order {
+  orderId     Int      @id @default(autoincrement()) @map("order_id")
+  customerId  Int      @map("customer_id")
+  addressId   Int      @map("address_id")
+  totalAmount Float    @map("total_amount")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  address     CustomerAddress @relation(fields: [addressId], references: [customerAddressId])
+  items       OrderItem[]
+
+  @@map("Order")
+}
+
+model OrderItem {
+  orderItemId    Int     @id @default(autoincrement()) @map("order_item_id")
+  orderId        Int     @map("order_id")
+  productId      Int     @map("product_id")
+  quantity       Int
+  price          Float
+  discountPrice  Float   @map("discount_price")
+
+  order          Order   @relation(fields: [orderId], references: [orderId])
+
+  @@map("order_item")
+}
+
