@@ -1,0 +1,159 @@
+<div>
+  <div class="banner">
+    <i class="fa fa-arrow-left back-icon" aria-hidden="true"
+      routerLink="/fashionflair/dashboard/products/view/products-details"></i>
+    <b>Product Images</b>
+  </div>
+
+<div class="container-fluid p-2">
+<div class="card shadow-lg">
+  <div class="card-header title text-center">
+    Product Image
+  </div>
+<div class="card-body">
+  <!-- Product Details -->
+  <div class="product-details mb-4" *ngIf="selectedProduct">
+    <div class="row mb-3">
+      <div class="col-12 col-md-4 col-lg-4 col-sm-6">
+        <p><strong>Product:</strong> {{ selectedProduct.productName }}</p>
+        <p><strong>Price:</strong> ${{ selectedProduct.price }}</p>
+      </div>
+      <div class="col-12 col-md-4 col-lg-4 col-sm-6">
+        <p><strong>Category:</strong> {{ selectedProduct.mainCategory.categoryName }}</p>
+        <p><strong>Subcategory:</strong> {{ selectedProduct.subcategory.subCategoryName }}</p>
+      </div>
+      <div class="col-12 col-md-4 col-lg-4 col-sm-6">
+        <p><strong>Material:</strong> {{ selectedProduct.materialType }}</p>
+        <p><strong>Brand:</strong> {{ selectedProduct.brand }}</p>
+      </div>
+    </div>
+
+    <hr class="my-4" />
+
+    <div class="d-flex">
+      <h5 class="text-left form-heading-text">Add Images</h5>
+    </div>
+  </div>
+
+  <form [formGroup]="productImageForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <!-- Single Card for Image Titles, Uploads, and View Images -->
+      <div class="col-12">
+       
+            <div class="row">
+              <!-- Image Titles Section -->
+              <div class="col-12 col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-4">
+                <h5 class="text-secondary mb-3">
+                  <i class="fa fa-font me-2"></i> Image Titles
+                </h5>
+                <div class="row">
+                  <div *ngFor="let control of imageNames; let i = index" class="col-12 mb-3">
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <i class="fa fa-image" aria-hidden="true"></i>
+                      </span>
+                      <div class="form-floating flex-grow-1">
+                        <input
+                          type="text"
+                          class="form-control border-outline"
+                          placeholder="Image Title"
+                          [formControlName]="control"
+                          [ngClass]="{
+                            'is-invalid':
+                              productImageForm.get(control)?.invalid &&
+                              productImageForm.get(control)?.touched
+                          }"
+                        />
+                        <label for="imageName{{ i }}">Image Title</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Image Uploads Section -->
+              <div class="col-12 col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-4">
+                <h5 class="text-secondary mb-3">
+                  <i class="fa fa-upload me-2"></i> Upload Images
+                </h5>
+                <div class="row">
+                  <div *ngFor="let control of imageFiles; let i = index" class="col-12 mb-3">
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <i class="fa fa-file" aria-hidden="true"></i>
+                      </span>
+                      <input
+                        type="file"
+                        class="form-control border-outline"
+                        [formControlName]="control"
+                        (change)="onFileSelected($event, i)"
+                        accept=".jpg, .jpeg, .png"
+                        [ngClass]="{
+                          'is-invalid':
+                            productImageForm.get(control)?.invalid &&
+                            productImageForm.get(control)?.touched
+                        }"
+                      />
+                    </div>
+                    <small class="text-muted">Supported formats: .jpg, .jpeg, .png</small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- View Images Section -->
+              <div class="col-12 col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-4">
+                <h5 class="text-secondary mb-3">
+                  <i class="fa fa-eye me-2"></i> View Images
+                </h5>
+                <div class="row">
+                  <div class="product-container-alt" *ngIf="selectedProduct">
+                    <div class="product-images-alt">
+                      <!-- Main Product Image -->
+                      <div class="main-image-container-alt">
+                        <img [src]="mainImage" alt="Main Product Image" class="main-image-alt" />
+                      </div>
+
+                      <!-- Thumbnail Images -->
+                      <div class="thumbnail-container-alt" *ngIf="!noImagesFound; else noImageTemplate">
+                        <img *ngFor="let image of selectedProduct.productImages"
+                          [src]="'data:image/png;base64,' + image.images"
+                          [class.selected]="('data:image/png;base64,' + image.images) === selectedImage"
+                          alt="Thumbnail" class="thumbnail-alt"
+                          (click)="changeMainImage('data:image/png;base64,' + image.images)" />
+                      </div>
+
+                      <!-- No Images Template -->
+                      <ng-template #noImageTemplate>
+                        <div class="d-flex justify-content-between align-items-center">
+                          <p class="text-danger mb-0">No images available for this product.</p>
+                         
+                        </div>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <button class="btn px-4 py-2" type="submit" [disabled]="!isFormValid()">
+                    Upload
+                  </button>
+                  <button class="btn px-4 py-2" type="button" routerLink="/fashionflair/dashboard">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          
+      </div>
+    </div>
+  </form>
+</div>
+</div>
+</div>
+
+</div>

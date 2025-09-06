@@ -1,0 +1,42 @@
+<!-- sub category grid -->
+
+<div class="container-fluid">
+  <table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <th colspan="9" class="text-center">Sub Category List</th> <!-- Updated colspan to 9 -->
+      </tr>
+      <tr>
+        <th>Sub Category </th>
+        <th>Main Category </th>
+        <th>Description</th>
+        <th class="hidden-cols">Created Date</th>
+        <th class="hidden-cols">Updated Date</th>
+        <th>Action</th>
+      </tr>
+
+    </thead>
+    <tbody>
+      <tr>
+      <tr *ngFor="let category of subCategories">
+        <td class="text-center">{{ category.subCategoryName }} <br>
+          <img *ngIf="category.images" [src]="'data:image/jpeg;base64,' + category.images" alt="{{ category.name }}"
+            style="width: 100px; height: auto;" />
+        </td>
+        <td>{{ category.mainCategory.categoryName }}</td>
+        <td>{{category.description}}</td>
+        <td class="hidden-cols">{{ category.createdAt | date: 'medium' }}</td>
+        <td class="hidden-cols">{{ category.updatedAt | date: 'medium' }}</td>
+
+        <td class="text-center">
+          <i class="fa fa-pencil-square-o edit-btn" aria-hidden="true"
+            (click)="navigateToViewCategory(category.subCategoryId)"></i>
+        </td>
+
+      </tr>
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+    </tbody>
+  </table>
+</div>

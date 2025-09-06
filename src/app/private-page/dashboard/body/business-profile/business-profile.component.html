@@ -1,0 +1,234 @@
+<!-- business profile -->
+<div>
+    <div class="banner">
+      Business Profile
+    </div>
+    <div>
+      <div class="container-fluid">
+        <div class="card">
+          <div class="card-body">
+            <form class="text-center row" [formGroup]="businessProfileForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <div class="col-12 col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="row">
+                    <div class="d-flex">
+                      <span class="text-left mb-5 form-heading-text">Business Profile</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">    
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">
+                        <i class="fa fa-user small-icon" aria-hidden="true"></i
+                      ></span>
+                      <div class="form-floating">
+                        <input
+                          type="text"
+                          class="form-control border-outline"
+                          placeholder="Company Name"
+                          [ngClass]="{'is-invalid': businessProfileForm.get('companyName')?.invalid && businessProfileForm.get('companyName')?.touched}"
+                          formControlName="companyName"
+                          required            
+                        />
+                        <label for="companyName">Name of the company</label>
+                        
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">
+                          <i class="fa fa-user small-icon" aria-hidden="true"></i>
+                        </span>
+                        <div class="form-floating">
+                          <input type="text" class="form-control border-outline" id="companyOwnerName" placeholder="Company Owner's Name"
+                          formControlName="companyOwnerName" 
+                          [ngClass]="{'is-invalid': businessProfileForm.get('companyOwnerName')?.invalid && businessProfileForm.get('companyOwnerName')?.touched}"
+                          />
+                          <label for="floatingInputGroup1">Company Owner's Name</label>
+                        </div>
+                      </div>
+                    
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">
+                          <i class="fa fa-envelope larger-icon" aria-hidden="true"></i>
+                        </span>
+                        <div class="form-floating">
+                          <input class="form-control border-outline" type="email" placeholder="Email Address" formControlName="email"
+                          [ngClass]="{'is-invalid': businessProfileForm.get('email')?.invalid && businessProfileForm.get('email')?.touched}"
+                           />
+                          <label for="email">Email address</label>
+                        </div>
+                      </div>
+                    
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">
+                          <i class="fa fa-mobile fs-4 small-icon"></i>
+                        </span>
+                        <div class="form-floating">
+                          <input class="form-control border-outline" type="tel" placeholder="Mobile Number" formControlName="phone" 
+                          [ngClass]="{'is-invalid': businessProfileForm.get('phone')?.invalid && businessProfileForm.get('phone')?.touched}"
+                          />
+                          <label for="phone">Mobile Number</label>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">
+                          <i class="fa fa-mobile fs-4 small-icon"></i>
+                        </span>
+                        <div class="form-floating">
+                          <input class="form-control border-outline" type="tel" placeholder="Whatsapp Number" formControlName="whatsappnumber" 
+                          [ngClass]="{'is-invalid': businessProfileForm.get('whatsappnumber')?.invalid && businessProfileForm.get('whatsappnumber')?.touched}"
+                          />
+                          <label for="whatsappnumber">Whatsapp Number</label>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="row">
+                    <div class="d-flex">
+                      <span class="text-left mb-5 form-heading-text">Address</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">
+                          <i class="fa fa-street-view small-icon" aria-hidden="true"></i>
+                        </span>
+                        <div class="form-floating">
+                          <input class="form-control border-outline" type="text" placeholder="Street Address" formControlName="streetAddress" 
+                          [ngClass]="{'is-invalid': businessProfileForm.get('streetAddress')?.invalid && businessProfileForm.get('streetAddress')?.touched}"
+                           />
+                          <label for="streetAddress">Street Address</label>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">
+                          <i class="fa fa-user small-icon" aria-hidden="true"></i>
+                        </span>
+                        <div class="form-floating">
+                          <input class="form-control border-outline" type="text" placeholder="City" formControlName="city" 
+                          [ngClass]="{'is-invalid': businessProfileForm.get('city')?.invalid && businessProfileForm.get('city')?.touched}"
+                          />
+                          <label for="floatingInputGroup1">City</label>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">
+                          <i class="fa fa-user small-icon" aria-hidden="true"></i>
+                        </span>
+                        <div class="form-floating">
+                          <input class="form-control border-outline" type="text" placeholder="Country" formControlName="country" 
+                          [ngClass]="{'is-invalid': businessProfileForm.get('country')?.invalid && businessProfileForm.get('country')?.touched}"
+                          />
+                          <label for="floatingInputGroup1">Country</label>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">
+                          <i class="fa fa-user small-icon" aria-hidden="true"></i>
+                        </span>
+                        <div class="form-floating">
+                          <input class="form-control border-outline" type="text" placeholder="State" formControlName="state" 
+                          [ngClass]="{'is-invalid': businessProfileForm.get('state')?.invalid && businessProfileForm.get('state')?.touched}"
+                          />
+                          <label for="floatingInputGroup1">State</label>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">
+                          <i class="fa fa-user small-icon" aria-hidden="true"></i>
+                        </span>
+                        <div class="form-floating">
+                          <input class="form-control border-outline" type="text" placeholder="Zipcode" formControlName="zipcode"
+                          [ngClass]="{'is-invalid': businessProfileForm.get('zipcode')?.invalid && businessProfileForm.get('zipcode')?.touched}"
+                           />
+                          <label for="floatingInputGroup1">Zipcode</label>
+                        </div>
+                      </div>
+                    
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="row">
+                    <div class="d-flex">
+                      <span class="text-left mb-5 form-heading-text">Website</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">
+                          <i class="fa fa-user small-icon" aria-hidden="true"></i>
+                        </span>
+                        <div class="form-floating">
+                          <input class="form-control border-outline" type="text" placeholder="Website URL" formControlName="websiteUrl" 
+                          [ngClass]="{'is-invalid': businessProfileForm.get('websiteUrl')?.invalid && businessProfileForm.get('websiteUrl')?.touched}"
+                          />
+                          <label for="floatingInputGroup1">Website URL</label>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row m-1">
+               
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-2 me-2 ms-2">
+                  <button class="btn" type="submit" [disabled]="businessProfileForm.invalid">Submit</button>
+                  <button class="btn" type="button" routerLink="/fashionflair/dashboard">Cancel</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="bar m-3">
+         
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+ 

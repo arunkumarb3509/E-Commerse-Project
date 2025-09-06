@@ -1,0 +1,94 @@
+@import "~font-awesome/css/font-awesome.css";
+@import "~font-awesome/css/font-awesome.min.css";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Dhurjati&family=Kanit:ital@1&family=Permanent+Marker&family=Teko&family=Vina+Sans&display=swap');
+@import "src/styles/color.scss";
+
+
+* {
+    font-family: $forum-ff;
+    // font-size: $font-size;
+  }
+
+
+  .banner {
+    position: relative; 
+    height: 43px;
+    background-color: #A9BA9D;
+    color: black;
+    text-align: center;
+    font-size: larger;
+    padding: 10px;
+    font-size: 16px !important;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+  }
+  
+  .back-icon {
+    position: absolute; 
+    right: 50px; 
+    top: 50%;
+    transform: translateY(-50%); 
+    font-size: 20px;
+    cursor: pointer;
+    color: black; 
+  }
+  
+  .back-icon:hover {
+    color: #6b6b6b; 
+  }
+  
+  @media screen and (max-width: 768px) {
+    .back-icon {
+      font-size: 18px; 
+    }
+  }
+  
+  /* Success Toast (Green with Checkmark) */
+.toast-success {
+  background-color: #28a745 !important; /* Green background */
+  color: white !important;
+}
+.toast-success .toast-title::before {
+  content: "✔"; /* Green checkmark */
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+/* Error Toast (Red with Cross) */
+.toast-error {
+  background-color: #dc3545 !important; /* Red background */
+  color: white !important;
+}
+.toast-error .toast-title::before {
+  content: "✖"; /* Red cross */
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+
+  // .toast-top-right {
+  //   top: 12px;
+  //   right: 12px;
+  //   z-index: 9999; 
+  //   // background-color: red;
+  // }
+
+  // .toast-success {
+  //   background-color: green !important;
+  //   color: white;
+  //   padding: 20px;
+  // }
+  
+  // .toast-error {
+  //   background-color: red !important;
+  //   color: white;
+  //   padding: 20px;
+  // }
+  
+
+  .form-heading-text{
+    font-weight: bold;
+    text-decoration: underline;
+  }

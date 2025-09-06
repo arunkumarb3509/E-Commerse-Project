@@ -1,0 +1,37 @@
+<!-- top-banner -->
+
+    <header>
+      <div class="container-fluid text-center">
+        <div class="row align-items-center">
+          <!-- Contact Section -->
+          <div class="col-lg-3">
+            <h6>Call Us : +91 6179450710</h6>
+          </div>
+    
+          <!-- Promotion Section -->
+          <div class="col-lg-5">
+            <h6 class="topBannerText">Up to 20% OFF for all products.</h6>
+            <a routerLink="/sign-up" class="signUpLink">Sign up now</a>
+          </div>
+    
+          <!-- Social Media and Cart Section -->
+          <div class="col-lg-4 d-flex justify-content-end align-items-center">
+            <!-- Social Media Icons -->
+            <div>
+              <a *ngFor="let link of socialMediaLinks" [href]="link" class="topBannerIcon me-2">
+                <i [class]="link.icon"></i>
+              </a>
+            </div>
+    
+            <!-- Cart Icon with Count -->
+             <div>
+            <div class="cart-section ms-3" (click)="viewToCart()">
+              <i class="fa fa-shopping-cart cart-icon"></i>
+              <span class="cart-count">{{ cartCount }}</span>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    

@@ -1,0 +1,291 @@
+@import "src/styles.scss";
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Teko:wght@300..700&display=swap');
+
+.card-header {
+  background-color: $top-banner-bg;
+  color: $top-banner-color;
+  font-optical-sizing: auto;
+  font-style: normal;
+  padding: 4px;
+}
+
+.otpSuccessMsg{
+  margin-bottom: 20px;
+  text-align: center;
+}
+.container-fluid {
+  background-color: $global-grid-header-bg !important;
+}
+
+.card-body {
+  padding: 56px;
+}
+
+.form-container {
+  background-color: $light-green;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 0%;
+  margin-bottom: 0%;
+  padding: 0px;
+  border: 1px solid #ccc;
+}
+
+.btn{
+    color:$top-banner-icon;
+    background-color:$top-banner-bg;
+    width: 20%;  
+    font-weight: bold;
+}
+
+.btn:hover{
+    color:$white-color;
+}
+
+.card-body{
+     background-color:$signup-bg;
+     padding: 46px;
+}
+
+.content{
+    color: $signUp-content-color;
+    text-align: justify;
+    font-family: "Libre Baskerville", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.termsText{
+  margin-top: -18px;
+  margin-left: 32px;
+}
+
+.errorText{
+  margin-top: -18px;
+  margin-left: 349px;
+}
+
+.otp-card{
+  text-align: center;
+  background-color: #ccc;
+  border-radius: 10px;
+  padding: 3rem;
+
+}
+
+.otp-card-inputs{
+ margin: -11px 0;
+ display: grid;
+ gap: 5px;
+ justify-content: center;
+ grid-template-columns: repeat(6, auto);
+}
+
+.otp-card-inputs input{
+ width: 57px;
+ height: 59px;
+ font-size: 35px;
+ text-align: center;
+ border-radius: 20px;
+ border: 2px solid black;
+}
+
+.otp-card-inputs input:focus{
+ outline: 2px solid green;
+ border-color: transparent;
+   
+}
+
+.text-muted li{
+  list-style: none;
+}
+
+.verifyBtn {
+  width: 113%;
+    margin-top: 31px;
+    margin-left: -48px;
+}
+
+.otpIncorrectMsg{
+  margin-left: 343px;
+  margin-bottom: 17px;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: $top-banner-bg; 
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+.link-button:disabled {
+  text-decoration: none;
+  cursor: not-allowed;
+}
+
+@media screen and (min-width:320px) and (max-width: 575px) 
+{
+  .btn{
+      color:$top-banner-icon;
+       background-color:$top-banner-bg;
+       width:100%;
+       font-weight: bold;
+   }
+
+   .otpIncorrectMsg{
+    margin-left: 101px;
+    margin-bottom: 17px;
+  }
+   .card-body{
+    background-color:$signup-bg;
+    padding: 14px;
+    margin-top: 10px;
+}
+
+.verifyBtn {
+  width: 100%;
+  margin-top: 20px;
+  margin-left: 0%;
+}
+  .signup h4 {
+    font-size: 1.2rem; 
+    color: #0c0101;
+    background-color:$light-green ;
+  }
+
+  .form-floating label {
+    font-size: 0.8rem;
+  }
+
+  .form-group{
+    width: 87%;
+    margin-left: 20px;
+  }
+
+  .text-danger{
+    font-size: small;
+  }
+  
+  .errorText{
+    margin-top: -3px;
+    margin-left: 109px;
+  }
+
+  .otp-card-inputs{
+    margin: 17px 0;
+    display: grid;
+    gap: 5px;
+    justify-content: center;
+    grid-template-columns: repeat(6, auto);
+  }
+
+  .otp-card-inputs input{
+    width: 37px;
+    height: 41px;
+    font-size: 23px;
+    text-align: center;
+    border-radius: 10px;
+    border: 2px solid black;
+   }
+
+   .form-container {
+    background-color: $light-green;
+    margin: 0 auto;
+    margin-top: 9%;
+    margin-bottom: 9%;
+    padding: 0px;
+    border: 1px solid #ccc;
+    /* margin-left: 44%; */
+}
+      
+}
+
+@media screen and (min-width:320px) and (max-width: 1439px) 
+{
+  .col-lg-5{
+    display: none;
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1439px) {
+  .form-container {
+    background-color: $light-green;
+    width: 80%; 
+    margin: 0 auto; 
+    margin-top: 0%; 
+    margin-bottom: 0%;
+    padding: 0px; 
+    border: 1px solid #ccc;
+    margin-left: 44%;
+  }
+
+  .form-group{
+    width: 44%;
+    margin-left: 20px;
+  }
+
+  .verifyBtn {
+    width: 123%;
+    margin-top: 31px;
+    margin-left: -48px;
+  }
+
+  .otpSuccessMsg {
+    /* margin-top: -16px; */
+    text-align: center;
+    margin-bottom: 26px;
+}
+}
+
+@media screen and (min-width:992px) and (max-width: 1950px) {
+  .carouselImg{
+    height: 68vh;
+  }
+}
+
+@media screen and (min-width:1440px) and (max-width: 1950px) {
+  .form-group{
+    width: 44%;
+    margin-left: 37px;
+  }
+
+   .form-container {
+    background-color: $light-green;
+    margin: 0 auto; 
+    margin-top: 3%; 
+    margin-bottom: 0%;
+    padding: 0px; 
+    border: 1px solid #ccc;
+  }
+  
+}
+
+@media screen and (min-width:768px) and (max-width: 991px) {
+  .form-group{
+    width: 44%;
+    margin-left: 29px;
+  }
+
+  .otpIncorrectMsg{
+    margin-left: 202px;
+    /* margin-top: -1%; */
+    margin-bottom: 17px;
+  }
+}
+
+
+  
+
+  
+
+
+
+
+
+
+
+
+

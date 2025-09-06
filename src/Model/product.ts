@@ -1,0 +1,24 @@
+export class Products {
+  categoryId: number = 0;
+  subCategoryId: number = 0;
+  categoryTypeId: number | null = null; // Ensure null is valid
+  materialType: string = '';
+  returnPolicy: string = '';
+  careInstructions: string = '';
+  productCode: string = '';
+  productName: string = '';
+  brand: string = '';
+  price: string = '';
+  totalStock: string = '';
+  reducedPrice: string = '';
+  availability: string = '';
+  productDescription: string = '';
+  Weight: string = '';
+  Dimension: string = '';
+  ShippingClass: string = '';
+  metaTitle: string = '';
+  metaDescription: string = '';
+  keywords: string = '';
+  selectedSizes: string[] = [];
+  sizeStockMapping: { [key: string]: number } = {};
+}

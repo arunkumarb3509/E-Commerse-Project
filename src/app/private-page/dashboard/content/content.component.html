@@ -1,0 +1,15 @@
+     <div *ngIf="userType === 'seller'">
+
+<div class="row body-content">
+    <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 nav-bar">
+        <app-side-bar></app-side-bar>
+    </div>
+    <div class="col-xxl-8 col-xl-8 col-lg-6 col-md-6 col-sm-12 body">
+      <app-body></app-body>
+    </div>
+  </div>
+  </div>
+
+     <div *ngIf="userType === 'customer'">
+     <app-customer-product></app-customer-product>
+</div>

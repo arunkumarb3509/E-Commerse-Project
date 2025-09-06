@@ -1,0 +1,149 @@
+<div>
+  <div class="banner">
+    <i class="fa fa-arrow-left back-icon" aria-hidden="true"
+      routerLink="/fashionflair/dashboard/products/view/products-details"></i>
+    <b>Product Offers</b>
+  </div>
+  <div class="container-fluid p-2">
+
+    <div class="card shadow-lg">
+      <div class="card-header title text-center">
+        Product Offer
+      </div>
+     
+      <div class="card-body">
+        <!-- Product Details -->
+        <div class="product-details mb-4" *ngIf="selectedProduct">
+          <div class="row mb-3">
+
+            <div class="col-12 col-md-4 col-lg-4 col-sm-6">
+              <p><strong>Product:</strong> {{ selectedProduct.productName }}</p>
+              <p><strong>Price:</strong> ${{ selectedProduct.price }}</p>
+            </div>
+            <div class="col-12 col-md-4 col-lg-4 col-sm-6">
+              <p><strong>Category:</strong> {{ selectedProduct.mainCategory.categoryName }}</p>
+              <p><strong>Subcategory:</strong> {{ selectedProduct.subcategory.subCategoryName }}</p>
+            </div>
+            <div class="col-12 col-md-4 col-lg-4 col-sm-6">
+              <p><strong>Material:</strong> {{ selectedProduct.materialType }}</p>
+              <p><strong>Brand:</strong> {{ selectedProduct.brand }}</p>
+            </div>
+          </div>
+
+          <hr class="my-4" />
+
+          <div class="d-flex">
+            <h5 class="text-left form-heading-text">Add Offer</h5>
+          </div>
+        </div>
+
+        <!-- Offer Form -->
+        <form [formGroup]="productOfferForm" (ngSubmit)="submitProductOffer()">
+          <div class="row">
+            <!-- Column 1: Offer Name and Description -->
+            <div class="col-12 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <!-- Offer Name -->
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa fa-tag"></i></span>
+                <div class="form-floating">
+                  <input type="text" class="form-control border-outline" placeholder="Offer Name"
+                    [ngClass]="{ 'is-invalid': productOfferForm.get('offerName')?.invalid && productOfferForm.get('offerName')?.touched }"
+                    formControlName="offerName" />
+                  <label>Offer Name</label>
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa fa-align-left"></i></span>
+                <div class="form-floating" style="flex-grow: 1;">
+                  <textarea class="form-control border-outline" placeholder="Description" formControlName="description"
+                    style="height: 100px;"></textarea>
+                  <label>Description</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 2: Discount Percentage and Discount Price -->
+            <div class="col-12 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <!-- Discount Percentage -->
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa fa-percent"></i></span>
+                <div class="form-floating">
+                  <input type="number" class="form-control border-outline" placeholder="Discount Percentage"
+                    [ngClass]="{ 'is-invalid': productOfferForm.get('discountPercentage')?.invalid && productOfferForm.get('discountPercentage')?.touched }"
+                    formControlName="discountPercentage" />
+                  <label>Discount Percentage</label>
+                </div>
+              </div>
+              <div class="text-danger"
+                *ngIf="productOfferForm.get('discountPercentage')?.touched && productOfferForm.get('discountPercentage')?.invalid">
+
+                <div
+                  *ngIf="productOfferForm.get('discountPercentage')?.errors?.['min'] || productOfferForm.get('discountPercentage')?.errors?.['max']">
+                  Discount Percentage must be between 1 and 100.
+                </div>
+                <div *ngIf="productOfferForm.get('discountPercentage')?.errors?.['pattern']">
+                  Only numbers are allowed.
+                </div>
+              </div>
+
+              <!-- Discount Price -->
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa fa-money"></i></span>
+                <div class="form-floating">
+                  <input type="number" class="form-control border-outline" placeholder="Discount Price"
+                    formControlName="discountPrice" readonly />
+                  <label>Discount Price</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 3: Start Date and End Date -->
+            <div class="col-12 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+              <!-- Start Date -->
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <div class="form-floating">
+                  <input type="text" placeholder="Start Date" class="form-control border-outline"
+                    [ngClass]="{ 'is-invalid': productOfferForm.get('startDate')?.invalid && productOfferForm.get('startDate')?.touched }"
+                    formControlName="startDate" bsDatepicker
+                    [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', maxDate: maxStartDate }"
+                    (bsValueChange)="onStartDateChange($event)">
+                  <label>Start Date</label>
+                </div>
+              </div>
+
+              <!-- End Date -->
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <div class="form-floating">
+                  <input
+                  type="text"
+                  placeholder="End Date"
+                  class="form-control border-outline"
+                  [ngClass]="{ 'is-invalid': productOfferForm.get('endDate')?.invalid && productOfferForm.get('endDate')?.touched }"
+                  formControlName="endDate"
+                  bsDatepicker
+                  [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', minDate: minEndDate }"
+                  (bsValueChange)="onEndDateChange($event)">
+                  <label>End Date</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <!-- Buttons -->
+          <div class="d-flex justify-content-end gap-3 mt-4">
+            <button class="btn" type="submit" [disabled]="productOfferForm.invalid">Submit</button>
+            <button class="btn" type="button" routerLink="/dashboard">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>

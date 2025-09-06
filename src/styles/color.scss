@@ -1,0 +1,68 @@
+$green-color:rgb(8, 71, 22);
+$top-banner-bg:$green-color;
+
+$white-color:aliceblue;
+$top-banner-color:$white-color;
+
+$yellow-color:rgb(246, 193, 71);
+$top-banner-icon:$yellow-color;
+
+$light-white:rgba(255, 255, 255, 0.68);
+$footer-text:$light-white;
+
+$red-color:#d3321d;
+$categories-title:$red-color;
+
+$below-carousel-title:$red-color;
+
+$light-grey:rgb(222 228 195);
+$nav-bg-color:$light-grey;
+
+$content-color:rgba(16, 1, 1, 0.96);
+$signUp-content-color:$content-color;
+
+$strikeout-line:rgb(235, 38, 38);
+$price-delete-line-color:$strikeout-line;
+
+$red-color:red;
+$global-red-color:$red-color;
+
+$signup-bg:rgb(222 228 195); 
+$signup-card-bg:$signup-bg;
+
+//all font
+
+$forum-ff: Verdana, Geneva, Tahoma, sans-serif;
+// $font-size:18px;
+
+
+// button
+$dark-green-color:rgb(8, 71, 22);
+$button-yellow-color:rgb(246, 193, 71);
+$confirmButton:  #28a745;
+$cancelButton: #dc3545;
+$global-grid-header-bg:rgb(237, 242, 216);
+$discount-batch-bg:#ff6347;
+$light-green:rgb(222, 228, 195);
+$buyNow-button:#4caf50;
+$buyNow-button-hover:#3e8e41;
+$addToCard-button:#ff9800;
+$addToCard-button-hover:#e68900;
+
+
+
+
+$button-bg-color:$dark-green-color;
+$button-text-color:$button-yellow-color;
+$grid-table-bg:$global-grid-header-bg;
+$addToCard-discount-batch-bg:$discount-batch-bg;
+$form-container-bg:$light-green;
+$product-details-buyNow-button:$buyNow-button;
+$product-details-buyNow-button-hover:$buyNow-button-hover;
+$product-details-addToCard-button-bg:$addToCard-button;
+$product-details-addToCard-button-bg-hover:$addToCard-button-hover;
+
+
+/* Confirmation Dialog Styles(main category -delete) */
+$private-page-mainCategory-delete-confirm-btn:$confirmButton;
+$private-page-mainCategory-delete-cancel-btn:$cancelButton;

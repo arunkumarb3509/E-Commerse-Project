@@ -1,0 +1,74 @@
+@import "src/styles.scss";
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.main-category-card {
+  border-radius: 15px;
+  padding: 10px;
+  background-color: white;
+  margin-top: 3%;
+}
+
+.border-outline {
+  border-color: #a7a6a6;
+  border-radius: 5px;
+}
+.bar {
+    border-bottom: 1px solid;
+  }
+
+input,
+textarea {
+  font-size: 14px;
+  border-bottom: 1px solid #a7a6a6;
+}
+
+.form-control.is-invalid {
+  border: 1px solid $red-color;
+}
+
+/* Styling for Submit and Cancel buttons */
+.btn {
+  color:$top-banner-icon;
+   background-color:$top-banner-bg;
+  width: 100%;
+  font-weight: bold;
+}
+
+.row.m-1.pt-3 {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+  .btn {
+    width: 100%; 
+  }
+}
+
+@media (min-width: 768px) {
+  .btn {
+    width: auto;
+  }
+}
+
+@media (max-width: 425px) {
+  .main-category-card {
+    margin-left: 20px;
+    width: 100%;
+  }
+}
+
+
+@media (min-width: 320px) and (max-width: 475px) {
+  .d-grid {
+    display: block;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

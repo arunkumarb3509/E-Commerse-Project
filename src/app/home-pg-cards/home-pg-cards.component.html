@@ -1,0 +1,70 @@
+<!-- Home Page Cards -->
+<div class="container-fluid">
+  <div class="row mt-5" *ngIf="!noProducts">
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12 mb-4" *ngFor="let product of products">
+      <div class="card shadow-sm position-relative" (click)="goToDetails(product.productCode, product.productName)">
+        <!-- Bestseller Badge -->
+        <!-- <span class="badge badge-dark bestseller-badge">BESTSELLER</span> -->
+
+        <a href="#" *ngIf="product.productOffers?.length > 0" class="btn discount-badge">
+          {{ product.productOffers[0].discountPercentage }}%
+        </a>
+
+        <!-- Product Image -->
+        <img class="card-img-top img-fluid" [src]="product.displayImage" [alt]="product.productName">
+        <div class="card-body">
+          <!-- Product Brand & Name -->
+          <h6 class="brand-text">{{ product.brand }}</h6>
+          <h5 class="card-title text-truncate">{{ product.productName }}</h5>
+          <!-- Ratings -->
+          <div class="rating-box">
+            <span class="rating">4.5 ★</span>
+            <span class="text-muted">| 4K</span>
+          </div>
+          <!-- Pricing -->
+          <h6 class="price">
+            <span *ngIf="product.productOffers?.length > 0; else noOffer">
+              <del class="text-muted">₹{{ product.price }}</del>
+              ₹{{ product.productOffers[0].discountPrice }}
+              <span class="offerIcon">({{ product.productOffers[0].discountPercentage }}% off)</span>
+            </span>
+
+            <ng-template #noOffer>
+              ₹{{ product.price }}
+            </ng-template>
+          </h6>
+
+
+          <!-- <h6 class="sale-price">
+            <i class="bi bi-star-fill text-primary"></i> Sale Price ₹{{ product.productOffers[0].discountPrice }}
+          </h6> -->
+          <h6 class="sale-price" *ngIf="product.productOffers?.length > 0; else noSalePrice">
+            <i class="bi bi-star-fill text-primary"></i>
+            Sale Price ₹{{ product.productOffers[0].discountPrice }}
+          </h6>
+
+          <ng-template #noSalePrice>
+            <h6 class="sale-price">
+              <i class="bi bi-star-fill text-primary"></i>
+              Sale Price ₹{{ product.price }}
+            </h6>
+          </ng-template>
+
+          <!-- Action Icons -->
+          <div class="d-flex justify-content-end mt-2">
+            <div *ngIf="product.addedToCart" class="text-success me-3">
+              <i class="bi bi-check-circle-fill"></i> Added to Cart
+            </div>
+            <!-- <i class="bi bi-cart-plus action-icon" (click)="addToCart(product); $event.stopPropagation()"></i> -->
+            <i class="bi bi-cart-plus action-icon" (click)="addToCart(product.productId);$event.stopPropagation()"></i>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="noProducts" class="text-center text-danger mt-3 p-5">
+    No products found for the selected category.
+  </div>
+</div>

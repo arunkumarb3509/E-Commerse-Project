@@ -1,0 +1,11 @@
+@import "src/styles.scss";
+
+* {
+  font-family: $forum-ff;
+   font-size: 15px;
+}
+
+.copyright-area{
+  background-color:$top-banner-icon;
+  padding: 1px;
+}
