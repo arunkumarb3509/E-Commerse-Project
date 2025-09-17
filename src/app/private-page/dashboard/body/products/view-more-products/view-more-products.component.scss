@@ -8,7 +8,7 @@
 .card {
   margin-bottom: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px $productImage-container-boxShadow;
 }
 
 .card-body {
@@ -20,7 +20,7 @@
 }
 
 .admin-card {
-  border-left: 5px solid red;
+  border-left: 5px solid $red;
 }
 
 .product-container-alt {
@@ -30,9 +30,9 @@
     padding: 30px;
     max-width: 1660px;
     margin: auto;
-    background-color: #ffffff;
+    background-color: $viewMoreProduct-container-bg;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px $productImage-container-boxShadow;
   }
   
   /* Images Section */
@@ -56,7 +56,7 @@
     width: 60px;
     height: 60px;
     object-fit: cover;
-    border: 2px solid #ccc;
+    border: 2px solid $ccc;
     border-radius: 6px;
     cursor: pointer;
     transition: transform 0.3s, border-color 0.3s;
@@ -76,7 +76,7 @@
     max-width: 500px;
     height: auto;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid $ddd;
   }
   
   /* Product Details Section */
@@ -91,7 +91,7 @@
   .product-name-alt {
     font-size: 28px;
     font-weight: bold;
-    color: #333;
+    color: $light-black-333;
   }
   
   .product-brand-alt,
@@ -105,12 +105,12 @@
   .size-selector-alt,
   .product-metadata {
     font-size: 16px;
-    color: #000;
+    color: $light-black-000;
     font-weight: bold;
   }
   
   .product-details-alt p span {
-     color: #333;
+     color: $light-black-333;
      font-weight: lighter;
   }
   
@@ -127,7 +127,7 @@
   
   select {
     padding: 6px 12px;
-    border: 1px solid #ccc;
+    border: 1px solid $ccc;
     border-radius: 5px;
     font-size: 14px;
   }
@@ -149,7 +149,7 @@
 
   .add-image-alt {
     margin-top: 10px;
-    color: #28a745;
+    color: $addImage-icon-color;
     font-size: 16px;
     cursor: pointer;
     display: flex;
@@ -165,13 +165,13 @@
   
   .add-offer-icon {
     margin-left: 10px;
-    color: #28a745;
+    color: $addOffer-icon-color;
     font-size: 27px;
     cursor: pointer;
     transition: color 0.3s;
   
     &:hover {
-      color: #218838;
+      color: $addOffer-icon-hover;
     }
   }
   

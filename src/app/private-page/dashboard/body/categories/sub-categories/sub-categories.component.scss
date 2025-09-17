@@ -14,7 +14,7 @@
 .businessProfile-card {
   border-radius: 15px 15px;
   padding: 10px;
-  background-color: white;
+  background-color: $white;
 }
 
 .bi-globe-europe-africa {
@@ -44,19 +44,19 @@
 .form-check > input {
   font-size: 18px;
   border-width: 1px;
-  border-color: darkblue;
+  border-color: $darkblue;
 }
 
 .form-check-input:disabled {
-  background-color: grey;
+  background-color: $grey;
 }
 
 .form-check-input:checked[type="checkbox"] {
-  background-color: #0d6efd;
+  background-color: $checkBox-input-checked-bg;
 }
 
 .border-outline {
-  border-color: #a7a6a6;
+  border-color: $input-border-outline-color;
   border-radius: 5px;
 }
 
@@ -155,11 +155,11 @@ input {
 
 
 .is-invalid {
-  border-color: #dc3545 !important;
+  border-color: $is-invalid-borderColor !important;
 }
 
 .is-invalid:focus {
-  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+  box-shadow: 0 0 0 0.2rem $is-invalid-focusColor;
 }
 
 
@@ -296,7 +296,7 @@ input {
 #dateInput {
   padding: 10px;
   width: 100%;
-  border-color: #a7a6a6;
+  border-color: $input-border-outline-color;
   border-radius: 5px;
 }
 

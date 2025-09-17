@@ -3,10 +3,10 @@
 .card {
     max-width: 100%;
     margin: 2px auto;
-    border: 1px solid #a7a6a6;
+    border: 1px solid $productOffer-card-border;
     border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: $carousel-indicators-btn-bg;
+    box-shadow: 0 4px 6px $productImage-container-boxShadow;
   }
 
   .title {
@@ -18,13 +18,13 @@
   .input-group {
     margin-bottom: 1rem;
     .form-control {
-      border: 1px solid #a7a6a6;
+      border: 1px solid $productOffer-card-border;
       border-radius: 1px;
       font-size: 14px;
   
-      &.is-invalid {
-        border-color:  #ff4433;
-        box-shadow: 0 0 5px rgba(255, 68, 51, 0.5);
+     &.is-invalid {
+        border-color:  $is-invalid-borderColor;
+        box-shadow: 0 0 5px $is-invalid-boxShadow;
       }
     }
   

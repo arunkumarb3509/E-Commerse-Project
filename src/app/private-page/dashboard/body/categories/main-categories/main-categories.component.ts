@@ -49,11 +49,11 @@ export class MainCategoriesComponent implements OnInit {
           this.categoryService.mainCategoryList.next(true);
           
         } else {
-          this.toastr.error('Error creating business profile');
+          this.toastr.error('Error creating main category', 'Server Error');
         }
     },
     (error) => {
-      console.error('Error creating business profile', error);
+      console.error('Error creating category', error);
       this.toastr.error('Server error. Please try again later.');
     }
     );

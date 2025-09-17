@@ -23,11 +23,11 @@ a {
 .line {
   width: 100%;
   height: 1px;
-  border-bottom: 1px dashed #ddd;
+  border-bottom: 1px dashed $ddd;
   margin: 40px 0;
 }
 .nav-item {
-  color: yellowgreen;
+  color: $yellowgreen;
 }
 /* ---------------------------------------------------
     SIDEBAR STYLE
@@ -39,11 +39,11 @@ a {
 }
 .dashboard-text {
   color: $top-banner-icon;
-  background-color: #A9BA9D;
+  background-color: $dashboardText-bg;
 }
 .dashboard-text:hover {
   background-color: $top-banner-bg;
-  color: rgb(248, 248, 255);
+  color: $dashboard-text-hover-color;
 }
 
 #sidebar {
@@ -51,8 +51,8 @@ a {
   height: 835px;
   // height: 530px lab screen;
   width: 250px;
-  background:#A9BA9D;
-  color: #ACE1AF;
+  background:$sidebarBackground-color;
+  color: $sidebar-color;
   transition: all 0.3s;
  
 }
@@ -63,22 +63,22 @@ a {
 
 #sidebar .sidebar-header {
   padding: 14px;
-  background-color: grey;
+  background-color: $grey;
 }
 
 #sidebar ul.components {
   padding: 0px 0px 0px 10px;
-  border-bottom: hotpink;
+  border-bottom: $hotpink;
 }
 
 #sidebar ul p {
-  color: black;
+  color: $black;
   padding: 10px;
 }
 
 #sidebar ul li a {
   padding: 10px;
-  color: black;
+  color: $black;
   display: block;
 }
 
@@ -88,18 +88,18 @@ a {
   background-color:$top-banner-bg;
 }
 #sidebar ul li a:hover {
-  background-color: #4F7942 ;
-  color:whitesmoke ;
+  background-color: $sidebarList-hover-bg ;
+  color:$whitesmoke ;
 }
 
 #sidebar ul li.active > a,
 a[aria-expanded="true"] {
-  color: aqua;
-  background-color: darkred;
+  color: $aqua;
+  background-color: $darkred;
 }
 
 ul > li .active {
-  background-color:#92aa51;
+  background-color:$sidebarList-active-bg;
 }
 
 a[data-toggle="collapse"] {
@@ -116,7 +116,7 @@ a[data-toggle="collapse"] {
 
 ul ul a {
   padding-left: 30px !important;
-  background: #8F9779;
+  background: $sidebarSubList-bg;
 }
 
 ul.CTAs {

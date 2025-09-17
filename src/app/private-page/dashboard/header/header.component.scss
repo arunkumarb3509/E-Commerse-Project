@@ -120,9 +120,9 @@ header {
 // Header Styles
 .header-section {
   background: $top-banner-bg;
-  color: white;
+  color: $white;
 //   padding: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px $productImage-container-boxShadow;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -130,7 +130,7 @@ header {
   .welcome-text {
     font-size: 1.5rem;
     font-weight: 600;
-    color: white;
+    color: $white;
     text-align: center;
   }
 
@@ -154,20 +154,20 @@ header {
 
       input {
         padding-left: 40px;
-        border: 1px solid #e5e7eb;
+        border: 1px solid $search-input-border;
         border-radius: 8px;
         width: 250px;
 
         &:focus {
           border-color: $primary-green;
-          box-shadow: 0 0 0 0.2rem rgba(5, 150, 105, 0.25);
+          box-shadow: 0 0 0 0.2rem $search-input-boxShadow;
         }
       }
     }
 
     .notification-btn {
       position: relative;
-      color: white;
+      color: $white;
       font-size: 1.2rem;
 
       &:hover {
@@ -180,7 +180,7 @@ header {
         right: -2px;
         width: 12px;
         height: 12px;
-        background: #ef4444;
+        background: $notification-batch-bg;
         border-radius: 50%;
       }
     }
@@ -198,13 +198,13 @@ header {
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
+        color: $white;
         cursor: pointer;
       }
 
       .user-name {
         font-weight: 500;
-        color: white;
+        color: $white;
       }
     }
   }

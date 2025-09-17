@@ -8,12 +8,12 @@
 .main-category-card {
   border-radius: 15px;
   padding: 10px;
-  background-color: white;
+  background-color: $white;
   margin-top: 3%;
 }
 
 .border-outline {
-  border-color: #a7a6a6;
+  border-color: $input-border-outline-color;
   border-radius: 5px;
 }
 .bar {
@@ -23,7 +23,7 @@
 input,
 textarea {
   font-size: 14px;
-  border-bottom: 1px solid #a7a6a6;
+  border-bottom: 1px solid $input-border-outline-color;
 }
 
 .form-control.is-invalid {

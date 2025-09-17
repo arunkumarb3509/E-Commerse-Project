@@ -54,7 +54,7 @@
 }
 
 .dropdown-item:hover {
-    background-color: #f8f9fa;
+    background-color: $navbarDropdown-hover-bg;
   }
 
 /* Keep ALL dropdown aligned properly */
@@ -77,7 +77,7 @@
 
 .dropdown-item.active,
 .dropdown-item:active {
-  background-color: #e9ecef;
+  background-color: $navbarDrodown-iten-active;
 }
 
 /* 3-column layout for desktops */

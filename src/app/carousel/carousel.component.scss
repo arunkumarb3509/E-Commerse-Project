@@ -1,4 +1,4 @@
-// @import "src/styles.scss";
+@import "src/styles.scss";
 
 
 // * {
@@ -17,7 +17,7 @@
 // }
 
 .carousel-caption {
-  background: rgba(0, 0, 0, 0.4);
+  background: $carousel-caption-bg;
   padding: 2rem;
   border-radius: 0.5rem;
 }
@@ -26,9 +26,9 @@
   width: 12px;
   height: 12px;
   border-radius: 100%;
-  background-color: #fff;
+  background-color: $carousel-indicators-btn-bg;
 }
 
 .carousel-indicators .active {
-  background-color: rgb(246, 193, 71);
+  background-color: $button-text-color;
 }

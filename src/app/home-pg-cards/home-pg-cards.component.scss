@@ -17,7 +17,7 @@
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px $grid-confirmDialog-content;
 }
 
 .card-img-top {
@@ -32,7 +32,7 @@
     top: 10px;
     left: 10px;
     background-color:$discount-batch-bg;
-    color: white;
+    color: $white;
     font-weight: bold;
     padding: 5px 10px;
     font-size: 12px;
@@ -52,8 +52,8 @@
 .rating-box {
     font-size: 0.9rem;
     font-weight: bold;
-    color: #fff;
-    background-color: #28a745;
+    color: $carousel-indicators-btn-bg;
+    background-color: $private-page-mainCategory-delete-confirm-btn;
     display: inline-block;
     padding: 4px 8px;
     border-radius: 4px;
@@ -69,8 +69,8 @@
 .sale-price {
     font-size: 1rem;
     font-weight: bold;
-    color: #333;
-    background-color: #e3f2fd;
+    color: $light-black-333;
+    background-color: $sales-price-bg;
     padding: 5px;
     border-radius: 5px;
 }
@@ -78,18 +78,18 @@
 /* Action Icons */
 .action-icon {
     font-size: 1.4rem; 
-    color: #333; 
-    background: #f8f9fa; 
+    color: $light-black-333; 
+    background: $addToCard-icon-color; 
     padding: 10px; 
     border-radius: 50%; 
     transition: all 0.3s ease-in-out; 
     cursor: pointer;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 5px $grid-confirmDialog-content;
   }
   
   .action-icon:hover {
-    background: #11dde1; 
-    color: #fff;
+    background: $addToCard-icon-hover; 
+    color: $carousel-indicators-btn-bg;
     transform: scale(1.1); 
   }
   
