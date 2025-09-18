@@ -107,6 +107,7 @@ export class CustomerSignInComponent implements OnInit {
           this.errorMessage = 'Not match email and password';
         } else if (response.message === 'OTP sent to email') {
           this.isOTPSent = true;
+          this.toastr.success(`OTP send to ${this.signin.email}`);
           // this.errorMessage =`otp send to ${ this.signin.email}`;
           // this.generateOTP();
         }
@@ -153,7 +154,8 @@ export class CustomerSignInComponent implements OnInit {
       (response: any) => {
         if (response.message === 'OTP resent to email') {
           this.isOTPReSendMessage=true;
-          this.resendMsg =`OTP resent to ${this.signin.email}`;
+          // this.resendMsg =`OTP resend to ${this.signin.email}`;
+           this.toastr.success(`OTP resend to ${this.signin.email}`);
         }
        else{
         this.isOTPReSendMessage=false;
@@ -171,6 +173,7 @@ export class CustomerSignInComponent implements OnInit {
 
     if (!guestUserId) {
       console.log("Please refresh your screen: guestUserId is missing");
+      this.toastr.error("Please refresh your screen: guestUserId is missing");
       return;
     }
 
@@ -178,7 +181,8 @@ export class CustomerSignInComponent implements OnInit {
       (response) => {
         if (response.message === 'OTP verified successfully') {
           this.isOTPVerified = true;
-          this.errorMessage = '';
+          this.toastr.success(`OTP verified`);
+          // this.errorMessage = '';
           this.otpExpiredMessage = false;
           this.afterOtpVerified = true;
 
@@ -194,9 +198,11 @@ export class CustomerSignInComponent implements OnInit {
         } else if (response.message === 'OTP expired') {
           this.isOTPVerified = false;
           this.errorMessage = '';
+          this.toastr.error(`OTP expired`);
           this.otpExpiredMessage = true;
         } else {
           this.isOTPVerified = false;
+          this.toastr.error('Incorrect OTP. Please try again.');
           this.errorMessage = 'Incorrect OTP. Please try again.';
           this.otpExpiredMessage = false;
         }

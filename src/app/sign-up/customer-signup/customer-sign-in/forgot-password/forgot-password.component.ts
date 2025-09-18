@@ -92,6 +92,7 @@ export class ForgotPasswordComponent implements OnInit {
       (response: any) => {
         if (response.isOTPSendMessage) {
           this.isOTPSendMessage=true;
+          this.toastr.success(`OTP send to ${this.signin.email}`);
           this.emailExists=false;
           this.isOTPSent=true;
         } else {
@@ -103,7 +104,7 @@ export class ForgotPasswordComponent implements OnInit {
       (error) => {
   this.isOTPSent = false;
   console.error('Error sending OTP', error);
-
+  
   const errorMessage = error?.error?.message;
 
   if (errorMessage === 'Please check your internet connection') {
@@ -130,18 +131,21 @@ export class ForgotPasswordComponent implements OnInit {
         if (response.message === 'OTP verified successfully') {
           this.isOTPVerified = true;
           this.isOTPReSendMessage=false;
-          this.errorMessage = '';
+          // this.errorMessage = '';
+          this.toastr.success('OTP verified');
           this.otpExpiredMessage = false;
           this.passwordForm.controls['newPassword'].enable();
           this.passwordForm.controls['confirmPassword'].enable();
           this.afterOtpVerified = true;
         } else if (response.message === 'OTP expired') {
           this.isOTPVerified = false;
-          this.errorMessage = '';
+          this.toastr.error('OTP expired');
+          // this.errorMessage = '';
           this.otpExpiredMessage = true;
         } else {
           this.isOTPVerified = false;
-          this.errorMessage = 'Incorrect OTP. Please try again.';
+          // this.errorMessage = 'Incorrect OTP. Please try again.';
+          this.toastr.error('Incorrect OTP. Please try again.');
           this.otpExpiredMessage = false;
         }
       },
@@ -158,8 +162,9 @@ export class ForgotPasswordComponent implements OnInit {
       (response: any) => {
         if (response.message === 'OTP resent to email') {
           console.log(`OTP resent to ${this.email}`, response);
+          this.toastr.success(`OTP resend to ${this.email}`);
           this.isOTPReSendMessage=true;
-          this.resendMsg =`OTP resent to ${this.email}`;
+          // this.resendMsg =`OTP resent to ${this.email}`;
         }
        else{
         this.isOTPReSendMessage=false;
@@ -188,6 +193,7 @@ export class ForgotPasswordComponent implements OnInit {
       response => {
         if (response.message=='Password updated successfully') {
           this.passwordUpdated=true;
+          this.toastr.success('Password updated successfully');
           this.isOTPVerified = false;
           setTimeout(() => {
             this.router.navigate(['/customer-signIn']);

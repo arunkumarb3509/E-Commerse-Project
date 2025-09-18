@@ -104,9 +104,11 @@ export class CustomerSignupComponent implements OnInit {
         response => {
             if (response.emailExists) {
                 this.emailExists = true;
+                 this.toastr.error(`${this.email} already exists.`);
             } else {
                 this.generateOTP();
                 this.isOTPSent = true;
+                this.toastr.success(`OTP send to ${this.email}`);
                 this.isOTPSendMessage = true;
             }
         },
@@ -133,7 +135,7 @@ generateOTP() {
   this.customerService.signUpSendOTP(this.email).subscribe(
     (response: any) => {
       this.isOTPSent = true;
-      this.toastr.success(`OTP sent to ${this.email}`, response);
+      this.toastr.success(`OTP send to ${this.email}`, response);
     },
     (error) => {
       this.isOTPSent = false;
@@ -160,7 +162,8 @@ generateOTP() {
       response => {
         if (response.message === 'OTP verified successfully') {
           this.isOTPVerified = true;
-          this.errorMessage = '';
+          this.toastr.success('OTP verified');
+          // this.errorMessage = '';
           this.otpExpiredMessage = false;
           this.passwordForm.controls['newPassword'].enable();
           this.passwordForm.controls['confirmPassword'].enable();
@@ -173,11 +176,13 @@ generateOTP() {
           
         } else if (response.message === 'OTP expired') {
           this.isOTPVerified = false;
-          this.errorMessage = '';
+          this.toastr.error('OTP expired');
+          // this.errorMessage = '';
           this.otpExpiredMessage = true;
         } else {
           this.isOTPVerified = false;
-          this.errorMessage = 'Incorrect OTP. Please try again.';
+          this.toastr.error('Incorrect OTP. Please try again.');
+          // this.errorMessage = 'Incorrect OTP. Please try again.';
           this.otpExpiredMessage = false;
         }
       },
@@ -193,9 +198,10 @@ generateOTP() {
     this.customerService.signUpResendOTP(this.email).subscribe(
       (response: any) => {
         if (response.message === 'OTP resent to email') {
-          console.log(`OTP resent to ${this.email}`, response);
+          // console.log(`OTP resent to ${this.email}`, response);
+          this.toastr.success(`OTP resend to ${this.email}`);
           this.isOTPReSendMessage=true;
-          this.resendMsg =`OTP resent to ${this.email}`;
+          // this.resendMsg =`OTP resent to ${this.email}`;
         }
        else{
         this.isOTPReSendMessage=false;
