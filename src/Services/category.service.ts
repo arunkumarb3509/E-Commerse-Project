@@ -58,10 +58,16 @@ export class CategoryService {
     }, { headers });
   }
 
-  getMainCategories(): Observable<any> {
-    // const headers = this.getHeaders();
-    return this.http.get<any>(this.environment.CATEGORY.GET_MAIN_CATEGORIES);
+  // getMainCategories(): Observable<any> {
+  //   // const headers = this.getHeaders();
+  //   return this.http.get<any>(this.environment.CATEGORY.GET_MAIN_CATEGORIES);
+  // }
+  getMainCategories(offset: number = 0, limit: number = 10): Observable<any> {
+  return this.http.get<any>(
+    `${this.environment.CATEGORY.GET_MAIN_CATEGORIES}?offset=${offset}&limit=${limit}`
+  );
   }
+
 
   getMainCategoryById(categoryId: number): Observable<any> {
     // const headers = this.getHeaders();

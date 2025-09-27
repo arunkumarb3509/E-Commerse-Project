@@ -16,6 +16,20 @@ export class MainCategoryGridComponent implements OnInit {
   showConfirmDialog = false;
   categoryToDelete: number | null = null;
   noMainCategory:boolean=true;
+  paginationData: any = {
+  info: 'show',
+  data: [],
+  start: 0,
+  back: 0,
+  next: 0,
+  end: 0,
+  backtab: 'hide',
+  nexttab: 'hide'
+};
+
+limit: number = 10;
+total: number = 0;
+offset: number = 0;
 
   constructor(private router: Router, public categoryService: CategoryService,private toastr:ToastrService) {}
 
@@ -29,21 +43,64 @@ export class MainCategoryGridComponent implements OnInit {
          }
          }
        });
-    this.loadMainCategories();
+    // this.loadMainCategories();
+    this.loadMainCategories(0);
   }
 
-  loadMainCategories(): void {
-    this.categoryService.getMainCategories().subscribe(
-      (categories) => {
-        this.mainCategories = categories;
-        this.noMainCategory=false;
-      },
-      (error) => {
-        this.noMainCategory=true;
-        console.error('Error fetching categories', error);
-      }
-    );
+
+  // loadMainCategories(): void {
+  //   this.categoryService.getMainCategories().subscribe(
+  //     (categories) => {
+  //       this.mainCategories = categories;
+  //       this.noMainCategory=false;
+  //     },
+  //     (error) => {
+  //       this.noMainCategory=true;
+  //       console.error('Error fetching categories', error);
+  //     }
+  //   );
+  // }
+
+  loadMainCategories(offset: number = 0): void {
+  this.categoryService.getMainCategories(offset, this.limit).subscribe(
+    (res) => {
+      this.mainCategories = res.data;
+      this.total = res.total;
+      this.offset = res.offset;
+      this.buildPagination();
+      this.noMainCategory = false;
+    },
+    (error) => {
+      this.noMainCategory = true;
+      console.error('Error fetching categories', error);
+    }
+  );
+}
+
+buildPagination() {
+  let pages = [];
+  const totalPages = Math.ceil(this.total / this.limit);
+  const currentPage = Math.floor(this.offset / this.limit) + 1;
+
+  for (let i = 1; i <= totalPages; i++) {
+    pages.push({
+      btn_length: i,
+      offset_count: (i - 1) * this.limit,
+      load: i !== currentPage
+    });
   }
+
+  this.paginationData = {
+    ...this.paginationData,
+    data: pages,
+    backtab: currentPage > 1 ? 'show' : 'hide',
+    nexttab: currentPage < totalPages ? 'show' : 'hide',
+    back: (currentPage - 2) * this.limit,
+    next: currentPage * this.limit,
+    start: 0,
+    end: (totalPages - 1) * this.limit
+  };
+ }
 
   navigateToEditCategory(categoryId: number): void {
     this.categoryService.mainCategoryId.next(categoryId);
