@@ -1,9 +1,22 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const findAllMainCategories = async () => {
-  return await prisma.mainCategory.findMany();
+// const findAllMainCategories = async () => {
+//   return await prisma.mainCategory.findMany();
+// };
+const findAllMainCategories = async (limit, offset) => {
+  const [categories, total] = await Promise.all([
+    prisma.mainCategory.findMany({
+      skip: offset,
+      take: limit,
+      orderBy: { createdAt: 'desc' }
+    }),
+    prisma.mainCategory.count()
+  ]);
+
+  return { categories, total };
 };
+
 
 const findMainCategoryByIdWithDetails = async (id) => {
   return await prisma.mainCategory.findUnique({

@@ -76,7 +76,7 @@ const getSubcategories = async (req, res) => {
     const subCategories = await service.findAllSubCategories();
 
     if (subCategories.length === 0) {
-      return res.status(404).json({ message: 'No subcategories found', noSubCategory: true });
+      return res.status(404).json({ message: 'No Sub Category Records Found', noSubCategory: true });
     }
 
     const subCategoriesWithBase64Images = subCategories.map((s) => ({

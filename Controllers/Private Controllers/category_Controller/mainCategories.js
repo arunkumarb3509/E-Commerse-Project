@@ -1,17 +1,41 @@
 const service = require('../../../Services/Private Services/category_Service/mainCategories.service');
 
+// const getMainCategories = async (req, res) => {
+//   try {
+//     const categories = await service.findAllMainCategories();
+//     if (categories.length === 0) {
+//       return res.status(404).json({ message: 'No main categories found', noMainCategory: true });
+//     }
+//     res.status(200).json(categories);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// };
+
 const getMainCategories = async (req, res) => {
   try {
-    const categories = await service.findAllMainCategories();
+    const limit = parseInt(req.query.limit) || 10;  // default 10
+    const offset = parseInt(req.query.offset) || 0;
+
+    const { categories, total } = await service.findAllMainCategories(limit, offset);
+
     if (categories.length === 0) {
       return res.status(404).json({ message: 'No main categories found', noMainCategory: true });
     }
-    res.status(200).json(categories);
+
+    res.status(200).json({
+      data: categories,
+      total,
+      limit,
+      offset
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 const getMainCategoryWithDetails = async (req, res) => {
   const { id } = req.params;
