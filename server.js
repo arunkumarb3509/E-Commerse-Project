@@ -5,6 +5,7 @@ const cron = require('node-cron');
 const dotenv = require('dotenv');
 const connectDB = require('./Configurations/db_connection');
 
+// https://e-commerse-project-foo0.onrender.com
 
 const indexRoutes = require('./Routes/index_route');
 const { cleanupExpiredOTPs } = require('./Controllers/Public Controllers/signIn_Controller/cleanupOTP');
@@ -21,7 +22,8 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:3000', 'http://localhost:4200']
+  origin: ['http://localhost:3000', 'http://localhost:4200', 'https://lovable.dev',
+    'https://lovable.dev/projects/639318a6-36f4-4a62-9a94-1d96f3197b8d']
 }));
 
 // Routes
