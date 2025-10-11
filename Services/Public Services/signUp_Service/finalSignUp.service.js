@@ -133,7 +133,7 @@ const {
   UserRegistration,
   UserAddress,
   UserRole,
-  LoginAccount
+  LoginAccount,Role
 } = require('../../../Models/Collections'); // Adjust the path based on your project structure
 
 const signUpService = async (req) => {
@@ -218,11 +218,27 @@ const signUpService = async (req) => {
     }
 
     // Assign role (1 for customer, 2 for seller)
-    const roleId = customer_type === "customer" ? 1 : 2;
-    await UserRole.create({
-      userId: newUser._id,
-      roleId,
-    });
+    // const roleId = customer_type === "customer" ? 1 : 2;
+    // await UserRole.create({
+    //   userId: newUser._id,
+    //   roleId,
+    // });
+    // Find the role document from the Role collection
+const roleDoc = await Role.findOne({ role_type: customer_type === "customer" ? "1" : "2" });
+
+if (!roleDoc) {
+  return {
+    status: 400,
+    body: { message: "Role not found in Role collection" },
+  };
+}
+
+// Then assign the ObjectId of the role
+await UserRole.create({
+  userId: newUser._id,
+  roleId: roleDoc._id,
+});
+
 
     // Create login account
     await LoginAccount.create({

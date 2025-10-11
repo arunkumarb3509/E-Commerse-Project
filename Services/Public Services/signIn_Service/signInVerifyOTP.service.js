@@ -109,17 +109,18 @@ const signInVerifyOtpService = async (email, otp, guestUserId) => {
       return { status: 400, data: { message: 'OTP already verified' } };
     }
 
-    const user = await UserRegistration.findOne({ email }, { id: 1, customerType: 1 });
+    const user = await UserRegistration.findOne({ email }, { userId: 1, customerType: 1 });
 
     if (!user) {
       return { status: 400, data: { message: 'User not found' } };
     }
 
     const token = jwt.sign(
-      { email, id: user._id, customerType: user.customerType },
+      { email, id: user.userId, customerType: user.customerType },
       secretKey,
       { expiresIn: '1d' }
     );
+
 
     await OTPVerification.updateOne(
       { email },
