@@ -65,8 +65,8 @@
 //   deleteMainCategoryById,
 // };
 
-const MainCategory = require('../../../Models/Collections');
-const SubCategory = require('../../../Models/Collections');
+const { MainCategory } = require('../../../Models/Collections');
+const { SubCategory } = require('../../../Models/Collections');
 
 const findAllMainCategories = async () => {
   return await MainCategory.find();

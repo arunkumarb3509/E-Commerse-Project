@@ -97,9 +97,9 @@ const fs = require('fs');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 
-const MainCategory = require('../../../Models/Collections');
-const SubCategory = require('../../../Models/Collections');
-const CategoryType = require('../../../Models/Collections');
+const {MainCategory} = require('../../../Models/Collections');
+const {SubCategory} = require('../../../Models/Collections');
+const {CategoryType} = require('../../../Models/Collections');
 
 // ✅ Validate Main Category
 const validateMainCategory = async (id) => {

@@ -290,7 +290,8 @@ const UserRegistrationSchema = new Schema({
   lastName: String,
   email: { type: String, unique: true },
   phone: Schema.Types.BigInt,
-  customerType: String
+  customerType: String,
+  UserAddress: [{ type: Schema.Types.ObjectId, ref: 'UserAddress' }]
 }, { collection: 'user_registration' });
 
 // Auto-increment middleware
@@ -361,7 +362,8 @@ const MainCategorySchema = new Schema({
   description: String,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  userId: { type: Number, ref: 'UserRegistration' }
+  userId: { type: Number, ref: 'UserRegistration' },
+  subCategories: [{ type: Schema.Types.ObjectId, ref: 'SubCategory' }]
 }, { collection: 'main_categories' });
 
 /* ------------------------------------------------
