@@ -213,7 +213,7 @@ const signUpService = async (req) => {
         state,
         city,
         zipCode: zip_code,
-        userId: newUser._id,
+        userId: newUser.userId,
       });
     }
 

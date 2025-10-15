@@ -29,10 +29,10 @@ const subCategories = async (req, res) => {
       subCategoryName: SubCategoryName,
       description: Sub_Description || null,
       images: imageBuffer,
-      categoryId: mainCategory.categoryId,
+      categoryId: mainCategory._id,
       categoryTypeId: parseInt(CategoryTypeId, 10),
     });
-
+    
     res.status(201).json({
       message: 'SubCategory created successfully',
       subCategory: newSubCategory,
@@ -71,16 +71,41 @@ const updateSubCategoryById = async (req, res) => {
   }
 };
 
+// const getSubcategories = async (req, res) => {
+//   try {
+//     const subCategories = await service.findAllSubCategories();
+
+//     if (subCategories.length === 0) {
+//       return res.status(404).json({ message: 'No subcategories found', noSubCategory: true });
+//     }
+
+//     const subCategoriesWithBase64Images = subCategories.map((s) => ({
+//       ...s,
+//       images: s.images ? s.images.toString('base64') : null,
+//     }));
+
+//     res.status(200).json(subCategoriesWithBase64Images);
+//   } catch (err) {
+//     console.error('Error fetching subcategories:', err);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// };
+
 const getSubcategories = async (req, res) => {
   try {
     const subCategories = await service.findAllSubCategories();
 
-    if (subCategories.length === 0) {
+    if (!subCategories || subCategories.length === 0) {
       return res.status(404).json({ message: 'No subcategories found', noSubCategory: true });
     }
 
     const subCategoriesWithBase64Images = subCategories.map((s) => ({
-      ...s,
+      _id: s._id,
+      subCategoryName: s.subCategoryName,
+      description: s.description,
+      createdAt: s.createdAt,
+      updatedAt: s.updatedAt,
+      mainCategoryName: s.categoryId?.categoryName || null, // ✅ readable main category name
       images: s.images ? s.images.toString('base64') : null,
     }));
 

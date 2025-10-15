@@ -222,11 +222,11 @@
 //   getProductsByCategoryTypeService
 // };
 
-const Product = require('../../../Models/Collections');
-const SEOInformation = require('../../../Models/Collections');
-const ShippingInformation = require('../../../Models/Collections');
-const ProductSize = require('../../../Models/Collections');
-const ProductImage = require('../../../Models/Collections');
+const {Product} = require('../../../Models/Collections');
+const {SEOInformation} = require('../../../Models/Collections');
+const {ShippingInformation} = require('../../../Models/Collections');
+const {ProductSize} = require('../../../Models/Collections');
+const {ProductImage} = require('../../../Models/Collections');
 
 const createProductService = async (data) => {
   const {

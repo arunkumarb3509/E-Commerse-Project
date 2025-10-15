@@ -316,7 +316,7 @@ const UserAddressSchema = new Schema({
   state: String,
   city: String,
   zipCode: String,
-  userId: { type: Schema.Types.ObjectId, ref: 'UserRegistration' }  // numeric reference
+  userId: { type: Number, ref: 'UserRegistration' }  // numeric reference
 }, { collection: 'user_address' });
 
 /* ------------------------------------------------
@@ -371,7 +371,7 @@ const MainCategorySchema = new Schema({
 ------------------------------------------------ */
 const SubCategorySchema = new Schema({
   categoryId: { type: Schema.Types.ObjectId, ref: 'MainCategory' },
-  categoryTypeId: { type: Schema.Types.ObjectId, ref: 'CategoryType' },
+  categoryType: { type: Number, ref: 'CategoryType' },
   subCategoryName: String,
   description: String,
   images: Buffer,
@@ -383,9 +383,14 @@ const SubCategorySchema = new Schema({
 /* ------------------------------------------------
    Category Type
 ------------------------------------------------ */
+// const CategoryTypeSchema = new Schema({
+//   typeName: String
+// }, { collection: 'category_types' });
 const CategoryTypeSchema = new Schema({
+  categoryTypeId: { type: Number, unique: true },
   typeName: String
 }, { collection: 'category_types' });
+
 
 /* ------------------------------------------------
    Product

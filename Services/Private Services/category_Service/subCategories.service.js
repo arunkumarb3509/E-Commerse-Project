@@ -102,13 +102,14 @@ const {SubCategory} = require('../../../Models/Collections');
 const {CategoryType} = require('../../../Models/Collections');
 
 // ✅ Validate Main Category
-const validateMainCategory = async (id) => {
-  return await MainCategory.findById(id);
+const validateMainCategory = async (_id) => {
+  return await MainCategory.findById(
+    _id);
 };
 
 // ✅ Validate Category Type
-const validateCategoryType = async (id) => {
-  return await CategoryType.findById(id);
+const validateCategoryType = async (_id) => {
+  return await CategoryType.findById(_id);
 };
 
 // ✅ Save Image to File System
@@ -137,25 +138,32 @@ const createSubCategory = async (data) => {
 };
 
 // ✅ Update Sub Category
-const updateSubCategory = async (id, data) => {
-  return await SubCategory.findByIdAndUpdate(id, data, { new: true });
+const updateSubCategory = async (_id, data) => {
+  return await SubCategory.findByIdAndUpdate(_id, data, { new: true });
 };
 
 // ✅ Find All Sub Categories with Main Category Name
+// const findAllSubCategories = async () => {
+//   return await SubCategory.find()
+//     .populate('mainCategory', 'categoryName')
+//     .select('subCategoryName description images createdAt updatedAt mainCategory');
+// };
 const findAllSubCategories = async () => {
   return await SubCategory.find()
-    .populate('mainCategory', 'categoryName')
-    .select('subCategoryName description images createdAt updatedAt mainCategory');
+    .populate('categoryId', 'categoryName') // ✅ fixed field name
+    .select('subCategoryName description images createdAt updatedAt categoryId');
 };
 
+
 // ✅ Find Sub Category by ID with Main Category
-const findSubCategoryById = async (id) => {
-  return await SubCategory.findById(id).populate('mainCategory');
+const findSubCategoryById = async (categoryId) => {
+  console.log("Finding SubCategory by ID:", categoryId); // Debug log
+  return await SubCategory.findById(categoryId).populate('mainCategory');
 };
 
 // ✅ Find All Category Types
 const findAllCategoryTypes = async () => {
-  return await CategoryType.find().select('typeName');
+  return await CategoryType.find().select('typeName categoryTypeId');
 };
 
 module.exports = {

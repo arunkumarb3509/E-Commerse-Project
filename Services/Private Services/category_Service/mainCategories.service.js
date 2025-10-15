@@ -73,12 +73,21 @@ const findAllMainCategories = async () => {
 };
 
 const findMainCategoryByIdWithDetails = async (id) => {
-  return await MainCategory.findById(id).populate({
+  let category = MainCategory.findById(id).populate({
     path: 'subCategories',
     populate: {
       path: 'categoryType',
+      model: 'CategoryType'
     },
   });
+    // If `subCategories` array is empty, manually fetch related subcategories by categoryId
+  if (category && (!category.subCategories || category.subCategories.length === 0)) {
+    const subs = await SubCategory.find({ categoryId: id })
+      .populate('categoryType');
+    category.subCategories = subs;
+  }
+
+  return category;
 };
 
 const findMainCategoryByName = async (name) => {

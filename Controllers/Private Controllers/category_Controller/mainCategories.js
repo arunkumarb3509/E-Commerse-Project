@@ -15,6 +15,8 @@ const getMainCategories = async (req, res) => {
 
 const getMainCategoryWithDetails = async (req, res) => {
   const { id } = req.params;
+ 
+  
   try {
     const mainCategory = await service.findMainCategoryByIdWithDetails(id);
     if (!mainCategory) {
