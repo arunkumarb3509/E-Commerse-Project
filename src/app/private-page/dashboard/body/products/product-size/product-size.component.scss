@@ -1,0 +1,65 @@
+@import "src/styles.scss";
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: $productSize-body-bg;
+}
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: $carousel-indicators-btn-bg;
+    box-shadow: 0 2px 5px $productImage-container-boxShadow;
+}
+
+th, td {
+    border: 1px solid $ddd;
+    padding: 10px;
+    text-align: center;
+}
+th {
+    background-color: $productSize-table-th-bg;
+}
+tr:nth-child(even) {
+    background-color: $productSize-body-bg;
+}
+tr:hover {
+    background-color: $productSize-table-tr-hover-bg;
+}
+  
+  .responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .responsive-table th,
+  .responsive-table td {
+    border: 1px solid $ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .responsive-table th {
+    font-weight: bold;
+  }
+  
+
+@media screen and (max-width: 768px) {
+    table {
+        font-size: 14px;
+    }
+   
+}
+@media screen and (max-width: 480px) {
+    table {
+        font-size: 12px;
+    }
+    th, td {
+        padding: 8px;
+    }
+}

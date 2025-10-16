@@ -1,0 +1,116 @@
+<!-- view sub categoey -->
+<div class="banner">
+  <b>View Sub Categories</b>
+</div>
+
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <form class="text-center row" [formGroup]="editSubCategoryForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-12 col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+              <div class="d-flex">
+                <span class="text-left mb-5 form-heading-text">Categories</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="fa fa-folder-open"></i></span>
+                  <div class="form-floating">
+                    <select class="form-select border-outline" formControlName="categoryName"
+                      [ngClass]="{'is-invalid': editSubCategoryForm.get('categoryName')?.invalid && editSubCategoryForm.get('categoryName')?.touched}">
+                      <option value="" selected disabled hidden>Select Main Category</option>
+                      <option *ngFor="let category of mainCategories" [value]="category.categoryId">{{
+                        category.categoryName }}</option>
+                    </select>
+                    <label>Select Main Category</label>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="fa fa-folder-open"></i></span>
+                  <div class="form-floating">
+                    <select class="form-select border-outline" formControlName="categoryType"
+                      [ngClass]="{'is-invalid': editSubCategoryForm.get('categoryType')?.invalid && editSubCategoryForm.get('categoryType')?.touched}">
+                      <option value="" selected disabled hidden>Select Category Type</option>
+                      <option *ngFor="let category of categoryTypes" [value]="category.categoryTypeId">{{
+                        category.typeName }}</option>
+                    </select>
+                    <label>Select Category Type</label>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+          <div class="col-12 col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+              <div class="d-flex">
+                <span class="text-left mb-5 form-heading-text">Sub Category</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="fa fa-folder-open"></i></span>
+                  <div class="form-floating">
+                    <input type="text" class="form-control border-outline" placeholder="Sub Category Name"
+                      [ngClass]="{'is-invalid': editSubCategoryForm.get('subcategoryName')?.invalid && editSubCategoryForm.get('subcategoryName')?.touched}"
+                      formControlName="subcategoryName" required />
+                    <label>Sub Category Name</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="fa fa-upload"></i></span>
+                  <input type="file" class="form-control border-outline custom-file-input"
+                    (change)="onFileSelected($event)"
+                    [ngClass]="{'is-invalid': editSubCategoryForm.get('image')?.invalid && editSubCategoryForm.get('image')?.touched}"
+                    formControlName="image" required />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+              <div class="d-flex">
+                <span class="text-left mb-5 form-heading-text">Description</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="fa fa-align-left"></i></span>
+                  <textarea class="form-control border-outline" placeholder="Description" formControlName="description"
+                    rows="4"></textarea>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row m-1">
+
+          <!-- <div class="col-12"> -->
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn" type="submit" [disabled]="editSubCategoryForm.invalid">Submit</button>
+            <button class="btn" type="button" routerLink="/dashboard">Cancel</button>
+          </div>
+          <!-- </div> -->
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

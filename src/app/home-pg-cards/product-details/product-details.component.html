@@ -1,0 +1,117 @@
+<!-- Product Details Page -->
+<div class="product-container-alt" *ngIf="selectedProduct">
+  <ul class="breadcrumb">
+    <li><a href="#">{{selectedProduct.mainCategory.categoryName}}</a></li>
+    <li><a href="#">{{selectedProduct.subcategory.subCategoryName}}</a></li>
+    <li><a href="#">{{selectedProduct.categoryType.typeName}}</a></li>
+    <li><a href="#">{{selectedProduct.productName}}</a></li>
+  </ul>
+
+  <div class="product-content-alt">
+    <!-- Product Images Section -->
+    <div class="product-images-alt">
+      <div class="main-image-container-alt">
+        <img [src]="mainImage" alt="Main Product Image" class="main-image-alt" />
+      </div>
+
+      <!-- Thumbnails -->
+      <div class="thumbnail-container-alt" *ngIf="!noImagesFound; else noImageTemplate">
+        <img *ngFor="let image of selectedProduct.productImages" [src]="'data:image/png;base64,' + image.images"
+          [class.selected]="('data:image/png;base64,' + image.images) === selectedImage" alt="Thumbnail"
+          class="thumbnail-alt" (click)="changeMainImage('data:image/png;base64,' + image.images)" />
+      </div>
+
+      <!-- No Image Available -->
+      <ng-template #noImageTemplate>
+        <p class="text-danger">No images available for this product.</p>
+      </ng-template>
+    </div>
+
+    <!-- Product Details -->
+    <div class="product-details-alt">
+      <h1 class="product-name-alt">{{selectedProduct.productName}}</h1>
+      <p class="product-brand-alt">Brand: <span>{{selectedProduct.brand}}</span></p>
+      <p class="product-price-alt">Price: <span>{{selectedProduct.price}}</span></p>
+      <p class="product-stock-alt">Availability: <span>{{selectedProduct.availability}}</span></p>
+      <p class="product-material-alt">Material: <span>{{selectedProduct.materialType}}</span></p>
+      <p class="product-material-alt">Care Instructions:
+        <span>{{selectedProduct.seoInformation.careInstructions}}</span>
+      </p>
+      <p class="product-description-alt">Description: <span>{{selectedProduct.productDescription}}</span></p>
+      <p class="product-dimension-alt">Dimensions:
+        <span>{{selectedProduct.shippingInformation.dimensions}}</span>
+      </p>
+      <p class="product-weight-alt">Weight: <span>{{selectedProduct.shippingInformation.weight}}</span></p>
+
+      <!-- Size & Size Chart Row -->
+      <div class="selectors-alt d-flex align-items-center">
+        <p class="size mb-0 me-3">
+          Sizes: <span>{{selectedProduct.productSizes[0].sizeId}}</span>
+        </p>
+
+        <!-- Size Chart Button -->
+        <button type="button" class="btn btn-link p-0 text-decoration-none d-flex align-items-center"
+          data-bs-toggle="modal" data-bs-target="#sizeChartModal"
+          (click)="onChangeSizechart(selectedProduct.mainCategory.categoryName)">
+          <i class="fa fa-info-circle me-1" aria-hidden="true"></i>
+          <span>Size Chart</span>
+        </button>
+      </div>
+
+
+      <!-- Size Chart Modal -->
+      <div class="modal fade" id="sizeChartModal" tabindex="-1" aria-labelledby="sizeChartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="sizeChartModalLabel">Size Chart for {{selectedProduct.mainCategory.categoryName}}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <!-- Size Chart Component -->
+              <app-product-size [selectedCategory]="selectedCategory"></app-product-size>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+      <!-- <p class="product-offers-alt">Offers: 
+        <span>Get {{selectedProduct.price}} off on your first purchase!</span></p>
+      <p class="product-delivery-alt">Delivery: 
+        <span class="delivery-time">Delivered within 2-4 days</span></p> -->
+
+      <p class="product-offers-alt" *ngIf="selectedProduct.productOffers?.length > 0; else noOffer">
+        Offers:
+        <span>Get ₹{{ selectedProduct.productOffers[0].discountPrice }} off on your first purchase!</span>
+      </p>
+
+      <ng-template #noOffer>
+        <p class="product-offers-alt no-offer">Offers:
+          <span>No offers available</span>
+        </p>
+      </ng-template>
+
+      <!-- <p class="product-delivery-alt">
+          Delivery:
+          <span class="delivery-time">Delivered within 2-4 days</span>
+        </p> -->
+
+
+      <!-- Success Message -->
+      <div *ngIf="selectedProduct.addedToCart" class="text-success mb-2">
+        <i class="bi bi-check-circle-fill"></i> Added to Cart
+      </div>
+
+      <!-- Buttons -->
+      <div class="buttons-alt">
+        <button class="add-to-cart-alt" [disabled]="selectedProduct.addedToCart"
+          (click)="addToCart(selectedProduct.productId);$event.stopPropagation()">
+          {{ selectedProduct.addedToCart ? 'Go to Cart' : 'Add to Cart' }}
+        </button>
+
+        <button class="buy-now-alt">Buy Now</button>
+      </div>
+    </div>
+  </div>
+</div>

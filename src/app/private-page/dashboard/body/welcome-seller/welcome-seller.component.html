@@ -1,0 +1,140 @@
+<div class="container-fluid">
+  <h3 class="fw-bold mb-3">Fashion Flair Dashboard</h3>
+  <p class="text-muted">Welcome back, Arun! Here's what's happening with your store today.</p>
+
+  <!-- Cards Row -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <div class="card shadow-sm p-3">
+        <div class="d-flex align-items-center">
+          <div class="bg-success text-white rounded-circle p-3 me-3">
+            <i class="bi bi-currency-dollar fs-4"></i>
+          </div>
+          <div>
+            <h5 class="mb-0">$45,280</h5>
+            <small class="text-muted">Total Revenue</small><br>
+            <small class="text-success">+12.5%</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card shadow-sm p-3">
+        <div class="d-flex align-items-center">
+          <div class="bg-primary text-white rounded-circle p-3 me-3">
+            <i class="bi bi-cart fs-4"></i>
+          </div>
+          <div>
+            <h5 class="mb-0">1,234</h5>
+            <small class="text-muted">Total Orders</small><br>
+            <small class="text-success">+8.2%</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card shadow-sm p-3">
+        <div class="d-flex align-items-center">
+          <div class="bg-purple text-white rounded-circle p-3 me-3">
+            <i class="bi bi-people fs-4"></i>
+          </div>
+          <div>
+            <h5 class="mb-0">2,845</h5>
+            <small class="text-muted">Total Customers</small><br>
+            <small class="text-success">+15.3%</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card shadow-sm p-3">
+        <div class="d-flex align-items-center">
+          <div class="bg-warning text-white rounded-circle p-3 me-3">
+            <i class="bi bi-box fs-4"></i>
+          </div>
+          <div>
+            <h5 class="mb-0">3,456</h5>
+            <small class="text-muted">Products Sold</small><br>
+            <small class="text-danger">-2.1%</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <div class="card p-3 shadow-sm">
+        <h6>Sales Overview</h6>
+        <canvas baseChart
+          [data]="lineChartData"
+          [options]="lineChartOptions"
+          [type]="'line'">
+        </canvas>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3 shadow-sm">
+        <h6>Product Categories</h6>
+        <canvas baseChart
+          [data]="{ labels: pieChartLabels, datasets: [{ data: pieChartData }] }"
+          [type]="pieChartType">
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.bg-purple {
+  background-color: #6f42c1;
+}
+</style>
+
+
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card mb-4">
+      <div class="card-header bg-white border-bottom">
+        <strong>Recent Orders</strong>
+        <small class="text-muted d-block">Latest customer orders</small>
+      </div>
+      <div class="card-body">
+        <div *ngFor="let order of recentOrders" class="mb-3 border-bottom pb-2">
+          <div class="fw-bold">#{{ order.id }} - {{ order.name }}</div>
+          <div class="text-muted">{{ order.product }}</div>
+          <div class="d-flex justify-content-between">
+            <span class="fw-semibold">${{ order.price }}</span>
+            <span class="badge bg-success" *ngIf="order.status === 'Completed'">Completed</span>
+            <span class="badge bg-primary" *ngIf="order.status === 'Processing'">Processing</span>
+            <span class="badge bg-warning text-dark" *ngIf="order.status === 'Pending'">Pending</span>
+            <span class="badge bg-secondary" *ngIf="order.status === 'Shipped'">Shipped</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card mb-4">
+      <div class="card-header bg-white border-bottom">
+        <strong>Top Products</strong>
+        <small class="text-muted d-block">Best selling items this month</small>
+      </div>
+      <div class="card-body">
+        <div *ngFor="let product of topProducts; let i = index" class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <span class="badge bg-success me-2">{{ i + 1 }}</span> {{ product.name }}
+            <div class="text-muted small">{{ product.sold }} sold</div>
+          </div>
+          <div>
+            <div class="fw-bold">${{ product.revenue }}</div>
+            <div class="text-success small">+{{ product.growth }}%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

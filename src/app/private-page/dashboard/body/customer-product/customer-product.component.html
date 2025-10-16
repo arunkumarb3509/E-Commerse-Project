@@ -1,0 +1,330 @@
+<!-- <div class="container mt-4">
+  <h2 class="text-center mb-4">Customer Cart Items</h2>
+
+  <div class="row" *ngIf="customerProducts?.length > 0; else noProducts">
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let item of customerProducts">
+      <div class="card h-100 shadow-sm">
+
+        <img 
+          [src]="getProductImage(item)"
+          class="card-img-top" 
+          alt="Product Image"
+          style="height: 220px; object-fit: cover;"
+        >
+
+        <div class="card-body">
+          <h5 class="card-title">{{ item.product.productName }}</h5>
+          <p class="card-text">
+            <strong>Brand:</strong> {{ item.product.brand }}<br>
+            <strong>Price:</strong> ₹{{ item.product.price }}<br>
+            <strong>Material:</strong> {{ item.product.materialType }}<br>
+            <strong>Availability:</strong> {{ item.product.availability }}<br>
+            <strong>Category:</strong> {{ item.product.mainCategory.categoryName }}<br>
+            <strong>Subcategory:</strong> {{ item.product.subcategory.subCategoryName }}<br>
+            <strong>Type:</strong> {{ item.product.categoryType.typeName }}<br>
+            <strong>Sizes:</strong> 
+            <span *ngFor="let size of item.product.productSizes; let isLast = last">
+              {{ size.sizeId }}<span *ngIf="!isLast">, </span>
+            </span><br>
+            <strong>Description:</strong><br>
+            <small class="text-muted">{{ item.product.productDescription }}</small>
+          </p>
+        </div>
+
+        <div class="card-footer d-flex justify-content-between bg-white border-top-0">
+          <button class="btn btn-primary btn-sm">View Details</button>
+          <button class="btn btn-success btn-sm">Checkout</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noProducts>
+    <div class="alert alert-warning text-center">
+      No products in cart.
+    </div>
+  </ng-template>
+</div> -->
+<!-- <div class="banner">
+    <b>Review & Confirm Your Order</b>
+  </div>
+<div class="container py-5">
+
+  <div *ngIf="customerProducts?.length > 0; else noItems">
+    <div class="product-item mb-4 p-3 border rounded shadow-sm" 
+         *ngFor="let item of customerProducts; let i = index"
+         style="display: flex; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      
+      <img 
+        [src]="getProductImage(item)" 
+        alt="Product Image" 
+        style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;" 
+      />
+
+      <div class="flex-grow-1">
+        <h5 class="mb-1">{{ item.product.productName }}</h5>
+        <p class="mb-0 text-muted">Brand: {{ item.product.brand }}</p>
+        <p class="mb-0 text-muted">Material: {{ item.product.materialType }}</p>
+        <p class="mb-0 text-muted">Price: ₹{{ item.product.price }}</p>
+      </div>
+
+      <div class="d-flex align-items-center">
+        <button class="btn btn-outline-secondary" (click)="decreaseQty(i)">−</button>
+        <span class="mx-3">{{ item.quantity }}</span>
+        <button class="btn btn-outline-secondary" (click)="increaseQty(i)">+</button>
+      </div>
+
+      <div style="min-width: 100px; text-align: end;">
+        ₹{{ item.product.price * item.quantity }}
+      </div>
+    </div>
+
+    <div class="mt-4 border-top pt-4 text-end">
+      <h5>Total Items: {{ getTotalItems() }}</h5>
+      <h4>Total Amount: ₹{{ getTotalAmount() }}</h4>
+      <button class="btn btn-success mt-3" (click)="placeOrder()">Place Order</button>
+    </div>
+  </div>
+
+  <ng-template #noItems>
+    <div class="text-center alert alert-warning">
+      No products in your cart. Please add some.
+    </div>
+  </ng-template>
+</div> -->
+
+<div class="banner">
+    <b>Review & Confirm Your Order</b>
+</div>
+<div class="container py-4" *ngIf="customerProducts.length > 0; else emptyCart">
+    <div class="row g-3">
+        <!-- Left Column -->
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Delivery Info -->
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-3">
+                        <div>
+                          <h5 class="mb-0 fw-semibold">Delivery Information Required for Order</h5>
+                        </div>
+                    </div>
+                    <!-- Product Details -->
+                    <div class="d-flex py-3" *ngFor="let item of customerProducts; let i = index">
+                         <img 
+                              [src]="getProductImage(item)" 
+                               alt="Product Image" 
+                            style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;" 
+                      />
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">{{ item.product.productName }}</h6>
+                            <!-- <p class="mb-1 text-muted">Seller: ReniSales <span class="badge bg-success">Assured</span>
+                            </p> -->
+                            <p class="mb-1" *ngIf="item.product.productOffers?.length > 0; else noOffer"><s>₹{{
+                                    item.product.price }}</s>
+                                <strong class="ms-1">₹{{ item.product.productOffers[0].discountPrice }} </strong>
+
+                                <span class="text-success ms-1">({{ item.product.productOffers[0].discountPercentage }}%
+                                    off)
+                                </span>
+                            </p>
+
+                            <ng-template #noOffer>
+                                ₹{{ item.product.price }}
+                            </ng-template>
+                            <p class="size">Sizes: <span>{{item.product.productSizes[0].sizeId}}</span></p>
+
+                            <!-- Quantity, Save, Remove -->
+                            <div class="d-flex align-items-center mt-3">
+                                <div class="input-group input-group-sm me-3" style="width: 100px;">
+                                    <button class="btn btn-outline-secondary" (click)="decreaseQuantity(i)">-</button>
+                                    <input type="text" class="form-control text-center" [value]="item.quantity"
+                                        readonly>
+                                    <button class="btn btn-outline-secondary" (click)="increaseQuantity(i)">+</button>
+                                </div>
+
+                                <!-- <button class="btn btn-link text-decoration-none me-3" (click)="saveForLater()">Save for Later</button> -->
+                                
+                                <!-- <button class="btn btn-link text-danger text-decoration-none"
+                                    (click)="removeItem(item.product.productId)">Remove</button> -->
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="border-bottom pb-2 total-amount">Price Details</h6>
+                    <div class="price-details">
+                        <div class="d-flex justify-content-between">
+                            <p>Price ({{ cartCount }} item)</p>
+                            <p>₹{{ totalPrice }}</p>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <p>Discount</p>
+                            <p class="text-success">− ₹{{ totalDiscount }}</p>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <p>Platform Fee</p>
+                            <p>₹{{ platformFee }}</p>
+                        </div>
+
+                        <div class="d-flex justify-content-between border-bottom pb-2">
+                            <p>Delivery Charges</p>
+                            <p><strong>{{ deliveryCharge === 0 ? 'Free' : '₹' + deliveryCharge }}</strong></p>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-3 total-amount">
+                            <p>Total Amount</p>
+                            <p>₹{{ finalAmount }}</p>
+                        </div>
+
+                        <p class="text-success save-amount">
+                            You will save ₹{{ savedAmount }} on this order
+                        </p>
+
+                    </div>
+                    <!-- Place Order Button -->
+<!-- Trigger Button -->
+<button class="btn btn-warning place-order-btn mt-3" data-bs-toggle="modal" data-bs-target="#orderModal">
+  PLACE ORDER
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" [formGroup]="orderForm" (ngSubmit)="submitOrder()">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderModalLabel">Enter Delivery Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Step 1 -->
+        <div *ngIf="step === 1">
+          <div class="mb-3">
+            <label class="form-label">Full Address *</label>
+            <textarea formControlName="address" class="form-control"></textarea>
+            <div *ngIf="orderForm.get('address')?.invalid && orderForm.get('address')?.touched" class="text-danger">
+              This field is required.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">State *</label>
+            <input type="text" formControlName="state" class="form-control" />
+            <div *ngIf="orderForm.get('state')?.invalid && orderForm.get('state')?.touched" class="text-danger">
+              This field is required.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">City *</label>
+            <input type="text" formControlName="city" class="form-control" />
+            <div *ngIf="orderForm.get('city')?.invalid && orderForm.get('city')?.touched" class="text-danger">
+              This field is required.
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div *ngIf="step === 2">
+          <div class="mb-3">
+            <label class="form-label">Zip Code *</label>
+            <input type="text" formControlName="zipCode" class="form-control" />
+            <div *ngIf="orderForm.get('zipCode')?.invalid && orderForm.get('zipCode')?.touched" class="text-danger">
+              Must be a 6-digit zip code.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Phone Number *</label>
+            <input type="text" formControlName="phone" class="form-control" />
+            <div *ngIf="orderForm.get('phone')?.invalid && orderForm.get('phone')?.touched" class="text-danger">
+              Must be a valid 10-digit number.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Payment Method *</label>
+            <select formControlName="paymentMethod" class="form-select">
+              <option value="COD">Cash on Delivery</option>
+              <option value="Online">Online Payment</option>
+            </select>
+            <div *ngIf="orderForm.get('paymentMethod')?.invalid && orderForm.get('paymentMethod')?.touched" class="text-danger">
+              This field is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button *ngIf="step === 1" type="button" class="btn btn-primary" (click)="goToStep2()">Next</button>
+        <button *ngIf="step === 2" type="submit" class="btn btn-success">Submit Order</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div *ngIf="savedSuccess"> -->
+        <!-- <div *ngIf="savedItems.length > 0">
+            <div class="saved-container mt-1">
+                <div class="saved-header">Saved Items ({{ savedItems.length }})</div>
+                <div *ngFor="let item of savedItems" class="saved-item">
+                    <img [src]="item.product.displayImage" alt="Saved Item">
+                    <div class="item-details">
+                        <div class="item-title">{{ item.product.productName }}</div>
+                        <p class="mb-1" *ngIf="item.product.productOffers?.length > 0; else noOffer"><s>₹{{
+                                item.product.price }}</s>
+                            <strong class="ms-1">₹{{ item.product.productOffers[0].discountPrice }} </strong>
+
+                            <span class="text-success ms-1">({{ item.product.productOffers[0].discountPercentage }}%
+                                off)
+                            </span>
+                        </p>
+
+                        <ng-template #noOffer>
+                            ₹{{ item.product.price }}
+                        </ng-template>
+
+                        <p class="size">Sizes: <span>{{item.product.productSizes[0].sizeId}}</span></p>
+                        <div class="d-flex align-items-center mt-3">
+                            <button class="btn btn-link text-decoration-none me-3"
+                                (click)="moveToCart(item.product.productId)">Move to Cart</button>
+                            <button class="btn btn-link text-danger text-decoration-none"
+                                (click)="removeSavedItem(item.product.productId)">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    <ng-template #emptyCart>
+    <div class="container empty-cart-container">
+        <div class="emptyCard">
+            <img src="https://img.freepik.com/premium-vector/add-cart-icon-template-graphic-web-design-vector-illustration_1286261-80.jpg"
+                alt="Empty Cart" class="cart-image img-fluid">
+            <h4 class="mt-3 text-dark fw-bold">Your cart is empty!</h4>
+            <p class="text-muted alert alert-warning">Looks like you haven't added anything to your cart yet.
+              So please logout and shop after that login.
+            </p>
+
+            <a href="#" class="btn btn-primary btn-shop">🛒 Shop Now</a>
+        </div>
+    </div>
+</ng-template>

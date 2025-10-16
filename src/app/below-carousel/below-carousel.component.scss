@@ -1,0 +1,86 @@
+@import "src/styles.scss";
+
+* {
+  font-family: $forum-ff;
+  font-size: 15px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 90%; /* Adjust width to leave space on left & right */
+  margin: 0 auto; /* Centers the container */
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.owl-carousel {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 20px;
+  padding: 10px 20px; /* Adds space on both sides */
+}
+
+.owl-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.content {
+  flex: 0 0 auto;
+  text-align: center;
+  scroll-snap-align: start;
+}
+
+.category-img {
+  width: 120px; /* Fixed width */
+  height: 120px; /* Fixed height */
+  object-fit: cover; /* Ensures uniform image size */
+  border-radius: 10px;
+}
+
+.category-title {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Responsive Fix */
+@media (max-width: 767px) {
+  .container {
+    width: 95%;
+  }
+  
+  .category-img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .category-title {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1440px) {
+  .category-img {
+    width: 110px;
+    height: 110px;
+  }
+
+  .category-title {
+    font-size: 13px;
+  }
+}

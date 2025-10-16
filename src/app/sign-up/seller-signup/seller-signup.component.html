@@ -1,0 +1,244 @@
+<!-- seller signup -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-5 ps-0 pe-0">
+      <div id="signUpCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img class="d-block w-100 carouselImg" src="../../../assets/Images/signup-caurosel1.jpg" alt="First slide">
+          </div>
+          <div class="carousel-item">
+            <img class="d-block w-100 carouselImg" src="../../../assets/Images/signup-carousel 2.jpg"
+              alt="Second slide">
+          </div>
+          <div class="carousel-item">
+            <img class="d-block w-100 carouselImg" src="../../../assets/Images/signup-carousel 3.jpg" alt="Third slide">
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#signUpCarousel" role="button" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#signUpCarousel" role="button" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="row">
+        <div class="form-container" *ngIf="!isOTPSent">
+          <h4 class="card-header fw-bold text-center">Sign Up</h4>
+          <form [formGroup]="registrationForm" (ngSubmit)="onNext()">
+            <div class="row mt-5">
+              <div class="form-group col-sm-6 col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="firstName" placeholder="Enter name"
+                    formControlName="firstName">
+                  <label for="firstName">First Name</label>
+                  <div *ngIf="registrationForm.controls['firstName'].invalid && 
+                    (registrationForm.controls['firstName'].dirty || 
+                     registrationForm.controls['firstName'].touched)" class="text-danger">
+                    First Name is required.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-sm-6 col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="lastName" placeholder="Enter name"
+                    formControlName="lastName">
+                  <label for="lastName">Last Name</label>
+                  <div *ngIf="registrationForm.controls['lastName'].invalid && 
+                    (registrationForm.controls['lastName'].dirty || 
+                     registrationForm.controls['lastName'].touched)" class="text-danger">
+                    Last Name is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6 col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control" id="email" placeholder="Enter email" formControlName="email">
+                  <label for="email">Email</label>
+                  <div *ngIf="registrationForm.controls['email'].invalid && 
+                    (registrationForm.controls['email'].dirty || 
+                     registrationForm.controls['email'].touched)" class="text-danger">
+                    Please enter a valid email address.
+                  </div>
+                  <div *ngIf="emailExists" class="text-danger">
+                    Email already exists.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-sm-6 col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="number" class="form-control" id="phone" placeholder="### ## ###" formControlName="phone">
+                  <label for="phone">Phone</label>
+                  <div *ngIf="registrationForm.get('phone')!.invalid &&
+                   (registrationForm.get('phone')!.dirty || registrationForm.get('phone')!.touched)"
+                    class="text-danger">
+                    Please enter a valid contact number.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="form-group col-sm-6 col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="address" placeholder="Enter address"
+                    formControlName="address">
+                  <label for="address">Address</label>
+                  <div *ngIf="registrationForm.controls['address'].invalid && 
+                    (registrationForm.controls['address'].dirty || 
+                     registrationForm.controls['address'].touched)" class="text-danger">
+                    Address is required.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-sm-6 col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="state" placeholder="Enter state"
+                    formControlName="state">
+                  <label for="state">State</label>
+                  <div *ngIf="registrationForm.controls['state'].invalid && 
+                    (registrationForm.controls['state'].dirty || 
+                     registrationForm.controls['state'].touched)" class="text-danger">
+                    State is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="form-group col-sm-6 col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="city" placeholder="Enter city"
+                    formControlName="city">
+                  <label for="city">City</label>
+                  <div *ngIf="registrationForm.controls['city'].invalid && 
+                    (registrationForm.controls['city'].dirty || 
+                     registrationForm.controls['city'].touched)" class="text-danger">
+                    City is required.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-sm-6 col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="zip_code" placeholder="Enter zip_code"
+                    formControlName="zip_code">
+                  <label for="zip_code">Zip_code</label>
+                  <div *ngIf="registrationForm.controls['zip_code'].invalid && 
+                    (registrationForm.controls['zip_code'].dirty || 
+                     registrationForm.controls['zip_code'].touched)" class="text-danger">
+                    zip_code is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <p class="mt-4 ps-3">
+              <input type="checkbox" formControlName="acceptTerms">
+              I accept the
+              <a class="checkBoxLine" href="www.google.com">Terms of service</a> as well as
+              <a class="checkBoxLine" href="#">Privacy Policy</a>.
+            </p>
+            <div *ngIf="registrationForm.get('acceptTerms')!.invalid && 
+              (registrationForm.get('acceptTerms')!.dirty || 
+               registrationForm.get('acceptTerms')!.touched)" class="text-danger termsText">
+              You must accept the terms and conditions.
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-2 me-2 ms-2">
+              <button class="btn" type="submit" [disabled]="registrationForm.invalid">Next</button>
+              <button class="btn" type="button" routerLink="/sign-up">Cancel</button>
+            </div>
+            <hr>
+
+            <p class="text-center signInText">
+              Already have an account?
+              <a class="checkBoxLine" routerLink="/customer-signIn">SignIn</a>
+            </p>
+          </form>
+        </div>
+
+        <div class="form-container" *ngIf="isOTPSent">
+          <h4 class="card-header fw-bold text-center">OTP Verification</h4>
+          <form [formGroup]="otpForm" (ngSubmit)="verifyOTP()">
+            <div class="card-body">
+              <div class="text-success otpSuccessMsg" *ngIf="isOTPVerified">OTP verified successfully</div>
+              <div class="text-success otpSuccessMsg" *ngIf="isOTPReSendMessage">{{resendMsg}}</div>
+              <div class="text-danger otpIncorrectMsg" *ngIf="!isOTPVerified && errorMessage">{{ errorMessage }}</div>
+              <div class="otp-card-inputs" formArrayName="otp">
+                <ng-container *ngFor="let control of otpArray.controls; let i = index">
+                  <input type="text" maxlength="1" [formControlName]="i" (keyup)="onKeyUp($event, i)"
+                    (input)="onInput($event, i)" #otpInput>
+                </ng-container>
+              </div>
+              <div class="text-center verifyBtn">
+                <button class="btn" type="submit" [disabled]="afterOtpVerified">VerifyOTP</button>
+              </div>
+            </div>
+          </form>
+              <p class="text-center signInText">
+                <button class="link-button" (click)="resendOTP()" [disabled]="afterOtpVerified" >Resend OTP?</button>
+              </p>
+            
+          
+
+          <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control" id="newPassword" placeholder="New Password"
+                         formControlName="newPassword" [disabled]="!isOTPVerified">
+                  <label for="newPassword">New Password</label>
+                  <div *ngIf="passwordForm.controls['newPassword'].touched || passwordForm.controls['newPassword'].dirty">
+                    <div *ngIf="passwordForm.controls['newPassword'].errors?.['required']" class="text-danger">
+                      Password is required.
+                    </div>
+                    <div *ngIf="passwordForm.controls['newPassword'].errors?.['minlength']" class="text-danger">
+                      Password must be at least 8 characters long.
+                    </div>
+                    <div *ngIf="passwordForm.controls['newPassword'].errors?.['pattern'] && !passwordForm.controls['newPassword'].errors?.['minlength']" class="text-danger">
+                      Password must contain an uppercase letter <br>
+                       A lowercase letter <br> A number <br> A special character.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password"
+                         formControlName="confirmPassword" [disabled]="!isOTPVerified">
+                  <label for="confirmPassword">Confirm Password</label>
+                  <div *ngIf="passwordForm.controls['confirmPassword'].touched || passwordForm.controls['confirmPassword'].dirty">
+                    <div *ngIf="passwordForm.controls['confirmPassword'].errors?.['required']" class="text-danger">
+                      Password confirmation is required.
+                    </div>
+                    <div *ngIf="passwordForm.hasError('passwordMismatch')" class="text-danger">
+                      Passwords must match.
+                    </div>
+                    <div *ngIf="afterEmailExists" class="text-danger">
+                      Email already exists.
+                    </div>
+                  </div>
+                </div>
+              </div>     
+              
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-2 me-2 ms-2">
+              <button class="btn" type="submit" [disabled]="passwordForm.invalid || !isOTPVerified">Sign Up</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<!-- Categories -->
+<section class="pt-5">
+  <div class="container">
+    <div class="inner owl-carousel">
+      <div 
+        class="content" 
+        *ngFor="let types of CategoryType" 
+        (click)="onCategoryTypeClick(types.categoryTypeId)"
+      >
+        <img 
+          class="img-responsive category-img" 
+          [src]="getCategoryImage(types.categoryTypeId)" 
+          alt="Category Image" 
+        />
+        <p class="category-title">{{ types.typeName }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- <app-home-pg-cards></app-home-pg-cards> -->
+<app-home-pg-cards [categoryTypeId]="selectedCategoryId"></app-home-pg-cards>

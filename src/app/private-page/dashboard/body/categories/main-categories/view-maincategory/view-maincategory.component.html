@@ -1,0 +1,45 @@
+<!-- view-main category -->
+<div class="banner"><b>Main Categories</b></div>
+<div class="container">
+  <div class="card main-category-card col-12 col-xl-8 col-lg-10 col-md-10 col-sm-12 col-xs-12">
+    <div class="card-body">
+      <div class="bg-white">
+        <div class="d-flex">
+          <span class="text-left mb-5 form-heading-text">Edit Main Categories</span>
+        </div>
+        <form class="text-center row" [formGroup]="editMainCategoryForm" (ngSubmit)="onSubmit()">
+          <div class="col-12 col-lg-6">
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fa fa-folder-open" aria-hidden="true"></i>
+              </span>
+              <div class="form-floating">
+                <input type="text" class="form-control border-outline" placeholder="Main Category Name"
+                  [ngClass]="{'is-invalid': editMainCategoryForm.get('MainCategoryName')?.invalid && editMainCategoryForm.get('MainCategoryName')?.touched}"
+                  formControlName="MainCategoryName" required />
+                <label for="MainCategoryName">Main Category Name</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-6">
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fa fa-align-left" aria-hidden="true"></i>
+              </span>
+              <textarea class="form-control border-outline" id="mainDescription" placeholder="Description"
+                formControlName="mainDescription" rows="4"></textarea>
+            </div>
+          </div>
+
+          <!-- Button Section -->
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn" type="submit" [disabled]="editMainCategoryForm.invalid">Submit</button>
+            <button class="btn" type="button" routerLink="/dashboard">Cancel</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

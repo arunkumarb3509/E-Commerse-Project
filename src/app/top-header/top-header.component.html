@@ -1,0 +1,67 @@
+<!-- top-banner -->
+
+    <header>
+      <div class="container-fluid text-center">
+        <div class="row align-items-center">
+          <!-- Contact Section -->
+          <div class="col-lg-3">
+            <h6>Call Us : +91 6179450710</h6>
+          </div>
+    
+          <!-- Promotion Section -->
+          <div class="col-lg-5">
+            <h6 class="topBannerText">Up to 20% OFF for all products.</h6>
+            <a routerLink="/sign-up" class="signUpLink">Sign up now</a>
+          </div>
+    
+          <!-- Social Media and Cart Section -->
+          <div class="col-lg-4 d-flex justify-content-end align-items-center">
+            <!-- Social Media Icons -->
+            <div>
+              <a *ngFor="let link of socialMediaLinks" [href]="link" class="topBannerIcon me-2">
+                <i [class]="link.icon"></i>
+              </a>
+            </div>
+    
+            <!-- <div class="login-section ms-3" >
+  <svg class="login-icon" xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 64 64" fill="none">
+    <circle cx="28" cy="32" r="18" stroke="#f6c147" stroke-width="2.5" stroke-dasharray="6 4"/>
+    <circle cx="28" cy="26" r="5" stroke="#f6c147" stroke-width="2.5"/>
+    <path d="M20 42c0-5 16-5 16 0" stroke="#f6c147" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M40 24 L52 32 L40 40" stroke="#f6c147" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div> 
+.login-section {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.login-section:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.login-icon {
+  filter: drop-shadow(0 0 6px #f6c147);
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.login-section:hover .login-icon {
+  filter: drop-shadow(0 0 12px #fff176);
+  transform: scale(1.15);
+}-->
+            <!-- Cart Icon with Count -->
+             <div>
+            <div class="cart-section ms-3" (click)="viewToCart()">
+              <i class="fa fa-shopping-cart cart-icon"></i>
+              <span class="cart-count">{{ cartCount }}</span>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    

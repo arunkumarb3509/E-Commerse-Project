@@ -1,0 +1,34 @@
+@import "src/styles.scss";
+
+
+// * {
+//     font-family: $forum-ff;
+//      font-size: 15px;
+//   }
+  
+// .carouselImg{
+//     width: 100%;  
+// }
+
+// @media screen and (max-width:430px) {
+//     .carouselImg{
+//         width: 200%;
+//     }
+// }
+
+.carousel-caption {
+  background: $carousel-caption-bg;
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
+
+.carousel-indicators [type="button"] {
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  background-color: $carousel-indicators-btn-bg;
+}
+
+.carousel-indicators .active {
+  background-color: $button-text-color;
+}

@@ -1,0 +1,305 @@
+@import "src/styles.scss";
+* {
+  font-family: $forum-ff;
+}
+
+.form-select > * {
+  padding: 5%;
+}
+
+.container-fluid {
+  padding: 2%;
+}
+
+.businessProfile-card {
+  border-radius: 15px 15px;
+  padding: 10px;
+  background-color: $white;
+}
+
+.bi-globe-europe-africa {
+  font-size: 17px;
+}
+
+.text-danger{
+  font-size: small;
+  margin-top: 1px;
+  margin-right: 177px;
+  margin-left: 6px;
+}
+
+.card-body {
+  // display: grid;
+  grid-template-columns: 48% 30% 25%;
+}
+
+.department-form {
+  padding-left: 10%;
+}
+
+.roles-form > * {
+  font-size: 14px;
+}
+
+.form-check > input {
+  font-size: 18px;
+  border-width: 1px;
+  border-color: $darkblue;
+}
+
+.form-check-input:disabled {
+  background-color: $grey;
+}
+
+.form-check-input:checked[type="checkbox"] {
+  background-color: $checkBox-input-checked-bg;
+}
+
+.border-outline {
+  border-color: $input-border-outline-color;
+  border-radius: 5px;
+}
+
+i {
+  font-size: x-large;
+}
+
+a {
+  text-decoration: none;
+}
+
+.btn {
+  font-size: 14px;
+}
+
+.is-invalid {
+  background-image: none;
+}
+
+select {
+  border-bottom: 1px solid;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  z-index: 0 !important;
+}
+
+select > option {
+  font-size: 16px;
+  font-family: $forum-ff;
+}
+
+input {
+  font-size: 14px;
+  border-bottom: 1px solid;
+  border-bottom-right-radius: 0;
+  z-index: 0 !important;
+}
+
+.form-control.is-invalid {
+  border: 1px solid $red-color;
+}
+
+.error {
+  border: 1px solid $red-color;
+}
+
+.bar {
+  border-bottom: 1px solid;
+}
+
+::ng-deep .toast-container > * {
+  margin-top: 30% !important;
+  margin-right: 20px !important;
+}
+
+.error-message {
+  margin-left: -25%;
+  color: $red-color;
+  font-weight: 600;
+}
+
+.error-message > span {
+  font-size: 11px;
+}
+
+.error-message .email-exist {
+  margin-bottom: 0;
+  margin-left: 0;
+}
+
+.error-message > span > button {
+  font-size: 11px;
+  padding: 2%;
+}
+
+.form-floating > .form-control {
+  height: 48px;
+  min-height: 0;
+  line-height: 0;
+}
+
+.form-floating > label {
+  font-size: 14px;
+  padding: 13px 10px;
+}
+
+.form-floating > select {
+  font-size: 14px;
+  min-height: 0;
+  height: 55px;
+}
+
+.small-icon {
+  padding: 6px;
+}
+
+
+.is-invalid {
+  border-color: $is-invalid-borderColor !important;
+}
+
+.is-invalid:focus {
+  box-shadow: 0 0 0 0.2rem $is-invalid-focusColor;
+}
+
+
+.larger-icon {
+  padding: 3px;
+}
+
+.disabled-fields {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.businessProfile-form-btn {
+  margin-top: -3%;
+}
+
+.bar {
+  border-bottom: 1px solid;
+}
+
+.btn{
+  color:$button-text-color;
+  background-color:$button-bg-color;
+  width: 9%;
+  font-weight: bold;
+
+}
+
+.btn:hover{
+  color:$white-color;
+}
+
+.custom-file-input {
+  width: 85%;
+  height: 46px;
+}
+
+/* Default Button Styling for Large Devices (Desktops) */
+.btn {
+  color: $button-text-color;
+  background-color: $button-bg-color;
+  width: auto;
+  font-weight: bold;
+}
+
+/* For devices up to 1024px (Tablets) */
+@media screen and (max-width: 1024px) {
+  .btn {
+    width: 20%; 
+  }
+  .card-body {
+        display: block;
+      }
+      .custom-file-input {
+        // width: 91%;
+        width: 85%;
+        height: 46px;
+      }
+}
+
+/* For devices up to 768px (Tablets in portrait or smaller devices) */
+@media screen and (max-width: 768px) {
+  .btn {
+    width: 24%;
+    font-size: 0.9rem; 
+  }
+  .card {
+        margin-left: 2%;
+        z-index: 0;
+      }
+      .custom-file-input {
+        width: 85%;
+        height: 46px;
+      }
+}
+
+/* For devices up to 575px (Mobile Phones) */
+@media screen and (max-width: 575px) {
+  .btn {
+    width: 100%; 
+    margin-bottom: 8px; 
+  }
+}
+
+/* Fine-tuning for small mobile devices (e.g., 320px to 425px) */
+@media screen and (max-width: 425px) {
+  .businessProfile-form-btn {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .btn {
+    width: 100%;
+    font-size: 0.85rem; 
+    margin-bottom: 5px; 
+  }
+  .businessProfile-form-btn .btn {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 1px;
+      }
+      .businessProfile-form-btn .btn:last-child {
+        margin-bottom: 0;
+      }
+}
+
+@media screen and (max-width: 991px) {
+  .custom-file-input {
+    width: 80%;
+    height: 46px;
+  }
+}
+
+@media screen and (min-width:320px) and (max-width: 575px) 
+{
+  .btn{
+       color:$button-text-color;
+       background-color:$button-bg-color;
+       width:100%;
+       font-weight: bold;
+       margin-left: -12px;
+   }
+   .text-danger {
+    font-size: small;
+    /* margin-top: -13px; */
+    margin-right: -44px;
+    margin-left: 7px;
+}
+.custom-file-input {
+  width: 83%;
+  height: 46px;
+}
+}
+
+#dateInput {
+  padding: 10px;
+  width: 100%;
+  border-color: $input-border-outline-color;
+  border-radius: 5px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}

@@ -1,0 +1,115 @@
+
+@import "src/styles.scss";
+
+.card {
+    max-width: 100%;
+    margin: 20px auto;
+    border: 1px solid $productImage-card-border;
+    border-radius: 8px;
+    background-color: $carousel-indicators-btn-bg;
+    box-shadow: 0 4px 6px $productImage-container-boxShadow;
+  }
+
+  .title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  .input-group {
+    margin-bottom: 1rem;
+    .form-control {
+      border: 1px solid $productImage-card-border;
+      border-radius: 1px;
+      font-size: 14px;
+  
+      &.is-invalid {
+        border-color:  $is-invalid-borderColor;
+        box-shadow: 0 0 5px $is-invalid-boxShadow;
+      }
+    }
+  
+    .form-floating > label {
+      font-size: 14px;
+      padding: 13px 10px;
+    }
+  }
+  
+  .btn {
+    color:$top-banner-icon;
+     background-color:$top-banner-bg;
+    // width: 100%;
+    font-weight: bold;
+  }
+  
+  .text-danger {
+    font-size: 12px;
+  }
+
+
+  @media screen and (max-width: 768px) {
+    .form-floating > .form-control {
+      font-size: 12px;
+      height: 42px;
+    }
+  
+    .btn {
+      font-size: 14px;
+      padding: 0.4rem 0.8rem;
+    }
+  }
+  
+  .product-container-alt {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 30px;
+    max-width: 1200px;
+    margin: auto;
+    background-color: $productImage-container-bg;
+    border-radius: 10px;
+    // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Images Section */
+  .product-images-alt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .thumbnail-container-alt {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .thumbnail-alt {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border: 2px solid $ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  
+  .thumbnail-alt:hover {
+    transform: scale(1.1);
+    border-color: $button-bg-color;
+  }
+  
+  .main-image-container-alt {
+    margin-bottom: 20px;
+  }
+  
+  .main-image-alt {
+    width: 70%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid $ddd;
+  }

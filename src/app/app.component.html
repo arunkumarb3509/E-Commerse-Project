@@ -1,0 +1,12 @@
+
+<div *ngIf="userLogout">
+    <app-top-header></app-top-header>
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
+    <app-copy-right></app-copy-right>
+  </div>
+  <div *ngIf="userLogin">
+      <!-- <app-private-page></app-private-page> -->
+    <router-outlet></router-outlet>
+  </div>

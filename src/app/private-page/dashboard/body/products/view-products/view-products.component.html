@@ -1,0 +1,427 @@
+<div>
+  <div class="banner">
+    <i class="fa fa-arrow-left back-icon" aria-hidden="true"
+      routerLink="/fashionflair/dashboard/products/view-products"></i>
+    <b>Edit Products</b>
+  </div>
+  <div>
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-body">
+          <form class="text-center row" [formGroup]="editProductForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <!-- Categories Section -->
+              <div class="col-12 col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+                  <div class="d-flex">
+                    <span class="text-left mb-3 form-heading-text">Categories</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <!-- Main Category -->
+                  <div class="col-12">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text"><i class="fa fa-folder-open"></i></span>
+                      <div class="form-floating">
+                        <select class="form-select border-outline" formControlName="mainCategoryName"
+                          [ngClass]="{'is-invalid': editProductForm.get('mainCategoryName')?.invalid && editProductForm.get('mainCategoryName')?.touched}"
+                          (change)="onCategoryChange($event)">
+                          <option value="" selected disabled hidden>Select Main Category</option>
+                          <option *ngFor="let category of mainCategories" [value]="category.categoryId">
+                            {{ category.categoryName }}
+                          </option>
+                        </select>
+                        <label>Main Category</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Sub Category -->
+                  <div class="col-12">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text"><i class="fa fa-folder-open"></i></span>
+                      <div class="form-floating">
+                        <select class="form-select border-outline" formControlName="subCategoryName"
+                          [ngClass]="{'is-invalid': editProductForm.get('subCategoryName')?.invalid && editProductForm.get('subCategoryName')?.touched}"
+                          (change)="onSubCategoryChange($event)">
+                          <option value="" selected disabled hidden>Select Sub Category</option>
+                          <option *ngFor="let subcategory of filteredSubCategories" [value]="subcategory.subCategoryId">
+                            {{ subcategory.subCategoryName }}
+                          </option>
+                        </select>
+                        <label>Sub Category</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Category Type -->
+                  <div class="col-12">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text"><i class="fa fa-folder-open"></i></span>
+                      <div class="form-floating">
+                        <input type="text" formControlName="categoryType" class="form-control border-outline"
+                          [value]="selectedCategoryType || 'N/A'" readonly>
+                        <label>Category Type</label>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <!-- Material Type -->
+                  <div class="col-12">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text"><i class="fa fa-cube"></i></span>
+                      <textarea class="form-control border-outline" placeholder="Material Type"
+                        formControlName="materialType" rows="4"></textarea>
+                    </div>
+                  </div>
+
+                  <!-- Return Policy -->
+                  <div class="col-12">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text"><i class="fa fa-undo"></i></span>
+                      <textarea class="form-control border-outline" placeholder="Return Policy"
+                        formControlName="returnPolicy" rows="4"></textarea>
+                    </div>
+                  </div>
+
+                  <!-- Care Instructions -->
+                  <div class="col-12">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text"><i class="fa fa-info-circle"></i></span>
+                      <textarea class="form-control border-outline" placeholder="Care Instructions"
+                        formControlName="careInstructions" rows="4"></textarea>
+                    </div>
+                  </div>
+
+
+                  <div class="col-12">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text"><i class="fa fa-cubes"></i></span>
+                      <div class="form-floating">
+                        <!-- Make the Total Stock input field read-only -->
+                        <input type="number" class="form-control border-outline" placeholder="Total Stock"
+                          formControlName="totalStock" [value]="getTotalStock()" readonly />
+                        <label>Total Stock</label>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <!-- Men's Sizes -->
+                  <div *ngIf="selectedCategory === 'Men'" class="mb-3">
+                    <h6 class="text-start form-heading-text">Men's Sizes:</h6>
+                    <div class="d-flex flex-column">
+                      <div *ngFor="let size of menSizes" class="form-check mb-2 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-2" [id]="size" [value]="size"
+                          (change)="onSizeChange($event)" />
+                        <label class="form-check-label me-3" [for]="size">{{ size }}</label>
+                        <div *ngIf="selectedSizes.includes(size)" class="input-group w-auto ms-3">
+                          <span class="input-group-text"><i class="fa fa-cubes"></i></span>
+                          <div class="form-floating">
+                            <input type="number" class="form-control border-outline" [id]="'stock-' + size"
+                              [placeholder]="'Enter total stock for ' + size" [ngClass]="{
+                              'is-invalid': selectedSizes.includes(size) && !sizeStockMapping[size]
+                              }" (input)="onStockInputChange(size, $event)" />
+                            <label [for]="'stock-' + size">Stock for {{ size }}</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Women's Sizes -->
+                  <div *ngIf="selectedCategory === 'Women'" class="mb-3">
+                    <h6 class="text-start form-heading-text">Women's Sizes:</h6>
+                    <div class="d-flex flex-column">
+                      <div *ngFor="let size of womenSizes" class="form-check mb-2 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-2" [id]="size" [value]="size"
+                          (change)="onSizeChange($event)" />
+                        <label class="form-check-label me-3" [for]="size">{{ size }}</label>
+                        <div *ngIf="selectedSizes.includes(size)" class="input-group w-auto ms-3">
+                          <span class="input-group-text"><i class="fa fa-cubes"></i></span>
+                          <div class="form-floating">
+                            <input type="number" class="form-control border-outline" [id]="'stock-' + size"
+                              [placeholder]="'Enter total stock for ' + size" [ngClass]="{
+                              'is-invalid': selectedSizes.includes(size) && !sizeStockMapping[size]
+                               }" (input)="onStockInputChange(size, $event)" />
+                            <label [for]="'stock-' + size">Stock for {{ size }}</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Seasonal Sizes -->
+                  <div *ngIf="selectedCategory === 'Seasonal'" class="mb-3">
+                    <h6 class="text-start form-heading-text">Seasonal Sizes:</h6>
+                    <div class="d-flex flex-column">
+                      <div *ngFor="let size of seasonalSizes" class="form-check mb-2 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-2" [id]="size" [value]="size"
+                          (change)="onSizeChange($event)" />
+                        <label class="form-check-label me-3" [for]="size">{{ size }}</label>
+                        <div *ngIf="selectedSizes.includes(size)" class="input-group w-auto ms-3">
+                          <span class="input-group-text"><i class="fa fa-cubes"></i></span>
+                          <div class="form-floating">
+                            <input type="number" class="form-control border-outline" [id]="'stock-' + size"
+                              [placeholder]="'Enter total stock for ' + size" [ngClass]="{
+                              'is-invalid': selectedSizes.includes(size) && !sizeStockMapping[size]
+                               }" (input)="onStockInputChange(size, $event)" />
+                            <label [for]="'stock-' + size">Stock for {{ size }}</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Kids' Sizes -->
+                  <div *ngIf="selectedCategory === 'Kids'" class="mb-3">
+                    <h6 class="text-start form-heading-text">Kids' Sizes:</h6>
+                    <div class="d-flex flex-column">
+                      <div *ngFor="let size of kidsSizes" class="form-check mb-2 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-2" [id]="size" [value]="size"
+                          (change)="onSizeChange($event)" />
+                        <label class="form-check-label me-3" [for]="size">{{ size }}</label>
+                        <div *ngIf="selectedSizes.includes(size)" class="input-group w-auto ms-3">
+                          <span class="input-group-text"><i class="fa fa-cubes"></i></span>
+                          <div class="form-floating">
+                            <input type="number" class="form-control border-outline" [id]="'stock-' + size"
+                              [placeholder]="'Enter total stock for ' + size" [ngClass]="{
+                              'is-invalid': selectedSizes.includes(size) && !sizeStockMapping[size]
+                               }" (input)="onStockInputChange(size, $event)" />
+                            <label [for]="'stock-' + size">Stock for {{ size }}</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Newborn Sizes -->
+                  <div *ngIf="selectedCategory === 'Newborn'" class="mb-3">
+                    <h6 class="text-start form-heading-text">Newborn Sizes:</h6>
+                    <div class="d-flex flex-column">
+                      <div *ngFor="let size of newbornSizes" class="form-check mb-2 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-2" [id]="size" [value]="size"
+                          (change)="onSizeChange($event)" />
+                        <label class="form-check-label me-3" [for]="size">{{ size }}</label>
+                        <div *ngIf="selectedSizes.includes(size)" class="input-group w-auto ms-3">
+                          <span class="input-group-text"><i class="fa fa-cubes"></i></span>
+                          <div class="form-floating">
+                            <input type="number" class="form-control border-outline" [id]="'stock-' + size"
+                              [placeholder]="'Enter total stock for ' + size" [ngClass]="{
+                              'is-invalid': selectedSizes.includes(size) && !sizeStockMapping[size]
+                               }" (input)="onStockInputChange(size, $event)" />
+                            <label [for]="'stock-' + size">Stock for {{ size }}</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Products Section -->
+              <div class="col-12 col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+                  <div class="d-flex">
+                    <span class="text-left mb-3 form-heading-text">Products</span>
+                  </div>
+                </div>
+
+                <!-- Product Code -->
+                <div class="col-12">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                    <div class="form-floating">
+                      <input type="text" class="form-control border-outline" placeholder="Product Code"
+                        formControlName="productCode"
+                        [ngClass]="{'is-invalid': editProductForm.get('productCode')?.invalid && editProductForm.get('productCode')?.touched}" />
+                      <label>Product Code</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Product Name -->
+                <div class="col-12">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa fa-tag"></i></span>
+                    <div class="form-floating">
+                      <input type="text" class="form-control border-outline" placeholder="Product Name"
+                        formControlName="productName"
+                        [ngClass]="{'is-invalid': editProductForm.get('productName')?.invalid && editProductForm.get('productName')?.touched}" />
+                      <label>Product Name</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Brand -->
+                <div class="col-12">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa fa-apple"></i></span>
+                    <div class="form-floating">
+                      <input type="text" class="form-control border-outline" placeholder="Brand" formControlName="brand"
+                        [ngClass]="{'is-invalid': editProductForm.get('brand')?.invalid && editProductForm.get('brand')?.touched}" />
+                      <label>Brand</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Price -->
+                <div class="col-12">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="bi bi-currency-rupee fs-6"></i></span>
+                    <div class="form-floating">
+                      <input type="number" class="form-control border-outline" placeholder="Price"
+                        formControlName="price"
+                        [ngClass]="{'is-invalid': editProductForm.get('price')?.invalid && editProductForm.get('price')?.touched}" />
+                      <label>Price</label>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Reorder Level -->
+                <div class="col-12">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa fa-exclamation-triangle"></i></span>
+                    <div class="form-floating">
+                      <input type="number" class="form-control border-outline" placeholder="Reorder Level"
+                        formControlName="reorderLevel"
+                        [ngClass]="{'is-invalid': editProductForm.get('reorderLevel')?.invalid && editProductForm.get('reorderLevel')?.touched}" />
+                      <label>Reduced Price</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Availability -->
+                <div class="col-12">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa fa-check-circle"></i></span>
+                    <div class="form-floating">
+                      <select class="form-select border-outline" formControlName="availability"
+                        [ngClass]="{'is-invalid': editProductForm.get('availability')?.invalid && editProductForm.get('availability')?.touched}">
+                        <option value="" selected disabled hidden>Select Availability Region</option>
+                        <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+                      </select>
+                      <label>Availability Region</label>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Product Description -->
+                <div class="col-12">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa fa-align-left"></i></span>
+                    <textarea class="form-control border-outline" placeholder="Product Description"
+                      formControlName="productDescription" rows="4"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Shipping Information Section -->
+              <div class="col-12 col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+                  <div class="d-flex">
+                    <span class="text-left mb-3 form-heading-text">Shipping Information</span>
+                  </div>
+                </div>
+
+                <!-- Weight -->
+                <div class="col-12">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="bi bi-x-diamond"></i></span> 
+                    <div class="form-floating">
+                      <input type="text" class="form-control border-outline" placeholder="Weight"
+                        formControlName="weight"
+                        [ngClass]="{'is-invalid': editProductForm.get('weight')?.invalid && editProductForm.get('weight')?.touched}" />
+                      <label>Weight</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Dimension  -->
+                <div class="col-12">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="bi bi-diamond"></i></span> 
+                    <div class="form-floating">
+                      <input type="text" class="form-control border-outline" placeholder="Dimension"
+                        formControlName="Dimension"
+                        [ngClass]="{'is-invalid': editProductForm.get('Dimension')?.invalid && editProductForm.get('Dimension')?.touched}" />
+                      <label>Dimension</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Shipping Class -->
+                <div class="col-12">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fas fa-shipping-fast"></i></span>
+                    <div class="form-floating">
+                      <input type="text" class="form-control border-outline" placeholder="Shipping Class"
+                        formControlName="ShippingClass"
+                        [ngClass]="{'is-invalid': editProductForm.get('ShippingClass')?.invalid && editProductForm.get('ShippingClass')?.touched}" />
+                      <label>Shipping Class</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="d-flex">
+                  <span class="text-left mb-3 form-heading-text">SEO Information</span>
+                </div>
+
+                <!-- Meta Title -->
+                <div class="col-12">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa fa-tag"></i></span>
+                    <div class="form-floating">
+                      <input type="text" class="form-control border-outline" placeholder="Meta Title"
+                        formControlName="metaTitle"
+                        [ngClass]="{'is-invalid': editProductForm.get('metaTitle')?.invalid && editProductForm.get('metaTitle')?.touched}" />
+                      <label>Meta Title</label>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Meta Description -->
+                <div class="col-12">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa fa-pencil"></i></span>
+                    <textarea class="form-control border-outline" placeholder="Meta Description"
+                      formControlName="metaDescription" rows="4"></textarea>
+                  </div>
+                </div>
+
+
+
+                <!-- Keywords -->
+                <div class="col-12">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa fa-key"></i></span>
+                    <div class="form-floating">
+                      <input type="text" class="form-control border-outline" placeholder="Keywords"
+                        formControlName="keywords"
+                        [ngClass]="{'is-invalid': editProductForm.get('keywords')?.invalid && editProductForm.get('keywords')?.touched}" />
+                      <label>Keywords</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="col-12">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <button class="btn" type="submit" [disabled]="editProductForm.invalid">Update</button>
+                  <button class="btn" type="button" routerLink="/fashionflair/dashboard">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="bar m-3">
+      </div>
+    </div>
+  </div>
+</div>

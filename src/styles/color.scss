@@ -1,0 +1,322 @@
+
+// $green-color:rgb(8, 71, 22);
+// $top-banner-bg:$green-color;
+
+
+// $white-color:aliceblue;
+// $top-banner-color:$white-color;
+
+// $yellow-color:rgb(246, 193, 71);
+// $top-banner-icon:$yellow-color;
+
+// $light-white:rgba(255, 255, 255, 0.68);
+// $footer-text:$light-white;
+
+// $red-color:#d3321d;
+// $categories-title:$red-color;
+
+// $below-carousel-title:$red-color;
+
+// $light-grey:rgb(222 228 195);
+// $nav-bg-color:$light-grey;
+
+// $content-color:rgba(16, 1, 1, 0.96);
+// $signUp-content-color:$content-color;
+
+// $strikeout-line:rgb(235, 38, 38);
+// $price-delete-line-color:$strikeout-line;
+
+// $red-color:red;
+// $global-red-color:$red-color;
+
+// $signup-bg:rgb(222 228 195); 
+// $signup-card-bg:$signup-bg;
+
+// $carousel-indicators-btn-bg:#fff;
+// //all font
+
+// $forum-ff: Verdana, Geneva, Tahoma, sans-serif;
+// // $font-size:18px;
+
+
+// // button
+// $dark-green-color:rgb(8, 71, 22);
+// $button-yellow-color:rgb(246, 193, 71);
+// $confirmButton:  #28a745;
+// $cancelButton: #dc3545;
+// $global-grid-header-bg:rgb(237, 242, 216);
+// $discount-batch-bg:#ff6347;
+// $light-green:rgb(222, 228, 195);
+// $signUp-text-color:#0c0101;
+// $buyNow-button:#4caf50;
+// $buyNow-button-hover:#3e8e41;
+// $addToCard-button:#ff9800;
+// $addToCard-button-hover:#e68900;
+// $grid-confirmDialog-bg:rgba(0, 0, 0, 0.5);
+// $grid-confirmDialog-content:rgba(0, 0, 0, 0.2);
+// $discount-price-color:#b12704;
+// $shopNow-button-hover:#0056b3;
+// $viewCart-originalPrice-color:#888;
+// $addToCard-icon-hover:#11dde1;
+// $addToCard-icon-color:#f8f9fa;
+// $border-outline-color:#a7a6a6;
+// $productSize-body-bg:#f9f9f9;
+// $productSize-table-th-bg:#dae9b0;
+// $productSize-table-tr-hover-bg:#f1f1f1;
+// $productImage-container-bg:#ffffff;
+// $productImage-container-boxShadow:rgba(0, 0, 0, 0.1);
+// $green-icon-color:#28a745;
+// $addOffer-icon-hover:#218838;
+// $checkBox-input-checked-bg:#0d6efd;
+// $is-invalid-focusColor:rgba(220, 53, 69, 0.25);
+// $is-invalid-boxShadow:rgba(255, 68, 51, 0.5);
+// $dashboardText-bg:#A9BA9D;
+// $sidebar-color:#ACE1AF;
+// $sidebarList-hover-bg:#4F7942;
+// $sidebarList-active-bg:#92aa51;
+// $sidebarSubList-bg:#8F9779;
+// $search-input-border:#e5e7eb;
+// $search-input-boxShadow:rgba(5, 150, 105, 0.25);
+// $notification-batch-bg:#ef4444;
+// $dashboard-text-hover-color:rgb(248, 248, 255);
+// $privatePage-goBack-icon-color:#6b6b6b;
+// $navbarDrodown-iten-active:#e9ecef;
+// $breadcrumb-text-color:#007bff;
+// $sales-price-bg:#e3f2fd;
+// $light-black:#555;
+// $light-black-333:#333;
+// $light-black-000:#000;
+// $ccc:#ccc;
+// $ddd:#ddd;
+
+
+// // global colors
+// $green:green;
+// $black:black;
+// $white:white;
+// $darkblue:darkblue;
+// $grey:grey;
+// $red:red;
+// $yellowgreen:yellowgreen;
+// $hotpink:hotpink;
+// $darkred:darkred;
+// $aqua:aqua;
+// $whitesmoke:whitesmoke;
+// $aliceblue:aliceblue;
+
+
+// $is-invalid-borderColor:$cancelButton;
+// $navbarDropdown-hover-bg:$addToCard-icon-color;
+// $bannerBackground-color:$dashboardText-bg;
+// $sidebarBackground-color:$dashboardText-bg;
+// $addOffer-icon-color:$green-icon-color;
+// $addImage-icon-color:$green-icon-color;
+// $toast-success-bg:$green-icon-color;
+// $toast-error-bg:$cancelButton;
+// $viewMoreProduct-container-bg:$productImage-container-bg;
+// $productOffer-card-border:$border-outline-color;
+// $productImage-card-border:$border-outline-color;
+// $input-border-outline-color:$border-outline-color;
+// $viewCart-discountPrice-color:$discount-price-color;
+// $button-bg-color:$dark-green-color;
+// $button-text-color:$button-yellow-color;
+// $grid-table-bg:$global-grid-header-bg;
+// $addToCard-discount-batch-bg:$discount-batch-bg;
+// $form-container-bg:$light-green;
+// $product-details-buyNow-button:$buyNow-button;
+// $product-details-buyNow-button-hover:$buyNow-button-hover;
+// $product-details-addToCard-button-bg:$addToCard-button;
+// $product-details-addToCard-button-bg-hover:$addToCard-button-hover;
+// $mainCategoryGrid-confirmDialog-bg:$grid-confirmDialog-bg;
+// $mainCategoryGrid-confirmDialog-content:$grid-confirmDialog-content;
+
+// /* Confirmation Dialog Styles(main category -delete) */
+// $private-page-mainCategory-delete-confirm-btn:$confirmButton;
+// $private-page-mainCategory-delete-cancel-btn:$cancelButton;
+
+
+// // caurosel page
+// $carousel-caption-bg: rgba(0, 0, 0, 0.4);
+
+// ============================
+// 🎨 GLOBAL VARIABLES
+// ============================
+
+// ---------- Colors ----------
+$green-color: rgb(8, 71, 22);
+$white-color: aliceblue;
+$yellow-color: rgb(246, 193, 71);
+$light-white: rgba(255, 255, 255, 0.68);
+$red-color: #d3321d;
+$light-grey: rgb(222 228 195);
+$content-color: rgba(16, 1, 1, 0.96);
+$strikeout-line: rgb(235, 38, 38);
+$carousel-indicators-btn-bg: #fff;
+$signup-bg: $light-grey;
+$checkBox-input-checked-bg:#0d6efd;
+$sales-price-bg:#e3f2fd;
+
+// ---------- Font ----------
+$forum-ff: Verdana, Geneva, Tahoma, sans-serif;
+// $font-size:18px;
+
+// Add to Cart
+$addToCard-icon-color: #f8f9fa;
+$addToCard-icon-hover: #11dde1;
+
+// ============================
+// 🌍 PUBLIC PAGE (Navbar, Header, Footer, Carousel, Products, Add to Cart, View Cart, Copy Rights)
+// ============================
+
+// Navbar
+$nav-bg-color: $light-grey;
+$breadcrumb-text-color: #007bff;
+$navbarDropdown-hover-bg: $addToCard-icon-color;
+$navbarDrodown-iten-active: #e9ecef;
+
+// Header / Top Banner
+$top-banner-bg: $green-color;
+$top-banner-color: $white-color;
+$top-banner-icon: $yellow-color;
+$confirmButton:  #28a745;
+$cancelButton: #dc3545;
+
+// Footer
+$footer-text: $light-white;
+
+// Carousel
+$carousel-caption-bg: rgba(0, 0, 0, 0.4);
+
+// Products & Details
+$categories-title: $red-color;
+$below-carousel-title: $red-color;
+$signUp-content-color: $content-color;
+$signUp-text-color: #0c0101;
+$signup-card-bg: $signup-bg;
+
+$price-delete-line-color: $strikeout-line;
+$global-red-color: red;
+$discount-price-color: #b12704;
+$viewCart-originalPrice-color: #888;
+$viewCart-discountPrice-color: $discount-price-color;
+$discount-batch-bg: #ff6347;
+$addToCard-discount-batch-bg: $discount-batch-bg;
+
+$productSize-body-bg: #f9f9f9;
+$productSize-table-th-bg: #dae9b0;
+$productSize-table-tr-hover-bg: #f1f1f1;
+$border-outline-color:#a7a6a6;
+
+$productImage-container-bg: #ffffff;
+$productImage-container-boxShadow: rgba(0, 0, 0, 0.1);
+$productOffer-card-border: $border-outline-color;
+$productImage-card-border: $border-outline-color;
+
+$viewMoreProduct-container-bg: $productImage-container-bg;
+
+// Buttons
+$dark-green-color: rgb(8, 71, 22);
+$button-yellow-color: rgb(246, 193, 71);
+$button-bg-color: $dark-green-color;
+$button-text-color: $button-yellow-color;
+$buyNow-button: #4caf50;
+$buyNow-button-hover: #3e8e41;
+$addToCard-button: #ff9800;
+$addToCard-button-hover: #e68900;
+$shopNow-button-hover: #0056b3;
+$dashboardText-bg:#A9BA9D;
+
+$product-details-buyNow-button: $buyNow-button;
+$product-details-buyNow-button-hover: $buyNow-button-hover;
+$product-details-addToCard-button-bg: $addToCard-button;
+$product-details-addToCard-button-bg-hover: $addToCard-button-hover;
+
+
+
+// Copy Rights
+$copyright-color: $footer-text;
+
+
+// ============================
+// 🔒 PRIVATE PAGE (Sidebar, Header, Footer, Categories, Product, Offers, Images)
+// ============================
+
+// Sidebar
+$sidebar-color: #ACE1AF;
+$sidebarList-hover-bg: #4F7942;
+$sidebarList-active-bg: #92aa51;
+$sidebarSubList-bg: #8F9779;
+$sidebarBackground-color: $dashboardText-bg;
+
+// Private Header/Footer
+$bannerBackground-color: $dashboardText-bg;
+$dashboardText-bg: #A9BA9D;
+$dashboard-text-hover-color: rgb(248, 248, 255);
+
+// Confirmation Dialog
+$grid-confirmDialog-bg: rgba(0, 0, 0, 0.5);
+$grid-confirmDialog-content: rgba(0, 0, 0, 0.2);
+$light-green:rgb(222, 228, 195);
+$global-grid-header-bg: rgb(237, 242, 216);
+
+// Categories (Main, Sub)
+$mainCategoryGrid-confirmDialog-bg: $grid-confirmDialog-bg;
+$mainCategoryGrid-confirmDialog-content: $grid-confirmDialog-content;
+$private-page-mainCategory-delete-confirm-btn: $confirmButton;
+$private-page-mainCategory-delete-cancel-btn: $cancelButton;
+
+// Product (Create, View, View More)
+$form-container-bg: $light-green;
+$grid-table-bg: $global-grid-header-bg;
+$green-icon-color: #06bc2d;
+
+
+// Product Offer
+$addOffer-icon-color: $green-icon-color;
+$addOffer-icon-hover: #218838;
+
+// Product Image
+$addImage-icon-color: $green-icon-color;
+
+// Notifications & Toast
+$notification-batch-bg: #ef4444;
+$toast-success-bg: $green-icon-color;
+$toast-error-bg: $cancelButton;
+
+// Input & Form Validations
+$search-input-border: #e5e7eb;
+$search-input-boxShadow: rgba(5, 150, 105, 0.25);
+$border-outline-color: #a7a6a6;
+$input-border-outline-color: $border-outline-color;
+$is-invalid-borderColor: $cancelButton;
+$is-invalid-focusColor: rgba(220, 53, 69, 0.25);
+$is-invalid-boxShadow: rgba(255, 68, 51, 0.5);
+
+
+
+// Misc
+$privatePage-goBack-icon-color: #6b6b6b;
+
+
+// ============================
+// ⚫ GLOBAL COLORS (Generic use)
+// ============================
+$green: green;
+$black: black;
+$white: white;
+$darkblue: darkblue;
+$grey: grey;
+$red: red;
+$yellowgreen: yellowgreen;
+$hotpink: hotpink;
+$darkred: darkred;
+$aqua: aqua;
+$whitesmoke: whitesmoke;
+$aliceblue: aliceblue;
+
+$light-black: #555;
+$light-black-333: #333;
+$light-black-000: #000;
+$ccc: #ccc;
+$ddd: #ddd;
+

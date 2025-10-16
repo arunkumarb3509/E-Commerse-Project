@@ -1,0 +1,258 @@
+
+@import "src/styles.scss";
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+body {
+  overflow: scroll;
+}
+
+
+a,
+a:hover,
+a:focus {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+a {
+  cursor: pointer;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px dashed $ddd;
+  margin: 40px 0;
+}
+.nav-item {
+  color: $yellowgreen;
+}
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+.wrapper {
+  align-items: stretch;
+  overflow-y: auto;
+  width: auto;
+}
+.dashboard-text {
+  color: $top-banner-icon;
+  background-color: $dashboardText-bg;
+}
+.dashboard-text:hover {
+  background-color: $top-banner-bg;
+  color: $dashboard-text-hover-color;
+}
+
+#sidebar {
+  // height: 870px;
+  height: 835px;
+  // height: 530px lab screen;
+  width: 250px;
+  background:$sidebarBackground-color;
+  color: $sidebar-color;
+  transition: all 0.3s;
+ 
+}
+
+#sidebar.active {
+  margin-left: -250px;
+}
+
+#sidebar .sidebar-header {
+  padding: 14px;
+  background-color: $grey;
+}
+
+#sidebar ul.components {
+  padding: 0px 0px 0px 10px;
+  border-bottom: $hotpink;
+}
+
+#sidebar ul p {
+  color: $black;
+  padding: 10px;
+}
+
+#sidebar ul li a {
+  padding: 10px;
+  color: $black;
+  display: block;
+}
+
+#sidebar ul li .dropdown-toggle {
+  color: $top-banner-color;
+  font-weight: 600;
+  background-color:$top-banner-bg;
+}
+#sidebar ul li a:hover {
+  background-color: $sidebarList-hover-bg ;
+  color:$whitesmoke ;
+}
+
+#sidebar ul li.active > a,
+a[aria-expanded="true"] {
+  color: $aqua;
+  background-color: $darkred;
+}
+
+ul > li .active {
+  background-color:$sidebarList-active-bg;
+}
+
+a[data-toggle="collapse"] {
+  position: relative;
+}
+
+.dropdown-toggle::after {
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+ul ul a {
+  padding-left: 30px !important;
+  background: $sidebarSubList-bg;
+}
+
+ul.CTAs {
+  padding: 20px;
+}
+
+ul.CTAs a {
+  text-align: center;
+  display: block;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+#content {
+  width: 100%;
+  min-height: 100vh;
+  transition: all 0.3s;
+}
+
+
+
+.toggle-button {
+  cursor: pointer;
+  position: absolute;
+  top: 1px;
+  left: 15px;
+  z-index: 2;
+  font-size: 20px;
+  background-color:transparent;
+  color: $top-banner-icon;
+  padding: 5px 10px;
+  border-radius: 5px;
+  user-select: none;
+}
+
+.toggle-button span {
+  display: block;
+}
+
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+
+// @media (max-width: 768px) {
+//   #sidebar {
+//     margin-left: -250px;
+//     position: absolute;
+//   }
+//   #sidebar.active {
+//     margin-left: 0;
+//   }
+//   #sidebar {
+//     z-index: 1;
+//   }
+//   #sidebarCollapse span {
+//     display: none;
+//   }
+// }
+
+// @media (max-width: 425px) {
+//   #sidebar {
+//     margin-left: -250px;
+//     // z-index: 3;
+//   }
+//   #sidebarCollapse span {
+//     display: none;
+//   }
+// }
+
+@media (max-width: 768px) {
+  #sidebar {
+    margin-left: -250px;
+    position: absolute;
+  }
+  #sidebar.active {
+    margin-left: 0;
+  }
+  #sidebar {
+    z-index: 1;
+  }
+  #sidebarCollapse span {
+    display: none;
+  }
+}
+
+@media (max-width: 425px) {
+  #sidebar {
+    margin-left: -250px;
+  }
+  #sidebar.active {
+    margin-left: 0;
+  }
+  #sidebarCollapse span {
+    display: none;
+  }
+}
+
+
+// .sidebar {
+//   width: 250px;
+//   height: 100vh;
+//   position: fixed;
+//   background-color: #198754;
+//   display: flex;
+//   flex-direction: column;
+//   overflow: hidden;
+
+//   .nav-link {
+//     font-size: 16px;
+//     padding: 10px 15px;
+//     display: flex;
+//     align-items: center;
+//     gap: 8px;
+
+//     &:hover {
+//       background-color: rgba(255, 255, 255, 0.1);
+//       cursor: pointer;
+//     }
+//   }
+
+//   .ms-4 .nav-link {
+//     font-size: 15px;
+//     padding-left: 30px;
+//   }
+
+//   .mt-auto {
+//     margin-top: auto;
+//     padding-top: 10px;
+//   }
+
+//   @media (max-width: 768px) {
+//     position: relative;
+//     width: 100%;
+//     height: auto;
+//   }
+// }
+
+

@@ -1,0 +1,211 @@
+@import "src/styles.scss";
+// Variables
+$primary-green: #059669;
+$dark-green: #047857;
+$light-gray: #f8f9fa;
+$text-dark: #1f2937;
+$text-light: #6b7280;
+$gold: #fbbf24;
+
+header {
+    background-color: $top-banner-bg;
+    color: $top-banner-color;
+    padding: 1px;
+}
+
+.fa-sign-out {
+    font-size: 25px;
+    color: $top-banner-icon;
+}
+
+.togglebutton{
+  display: inline-flex;
+  color: $top-banner-icon;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  left: 90px;
+  background-color: transparent;
+  cursor: pointer;
+  position: absolute;
+  transition: all 0.3s ease-in-out;
+}
+
+.logout-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 90px;
+    transition: all 0.3s ease-in-out;
+}
+
+.logout-button i {
+    margin-left: 5px;
+    margin-top: -6px;
+}
+
+.min-vh-100 {
+    min-height: 58vh !important;
+}
+
+.cart-count {
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    color: $red-color;
+    font-weight: bold;
+  }
+  
+
+@media screen and (min-width: 320px) and (max-width: 375px) {
+    .logout-button {
+        top: 2px;
+        right: 3px;
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .togglebutton{
+      left: 3px;
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+}
+
+@media screen and (min-width: 375px) and (max-width: 575px) {
+    .logout-button {
+        top: 4px;
+        right: 15px;
+        font-size: 15px;
+        padding: 9px 18px;
+    }
+
+    .togglebutton{
+      left: 15px;
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+}
+
+@media screen and (min-width: 575px) {
+    .logout-button {
+        top: 2px;
+        right: 90px;
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+
+    .togglebutton {
+      top: 2px;
+      left: 5px;
+      font-size: 16px;
+      padding: 10px 20px;
+  }
+}
+
+.logout-button.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+
+// Header Styles
+.header-section {
+  background: $top-banner-bg;
+  color: $white;
+//   padding: 1rem 0;
+  box-shadow: 0 2px 4px $productImage-container-boxShadow;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  .welcome-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $white;
+    text-align: center;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .search-box {
+      position: relative;
+      display: inline-block;
+
+      i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $text-light;
+        z-index: 2;
+      }
+
+      input {
+        padding-left: 40px;
+        border: 1px solid $search-input-border;
+        border-radius: 8px;
+        width: 250px;
+
+        &:focus {
+          border-color: $primary-green;
+          box-shadow: 0 0 0 0.2rem $search-input-boxShadow;
+        }
+      }
+    }
+
+    .notification-btn {
+      position: relative;
+      color: $white;
+      font-size: 1.2rem;
+
+      &:hover {
+        color: $gold;
+      }
+
+      .notification-badge {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        width: 12px;
+        height: 12px;
+        background: $notification-batch-bg;
+        border-radius: 50%;
+      }
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .user-avatar {
+        // width: 32px;
+        // height: 32px;
+        background:$top-banner-bg;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $white;
+        cursor: pointer;
+      }
+
+      .user-name {
+        font-weight: 500;
+        color: $white;
+      }
+    }
+  }
+}
