@@ -53,4 +53,4 @@ Thumbs.db
 
 node_modules
 .angular
-dist
+dist.angular/
