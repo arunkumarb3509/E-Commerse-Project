@@ -65,8 +65,8 @@
 //   deleteMainCategoryById,
 // };
 
-const { MainCategory } = require('../../../Models/Collections');
-const { SubCategory } = require('../../../Models/Collections');
+const { MainCategory } = require("../../../Models/Collections");
+const { SubCategory } = require("../../../Models/Collections");
 
 const findAllMainCategories = async () => {
   return await MainCategory.find();
@@ -74,16 +74,20 @@ const findAllMainCategories = async () => {
 
 const findMainCategoryByIdWithDetails = async (id) => {
   let category = MainCategory.findById(id).populate({
-    path: 'subCategories',
+    path: "subCategories",
     populate: {
-      path: 'categoryType',
-      model: 'CategoryType'
+      path: "categoryType",
+      model: "CategoryType",
     },
   });
-    // If `subCategories` array is empty, manually fetch related subcategories by categoryId
-  if (category && (!category.subCategories || category.subCategories.length === 0)) {
-    const subs = await SubCategory.find({ categoryId: id })
-      .populate('categoryType');
+  // If `subCategories` array is empty, manually fetch related subcategories by categoryId
+  if (
+    category &&
+    (!category.subCategories || category.subCategories.length === 0)
+  ) {
+    const subs = await SubCategory.find({ categoryId: id }).populate(
+      "categoryType"
+    );
     category.subCategories = subs;
   }
 
@@ -94,10 +98,11 @@ const findMainCategoryByName = async (name) => {
   return await MainCategory.findOne({ categoryName: name });
 };
 
-const createMainCategory = async (name, description) => {
+const createMainCategory = async (userId, name, description) => {
   return await MainCategory.create({
     categoryName: name,
     description: description,
+    userId: userId,
   });
 };
 

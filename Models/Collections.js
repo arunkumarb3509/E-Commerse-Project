@@ -371,7 +371,8 @@ const MainCategorySchema = new Schema({
 ------------------------------------------------ */
 const SubCategorySchema = new Schema({
   categoryId: { type: Schema.Types.ObjectId, ref: 'MainCategory' },
-  categoryType: { type: Number, ref: 'CategoryType' },
+  // categoryType: { type: Number, ref: 'CategoryType' },
+  categoryType: Number,
   subCategoryName: String,
   description: String,
   images: Buffer,
@@ -380,6 +381,16 @@ const SubCategorySchema = new Schema({
   userId: { type: Number, ref: 'UserRegistration' }
 }, { collection: 'subcategories' });
 
+// ✅ Virtual populate to join numeric field
+SubCategorySchema.virtual('categoryTypeInfo', {
+  ref: 'CategoryType',
+  localField: 'categoryType',     // field in SubCategory
+  foreignField: 'categoryTypeId', // field in CategoryType
+  justOne: true
+});
+// Ensure virtuals are included when converting to JSON
+SubCategorySchema.set('toObject', { virtuals: true });
+SubCategorySchema.set('toJSON', { virtuals: true });
 /* ------------------------------------------------
    Category Type
 ------------------------------------------------ */

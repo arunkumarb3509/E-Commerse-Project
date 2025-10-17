@@ -108,9 +108,13 @@ const validateMainCategory = async (_id) => {
 };
 
 // ✅ Validate Category Type
-const validateCategoryType = async (_id) => {
-  return await CategoryType.findById(_id);
+// const validateCategoryType = async (categoryTypeId) => {
+//   return await CategoryType.findById(categoryTypeId);
+// };
+const validateCategoryType = async (categoryTypeId) => {
+  return await CategoryType.findOne({ categoryTypeId: parseInt(categoryTypeId, 10) });
 };
+
 
 // ✅ Save Image to File System
 const saveImageToFileSystem = (image) => {
@@ -138,9 +142,13 @@ const createSubCategory = async (data) => {
 };
 
 // ✅ Update Sub Category
+// const updateSubCategory = async (_id, data) => {
+//   return await SubCategory.findByIdAndUpdate(_id, data, { new: true });
+// };
 const updateSubCategory = async (_id, data) => {
   return await SubCategory.findByIdAndUpdate(_id, data, { new: true });
 };
+
 
 // ✅ Find All Sub Categories with Main Category Name
 // const findAllSubCategories = async () => {
@@ -156,10 +164,50 @@ const findAllSubCategories = async () => {
 
 
 // ✅ Find Sub Category by ID with Main Category
+// const findSubCategoryById = async (categoryId) => {
+//   console.log("Finding SubCategory by ID:", categoryId); // Debug log
+//   return await SubCategory.findById(categoryId).populate('mainCategory');
+// };
+// const findSubCategoryById = async (categoryId) => {
+//   return await SubCategory.findById(categoryId)
+//     .populate({ path: 'categoryId', model: 'MainCategory', select: 'categoryName description', options: { lean: true } });
+// };
+// const findSubCategoryById = async (categoryId) => {
+//   return await SubCategory.findById(categoryId)
+//     .populate({
+//       path: 'categoryId',
+//       model: 'MainCategory',
+//       select: 'categoryName description',
+//       options: { lean: true },
+//     })
+//     .populate({
+//       path: 'categoryType',
+//       model: 'CategoryType',
+//       select: 'categoryTypeId typeName',
+//       localField: 'categoryType',
+//       foreignField: 'categoryTypeId',
+//       justOne: true,
+//       options: { lean: true },
+//     });
+// };
 const findSubCategoryById = async (categoryId) => {
-  console.log("Finding SubCategory by ID:", categoryId); // Debug log
-  return await SubCategory.findById(categoryId).populate('mainCategory');
+  return await SubCategory.findById(categoryId)
+    .populate({
+      path: 'categoryId',
+      model: 'MainCategory',
+      select: 'categoryName description'
+    })
+    .populate({
+      path: 'categoryTypeInfo', // ✅ use virtual field
+      model: 'CategoryType',
+      select: 'categoryTypeId typeName'
+    });
 };
+
+
+
+
+
 
 // ✅ Find All Category Types
 const findAllCategoryTypes = async () => {

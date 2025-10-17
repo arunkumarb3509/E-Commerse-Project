@@ -2,8 +2,10 @@ const service = require('../../../Services/Private Services/category_Service/sub
 
 const subCategories = async (req, res) => {
   try {
-    const { MainCategoryId, SubCategoryName, CategoryTypeId, Sub_Description } = req.body;
+    const {userId, MainCategoryId, SubCategoryName, CategoryTypeId, Sub_Description } = req.body;
     const Image = req.file;
+    console.log(req.body);
+    
 
     if (!MainCategoryId || !SubCategoryName || !CategoryTypeId) {
       return res.status(400).json({ message: 'Main Category ID, Sub Category Name, and Category Type ID are required' });
@@ -26,11 +28,12 @@ const subCategories = async (req, res) => {
     }
 
     const newSubCategory = await service.createSubCategory({
+      userId:userId,
       subCategoryName: SubCategoryName,
       description: Sub_Description || null,
       images: imageBuffer,
       categoryId: mainCategory._id,
-      categoryTypeId: parseInt(CategoryTypeId, 10),
+      categoryType: parseInt(CategoryTypeId, 10),
     });
     
     res.status(201).json({
@@ -43,33 +46,33 @@ const subCategories = async (req, res) => {
   }
 };
 
-const updateSubCategoryById = async (req, res) => {
-  const { id } = req.params;
-  const { name, description, mainCategoryId } = req.body;
+// const updateSubCategoryById = async (req, res) => {
+//   const { id } = req.params;
+//   const { name, description, mainCategoryId } = req.body;
 
-  try {
-    const parsedId = parseInt(id, 10);
-    const parsedMainCategoryId = parseInt(mainCategoryId, 10);
+//   try {
+//     const parsedId = parseInt(id, 10);
+//     const parsedMainCategoryId = parseInt(mainCategoryId, 10);
 
-    if (isNaN(parsedId) || isNaN(parsedMainCategoryId)) {
-      return res.status(400).json({ error: 'ID and Main Category ID must be valid numbers' });
-    }
+//     if (isNaN(parsedId) || isNaN(parsedMainCategoryId)) {
+//       return res.status(400).json({ error: 'ID and Main Category ID must be valid numbers' });
+//     }
 
-    const updatedSubCategory = await service.updateSubCategory(parsedId, {
-      subCategoryName: name || undefined,
-      description: description || undefined,
-      categoryId: parsedMainCategoryId,
-    });
+//     const updatedSubCategory = await service.updateSubCategory(parsedId, {
+//       subCategoryName: name || undefined,
+//       description: description || undefined,
+//       categoryId: parsedMainCategoryId,
+//     });
 
-    res.status(200).json({
-      message: 'Subcategory updated successfully',
-      updatedSubCategory,
-    });
-  } catch (err) {
-    console.error('Error updating subcategory:', err);
-    res.status(500).json({ error: 'Error updating subcategory' });
-  }
-};
+//     res.status(200).json({
+//       message: 'Subcategory updated successfully',
+//       updatedSubCategory,
+//     });
+//   } catch (err) {
+//     console.error('Error updating subcategory:', err);
+//     res.status(500).json({ error: 'Error updating subcategory' });
+//   }
+// };
 
 // const getSubcategories = async (req, res) => {
 //   try {
@@ -90,6 +93,32 @@ const updateSubCategoryById = async (req, res) => {
 //     res.status(500).json({ error: 'Internal server error' });
 //   }
 // };
+
+const updateSubCategoryById = async (req, res) => {
+  const { id } = req.params; // keep as string (ObjectId)
+  const { SubCategoryName, Sub_Description, MainCategoryId } = req.body;
+
+  try {
+    // Only parse numeric fields (if any)
+    const updatedSubCategory = await service.updateSubCategory(id, {
+      subCategoryName: SubCategoryName || undefined,
+      description: Sub_Description || undefined,
+      categoryId: MainCategoryId || undefined, // This should be ObjectId string too
+    });
+
+    if (!updatedSubCategory) {
+      return res.status(404).json({ message: 'Subcategory not found' });
+    }
+
+    res.status(200).json({
+      message: 'Subcategory updated successfully',
+      updatedSubCategory,
+    });
+  } catch (err) {
+    console.error('Error updating subcategory:', err);
+    res.status(500).json({ error: 'Error updating subcategory' });
+  }
+};
 
 const getSubcategories = async (req, res) => {
   try {
@@ -118,13 +147,14 @@ const getSubcategories = async (req, res) => {
 
 const getSubcategoriesById = async (req, res) => {
   const { id } = req.params;
+   // Debug log
   try {
-    const parsedId = parseInt(id, 10);
-    if (isNaN(parsedId)) {
+    // const parsedId = parseInt(id, 10);
+    if (!id) {
       return res.status(400).json({ message: 'Invalid subcategory ID' });
     }
 
-    const subCategory = await service.findSubCategoryById(parsedId);
+    const subCategory = await service.findSubCategoryById(id);
     if (!subCategory) {
       return res.status(404).json({ message: 'Subcategory not found' });
     }
