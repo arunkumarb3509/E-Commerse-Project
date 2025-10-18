@@ -84,7 +84,7 @@ export class ViewSubcategoryComponent implements OnInit {
             categoryId: category._id,
             subcategoryName: category.subCategoryName,
             description: category.description,
-            categoryType: category.categoryTypeId
+            categoryType: category.categoryTypeInfo.typeName,
             // categoryId: category.categoryId,
             // subcategoryName: category.subCategoryName,
             // description: category.description,

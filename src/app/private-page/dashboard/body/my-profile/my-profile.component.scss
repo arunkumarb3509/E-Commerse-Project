@@ -1,0 +1,88 @@
+@import "src/styles.scss";
+.profile-wrapper {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.profile-banner {
+  position: relative;
+
+  .banner-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+  }
+
+  .profile-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    color: #fff;
+    backdrop-filter: blur(6px);
+  }
+
+  .profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    object-fit: cover;
+  }
+
+  .bg-gradient-primary {
+    background: linear-gradient(90deg, #4caf50, #1e88e5);
+    color: #fff;
+  }
+}
+
+.profile-content {
+  background: #f9fafc;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 16px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-3px);
+  }
+}
+
+
+@media (max-width: 768px) {
+  .profile-banner .profile-avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .profile-banner h3 {
+    font-size: 1.2rem;
+  }
+
+  .glass-card ul li {
+    font-size: 14px;
+  }
+}
+
+

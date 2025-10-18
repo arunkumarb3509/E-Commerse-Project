@@ -13,6 +13,7 @@ export class ViewMaincategoryComponent implements OnInit {
   editMainCategoryForm!: FormGroup;
   selectedCategory: any;
   id:number=0;
+  userId:any;
 
   constructor(
     private router: Router,
@@ -32,6 +33,8 @@ export class ViewMaincategoryComponent implements OnInit {
       MainCategoryName: ['', Validators.required],
       mainDescription: ['', Validators.required],
     });
+    const getuserId = localStorage.getItem('userId');
+    this.userId = getuserId;
   }
 
   loadSelectedCategory(): void {
@@ -66,6 +69,7 @@ export class ViewMaincategoryComponent implements OnInit {
   
       if (this.id) {
         const updatedData = {
+          userId: this.userId,
           categoryName: this.editMainCategoryForm.value.MainCategoryName,
           description: this.editMainCategoryForm.value.mainDescription,
         };

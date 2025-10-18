@@ -54,7 +54,7 @@ export class CategoryService {
     return this.http.post<any>(this.mainCategoriesUrl, {
       MainCategoryName: mainCategory.MainCategoryName,
       Main_Description: mainCategory.Main_Description,
-      userId  // Send userId as part of the request body
+      userId:mainCategory.userId || userId  // Send userId as part of the request body
     }, { headers });
   }
 

@@ -42,7 +42,7 @@
                         [ngClass]="{'is-invalid': subCategoryForm.get('categoryType')?.invalid && subCategoryForm.get('categoryType')?.touched}">
                         <option value="" selected disabled hidden>Select Category Type</option>
                         <!-- <option *ngFor="let category of categoryTypes" [value]="category.categoryTypeId">{{ -->
-                          <option *ngFor="let category of categoryTypes" [value]="category._id">{{
+                          <option *ngFor="let category of categoryTypes" [value]="category.categoryTypeId">{{
                           category.typeName }}</option>
                       </select>
                       <label>Select Category Type</label>

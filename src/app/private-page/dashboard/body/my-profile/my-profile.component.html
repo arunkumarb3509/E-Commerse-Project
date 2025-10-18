@@ -1,74 +1,88 @@
-<!-- <p>my-profile works!</p>
-<h1>arun</h1>
-<div class="container-fluid">
-  <h2 class="fw-bold my-4">Fashion Flair Dashboard</h2>
-  <div class="row g-3">
-    <div class="col-md-3" *ngFor="let stat of stats">
-      <div class="card shadow-sm p-3">
-        <div class="d-flex align-items-center">
-          <div [ngClass]="stat.bg" class="rounded-circle p-2 me-3 text-white">
-            <i [ngClass]="stat.icon"></i>
-          </div>
-          <div>
-            <h5 class="mb-0">{{ stat.value }}</h5>
-            <small>{{ stat.label }}</small>
+<!-- my profile -->
+<div class="banner" *ngFor="let userData of loggedInUserDetails"><b>{{ userData.firstName }} Profile</b></div>
+<div class="container-fluid mt-4">
+  <div
+    class="row justify-content-center"
+    *ngFor="let userData of loggedInUserDetails"
+  >
+    <div class="col-xl-8 col-lg-9 col-md-10 col-sm-12">
+      <div class="profile-wrapper shadow-lg rounded-4 overflow-hidden">
+
+        <!-- Profile Header -->
+        <div class="profile-banner position-relative text-white">
+          <img
+            src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1350&q=80"
+            alt="Banner"
+            class="banner-img"
+          />
+          <div class="overlay"></div>
+
+          <div class="profile-info d-flex align-items-center px-4 py-4">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+              alt="User"
+              class="profile-avatar me-3"
+            />
+            <div>
+              <h3 class="mb-1 fw-bold">{{ userData.firstName }} {{ userData.lastName }}</h3>
+              <span class="badge bg-gradient-primary text-uppercase">
+                {{ userData.customerType }}
+              </span>
+            </div>
+            <div class="ms-auto">
+              <button class="btn btn-outline-light rounded-pill px-3" (click)="onEditProfile()">
+                <i class="fa fa-pencil me-2"></i>Edit
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="row my-4">
-    <div class="col-md-8">
-      <div class="card p-3 shadow-sm">
-        <h6>Sales Overview</h6>
-     
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card p-3 shadow-sm">
-        <h6>Product Categories</h6>
-    
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-6">
-      <div class="card p-3 shadow-sm">
-        <h6>Recent Orders</h6>
-        <ul class="list-group">
-          <li class="list-group-item d-flex justify-content-between" *ngFor="let order of orders">
-            <div>
-              <strong>#{{ order.id }}</strong><br />
-              <small>{{ order.name }} - {{ order.item }}</small>
+        <!-- Profile Content -->
+        <div class="profile-content p-4">
+          <div class="row g-4">
+            
+            <!-- Personal Info -->
+            <div class="col-md-6">
+              <div class="glass-card p-3 h-100">
+                <h6 class="text-uppercase text-muted fw-semibold mb-3">
+                  <i class="fa fa-user-circle me-2 text-primary"></i>Personal Details
+                </h6>
+                <ul class="list-unstyled small mb-0">
+                  <li><i class="fa fa-envelope me-2 text-primary"></i><strong>Email:</strong> {{ userData.email }}</li>
+                  <li><i class="fa fa-phone me-2 text-primary"></i><strong>Phone:</strong> {{ userData.phone }}</li>
+                  <li><i class="fa fa-id-badge me-2 text-primary"></i><strong>User ID:</strong> {{ userData.userId }}</li>
+                </ul>
+              </div>
             </div>
-            <span class="badge bg-success">{{ order.status }}</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="card p-3 shadow-sm">
-        <h6>Top Products</h6>
-        <ul class="list-group">
-          <li class="list-group-item d-flex justify-content-between" *ngFor="let product of products">
-            {{ product.name }}
-            <span class="text-end">${{ product.amount }} <small>({{ product.sales }} sold)</small></span>
-          </li>
-        </ul>
+
+            <!-- Address Info -->
+            <div class="col-md-6">
+              <div class="glass-card p-3 h-100">
+                <h6 class="text-uppercase text-muted fw-semibold mb-3">
+                  <i class="fa fa-map-marker me-2 text-danger"></i>Address Details
+                </h6>
+
+                <ng-container *ngIf="userData.UserAddress && userData.UserAddress.length > 0; else noAddress">
+                  <ul class="list-unstyled small mb-0">
+                    <li><strong>Address:</strong> {{ userData.UserAddress[0].address }}</li>
+                    <li><strong>City:</strong> {{ userData.UserAddress[0].city }}</li>
+                    <li><strong>State:</strong> {{ userData.UserAddress[0].state }}</li>
+                    <li><strong>Zip Code:</strong> {{ userData.UserAddress[0].zipCode }}</li>
+                  </ul>
+                </ng-container>
+
+                <ng-template #noAddress>
+                  <p class="text-muted mb-0">No address information found</p>
+                </ng-template>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
-</div> -->
-
-<!-- Full Angular 14 Compatible HTML (Bootstrap 5 UI) for DashboardComponent -->
-<!-- Place this inside your `dashboard.component.html` -->
-
-<!-- Full Angular 14 Compatible HTML (Bootstrap 5 UI) for DashboardComponent -->
-<!-- Place this inside your `dashboard.component.html` -->
-
-
-
+</div>
 
 

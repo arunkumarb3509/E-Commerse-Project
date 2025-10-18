@@ -15,6 +15,7 @@ export class MainCategoriesComponent implements OnInit {
   mainCategoryForm: FormGroup;
   main_category: Main_Category = new Main_Category();
   selectedCategory: any;
+  userId:any;
 
     //pagination
   // pageLimit = 50;
@@ -29,6 +30,8 @@ export class MainCategoriesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const getuserId = localStorage.getItem('userId');
+    this.userId = getuserId;
   }
 // refer pagination ts
 //   getTransactionNewList(data: any) {
@@ -175,6 +178,7 @@ export class MainCategoriesComponent implements OnInit {
       return;
     }
 
+    this.main_category.userId = this.userId;
     this.main_category.MainCategoryName = this.mainCategoryForm.value.MainCategoryName;
     this.main_category.Main_Description = this.mainCategoryForm.value.mainDescription;
 

@@ -6,6 +6,7 @@
 
 export class Main_Category {
   id: number = 0;
+  userId: number = 0;
   MainCategoryName: string = '';
   Main_Description: string = '';
   subCategories?: Sub_Category[];  // ✅ Add this optional property
