@@ -20,11 +20,11 @@
                   <div class="input-group mb-3">
                     <span class="input-group-text"><i class="fa fa-folder-open"></i></span>
                     <div class="form-floating">
-                      <select class="form-select border-outline" formControlName="categoryName"
-                        [ngClass]="{'is-invalid': subCategoryForm.get('categoryName')?.invalid && subCategoryForm.get('categoryName')?.touched}">
+                      <select class="form-select border-outline" formControlName="mainCategoryId"
+                        [ngClass]="{'is-invalid': subCategoryForm.get('mainCategoryId')?.invalid && subCategoryForm.get('mainCategoryId')?.touched}">
                         <option value="" selected disabled hidden>Select Main Category</option>
                         <!-- <option *ngFor="let category of mainCategories" [value]="category.categoryId">{{ -->
-                        <option *ngFor="let category of mainCategories" [value]="category._id">{{
+                        <option *ngFor="let category of mainCategories" [value]="category.categoryId">{{
                           category.categoryName }}</option>
                       </select>
                       <label>Select Main Category</label>
