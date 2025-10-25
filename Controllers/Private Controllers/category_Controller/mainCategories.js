@@ -1,5 +1,5 @@
 const service = require("../../../Services/Private Services/category_Service/mainCategories.service");
-
+const subService = require("../../../Services/Private Services/category_Service/subCategories.service");
 const getMainCategories = async (req, res) => {
   try {
     const categories = await service.findAllMainCategories();
@@ -8,7 +8,15 @@ const getMainCategories = async (req, res) => {
         .status(404)
         .json({ message: "No main categories found", noMainCategory: true });
     }
-    res.status(200).json(categories);
+
+    // extra
+     const mapped = categories.map(c => ({
+      categoryId: c._id,
+      categoryName: c.categoryName
+    }));
+
+     res.status(200).json(mapped);
+    // res.status(200).json(categories);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
@@ -16,14 +24,34 @@ const getMainCategories = async (req, res) => {
 };
 
 const getMainCategoryWithDetails = async (req, res) => {
-  const { id } = req.params;
+  const  id  = req.params.id;
 
   try {
     const mainCategory = await service.findMainCategoryByIdWithDetails(id);
     if (!mainCategory) {
       return res.status(404).json({ message: "Main category not found" });
     }
-    res.status(200).json(mainCategory);
+
+    const subCategory = await subService.findSubCategoryById(id);
+        if (!subCategory) {
+          return res.status(404).json({ message: 'Subcategory not found' });
+        }
+    
+    // extra
+     // convert subCategories to the frontend-friendly shape
+    // const subCategories = (mainCategory.subCategories || []).map(sub => ({
+    //   subCategoryId: sub._id,
+    //   subCategoryName: sub.subCategoryName,
+    //   categoryType: sub.categoryType, // numeric id
+    //   categoryTypeInfo: sub.categoryTypeInfo || null
+    // }));
+
+     return res.json({
+      categoryId: mainCategory._id,
+      categoryName: mainCategory.categoryName,
+      subCategory
+    });
+    // res.status(200).json(mainCategory);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });

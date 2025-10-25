@@ -69,29 +69,46 @@ const { MainCategory } = require("../../../Models/Collections");
 const { SubCategory } = require("../../../Models/Collections");
 
 const findAllMainCategories = async () => {
-  return await MainCategory.find();
-};
+  // return await MainCategory.find()
+  //  .populate({
+  //     path: 'subCategories',           // populate subCategories field
+  //     select: 'subCategoryName description images createdAt updatedAt', // fields to return
+  //   })
+  //   .lean(); // returns plain JS objects instead of Mongoose docs
+  return await MainCategory.find({}, 'categoryName _id').lean();
+}
 
 const findMainCategoryByIdWithDetails = async (id) => {
-  let category = MainCategory.findById(id).populate({
-    path: "subCategories",
-    populate: {
-      path: "categoryType",
-      model: "CategoryType",
-    },
-  });
-  // If `subCategories` array is empty, manually fetch related subcategories by categoryId
-  if (
-    category &&
-    (!category.subCategories || category.subCategories.length === 0)
-  ) {
-    const subs = await SubCategory.find({ categoryId: id }).populate(
-      "categoryType"
-    );
-    category.subCategories = subs;
-  }
+  // let category = MainCategory.findById(id).populate({
+  //   path: "subCategories",
+  //   populate: {
+  //     path: "categoryType",
+  //     model: "CategoryType",
+  //   },
+  // });
+  // // If `subCategories` array is empty, manually fetch related subcategories by categoryId
+  // if (
+  //   category &&
+  //   (!category.subCategories || category.subCategories.length === 0)
+  // ) {
+  //   const subs = await SubCategory.find({ categoryId: id }).populate(
+  //     "categoryType"
+  //   );
+  //   category.subCategories = subs;
+  // }
 
-  return category;
+  // return category;
+
+   return await MainCategory.findById(id)
+      .populate({
+        path: 'subCategories',
+        // model: 'SubCategory',
+        populate: {
+          path: 'categoryTypeInfo', // virtual
+          model: 'CategoryType'
+        }
+      })
+      // .lean();
 };
 
 const findMainCategoryByName = async (name) => {

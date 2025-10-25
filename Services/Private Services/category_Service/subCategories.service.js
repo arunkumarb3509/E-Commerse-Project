@@ -145,9 +145,28 @@ const createSubCategory = async (data) => {
 // const updateSubCategory = async (_id, data) => {
 //   return await SubCategory.findByIdAndUpdate(_id, data, { new: true });
 // };
-const updateSubCategory = async (_id, data) => {
-  return await SubCategory.findByIdAndUpdate(_id, data, { new: true });
+const updateSubCategory = async (id, data) => {
+  try {
+    const updated = await SubCategory.findByIdAndUpdate(id, data, {
+      new: true,
+      runValidators: true,
+    }).populate({
+      path: "categoryId",
+      select: "categoryName description",
+    }).populate({
+      path: "categoryType",
+      select: "typeName categoryTypeId",
+    });
+
+    return updated;
+  } catch (error) {
+    console.error("❌ Error in updateSubCategory service:", error);
+    throw error;
+  }
 };
+// const updateSubCategory = async (_id, data) => {
+//   return await SubCategory.findByIdAndUpdate(_id, data, { new: true });
+// };
 
 
 // ✅ Find All Sub Categories with Main Category Name

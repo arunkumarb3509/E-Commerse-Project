@@ -1,12 +1,11 @@
 const service = require('../../../Services/Private Services/category_Service/subCategories.service');
+const mongoose = require("mongoose");
 
 const subCategories = async (req, res) => {
   try {
     const {userId, MainCategoryId, SubCategoryName, CategoryTypeId, Sub_Description } = req.body;
     const Image = req.file;
-    console.log(req.body);
     
-
     if (!MainCategoryId || !SubCategoryName || !CategoryTypeId) {
       return res.status(400).json({ message: 'Main Category ID, Sub Category Name, and Category Type ID are required' });
     }
@@ -94,31 +93,115 @@ const subCategories = async (req, res) => {
 //   }
 // };
 
+// const updateSubCategoryById = async (req, res) => {
+//   const { id } = req.params;
+//   const { SubCategoryName, Sub_Description, MainCategoryId } = req.body;
+
+//   console.log("🟡 Incoming update data:", req.body);
+
+//   try {
+//     // Validate subcategory ID
+//     if (!mongoose.Types.ObjectId.isValid(id)) {
+//       return res.status(400).json({ message: "Invalid subcategory ID" });
+//     }
+
+//     // Prepare update data safely
+//     const updateData = {};
+
+//     if (SubCategoryName) updateData.subCategoryName = SubCategoryName;
+//     if (Sub_Description) updateData.description = Sub_Description;
+
+//     if (MainCategoryId) {
+//       if (!mongoose.Types.ObjectId.isValid(MainCategoryId)) {
+//         return res.status(400).json({ message: "Invalid main category ID" });
+//       }
+//       updateData.categoryId = new mongoose.Types.ObjectId(MainCategoryId);
+//     }
+
+//     // Call service
+//     const updatedSubCategory = await service.updateSubCategory(id, updateData);
+
+//     if (!updatedSubCategory) {
+//       return res.status(404).json({ message: "Subcategory not found" });
+//     }
+
+//     res.status(200).json({
+//       message: "Subcategory updated successfully",
+//       updatedSubCategory,
+//     });
+//   } catch (err) {
+//     console.error("❌ Error updating subcategory:", err);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
 const updateSubCategoryById = async (req, res) => {
-  const { id } = req.params; // keep as string (ObjectId)
-  const { SubCategoryName, Sub_Description, MainCategoryId } = req.body;
+  const { id } = req.params;
+  const {
+    categoryName,
+    subcategoryName,
+    description,
+    mainCategoryId,
+    categoryType,
+    image,
+  } = req.body;
+
 
   try {
-    // Only parse numeric fields (if any)
-    const updatedSubCategory = await service.updateSubCategory(id, {
-      subCategoryName: SubCategoryName || undefined,
-      description: Sub_Description || undefined,
-      categoryId: MainCategoryId || undefined, // This should be ObjectId string too
-    });
+    // Build update object dynamically
+    const updateData = {};
+
+    if (subcategoryName) updateData.subCategoryName = subcategoryName;
+    if (description) updateData.description = description;
+    if (mainCategoryId) updateData.categoryId = mainCategoryId; // ObjectId reference
+    if (categoryType) updateData.categoryType = categoryType; // numeric or ObjectId depending on schema
+    if (image) updateData.images = image; // if image buffer or base64
+    if (categoryName) updateData.categoryName = categoryName;
+
+    updateData.updatedAt = new Date();
+
+    const updatedSubCategory = await service.updateSubCategory(id, updateData);
 
     if (!updatedSubCategory) {
-      return res.status(404).json({ message: 'Subcategory not found' });
+      return res.status(404).json({ message: "Subcategory not found" });
     }
 
-    res.status(200).json({
-      message: 'Subcategory updated successfully',
+    return res.status(200).json({
+      message: "Subcategory updated successfully",
       updatedSubCategory,
     });
   } catch (err) {
-    console.error('Error updating subcategory:', err);
-    res.status(500).json({ error: 'Error updating subcategory' });
+    console.error("❌ Error updating subcategory:", err);
+    return res.status(500).json({ error: "Error updating subcategory" });
   }
 };
+
+// const updateSubCategoryById = async (req, res) => {
+//   const { id } = req.params; // keep as string (ObjectId)
+//   const { SubCategoryName, Sub_Description, MainCategoryId } = req.body;
+//   console.log(req.body);
+  
+
+//   try {
+//     // Only parse numeric fields (if any)
+//     const updatedSubCategory = await service.updateSubCategory(id, {
+//       subCategoryName: SubCategoryName || undefined,
+//       description: Sub_Description || undefined,
+//       categoryId: MainCategoryId || undefined, // This should be ObjectId string too
+//     });
+
+//     if (!updatedSubCategory) {
+//       return res.status(404).json({ message: 'Subcategory not found' });
+//     }
+
+//     res.status(200).json({
+//       message: 'Subcategory updated successfully',
+//       updatedSubCategory,
+//     });
+//   } catch (err) {
+//     console.error('Error updating subcategory:', err);
+//     res.status(500).json({ error: 'Error updating subcategory' });
+//   }
+// };
 
 const getSubcategories = async (req, res) => {
   try {
