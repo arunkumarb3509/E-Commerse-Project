@@ -79,37 +79,30 @@ const findAllMainCategories = async () => {
 }
 
 const findMainCategoryByIdWithDetails = async (id) => {
-  // let category = MainCategory.findById(id).populate({
-  //   path: "subCategories",
-  //   populate: {
-  //     path: "categoryType",
-  //     model: "CategoryType",
-  //   },
-  // });
-  // // If `subCategories` array is empty, manually fetch related subcategories by categoryId
-  // if (
-  //   category &&
-  //   (!category.subCategories || category.subCategories.length === 0)
-  // ) {
-  //   const subs = await SubCategory.find({ categoryId: id }).populate(
-  //     "categoryType"
-  //   );
-  //   category.subCategories = subs;
-  // }
-
-  // return category;
-
-   return await MainCategory.findById(id)
-      .populate({
-        path: 'subCategories',
-        // model: 'SubCategory',
-        populate: {
-          path: 'categoryTypeInfo', // virtual
-          model: 'CategoryType'
-        }
-      })
-      // .lean();
+  return await MainCategory.findById(id)
+    .populate({
+      path: 'subCategories',
+      populate: {
+        path: 'categoryTypeInfo',
+        model: 'CategoryType',
+      },
+    });
 };
+
+const findSubCategoryByCategoryId = async (categoryId) => {
+  return await SubCategory.find({ categoryId })  // ✅ use find(), not findById()
+    .populate({
+      path: 'categoryId',
+      model: 'MainCategory',
+      select: 'categoryName description'
+    })
+    .populate({
+      path: 'categoryTypeInfo',
+      model: 'CategoryType',
+      select: 'categoryTypeId typeName'
+    });
+};
+
 
 const findMainCategoryByName = async (name) => {
   return await MainCategory.findOne({ categoryName: name });
@@ -147,4 +140,5 @@ module.exports = {
   updateMainCategoryById,
   deleteSubCategoriesByMainCategoryId,
   deleteMainCategoryById,
+  findSubCategoryByCategoryId,
 };

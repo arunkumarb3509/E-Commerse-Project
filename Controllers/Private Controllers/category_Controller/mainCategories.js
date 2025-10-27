@@ -24,39 +24,74 @@ const getMainCategories = async (req, res) => {
 };
 
 const getMainCategoryWithDetails = async (req, res) => {
-  const  id  = req.params.id;
+  const id = req.params.id;
+
+  console.log("MainCategoryId:", id);
 
   try {
+    // ✅ Step 1: Get Main Category
     const mainCategory = await service.findMainCategoryByIdWithDetails(id);
     if (!mainCategory) {
       return res.status(404).json({ message: "Main category not found" });
     }
 
-    const subCategory = await subService.findSubCategoryById(id);
-        if (!subCategory) {
-          return res.status(404).json({ message: 'Subcategory not found' });
-        }
-    
-    // extra
-     // convert subCategories to the frontend-friendly shape
-    // const subCategories = (mainCategory.subCategories || []).map(sub => ({
-    //   subCategoryId: sub._id,
-    //   subCategoryName: sub.subCategoryName,
-    //   categoryType: sub.categoryType, // numeric id
-    //   categoryTypeInfo: sub.categoryTypeInfo || null
-    // }));
+    // ✅ Step 2: Get related SubCategories by categoryId
+    const subCategories = await service.findSubCategoryByCategoryId(id);
 
-     return res.json({
+    if (!subCategories || subCategories.length === 0) {
+      return res.status(404).json({ message: "No subcategories found for this main category" });
+    }
+
+    // ✅ Step 3: Return structured data
+    return res.status(200).json({
       categoryId: mainCategory._id,
       categoryName: mainCategory.categoryName,
-      subCategory
+      description: mainCategory.description,
+      subCategories,
     });
-    // res.status(200).json(mainCategory);
+
   } catch (err) {
-    console.error(err);
+    console.error("Error fetching category details:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+// const getMainCategoryWithDetails = async (req, res) => {
+//   const  id  = req.params.id;
+
+//   console.log(id);
+  
+//   try {
+//     const mainCategory = await service.findMainCategoryByIdWithDetails(id);
+//     if (!mainCategory) {
+//       return res.status(404).json({ message: "Main category not found" });
+//     }
+// let categoryId= id;
+//     const subCategory = await subService.findSubCategoryById(categoryId);
+//         if (!subCategory) {
+//           return res.status(404).json({ message: 'Subcategory not found' });
+//         }
+    
+//     // extra
+//      // convert subCategories to the frontend-friendly shape
+//     // const subCategories = (mainCategory.subCategories || []).map(sub => ({
+//     //   subCategoryId: sub._id,
+//     //   subCategoryName: sub.subCategoryName,
+//     //   categoryType: sub.categoryType, // numeric id
+//     //   categoryTypeInfo: sub.categoryTypeInfo || null
+//     // }));
+
+//      return res.json({
+//       categoryId: mainCategory._id,
+//       categoryName: mainCategory.categoryName,
+//       subCategory
+//     });
+//     // res.status(200).json(mainCategory);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
 
 const mainCategories = async (req, res) => {
   const { userId, MainCategoryName, Main_Description } = req.body;
