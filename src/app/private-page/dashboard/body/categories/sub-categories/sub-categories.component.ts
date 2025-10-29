@@ -21,7 +21,7 @@ export class SubCategoriesComponent implements OnInit {
     private categoryService: CategoryService
   ) {
     this.subCategoryForm = this.fb.group({
-      categoryName: ['', Validators.required],
+      mainCategoryId: ['', Validators.required],
       subcategoryName: ['', Validators.required],
       categoryType: ['', Validators.required],
       description: [''],
@@ -71,7 +71,7 @@ export class SubCategoriesComponent implements OnInit {
     }
 
     // Append form data
-    this.formData.append('MainCategoryId', this.subCategoryForm.value.categoryName);
+    this.formData.append('MainCategoryId', this.subCategoryForm.value.mainCategoryId);
     this.formData.append('SubCategoryName', this.subCategoryForm.value.subcategoryName);
     this.formData.append('CategoryTypeId', this.subCategoryForm.value.categoryType);
     this.formData.append('Sub_Description', this.subCategoryForm.value.description);

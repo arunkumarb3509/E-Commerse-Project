@@ -27,6 +27,7 @@
                           (change)="onCategoryChange($event)">
                           <option value="" selected disabled hidden>Select Main Category</option>
                           <option *ngFor="let category of mainCategories" [value]="category.categoryId">
+                            <!-- [value]="category.categoryId" -->
                             {{ category.categoryName }}
                           </option>
                         </select>
@@ -40,11 +41,12 @@
                     <div class="input-group mb-3">
                       <span class="input-group-text"><i class="fa fa-folder-open"></i></span>
                       <div class="form-floating">
-                        <select class="form-select border-outline" formControlName="subCategoryName"
-                          [ngClass]="{'is-invalid': productForm.get('subCategoryName')?.invalid && productForm.get('subCategoryName')?.touched}"
+                        <select class="form-select border-outline" formControlName="SubCategoryName"
+                          [ngClass]="{'is-invalid': productForm.get('SubCategoryName')?.invalid && productForm.get('SubCategoryName')?.touched}"
                           (change)="onSubCategoryChange($event)">
                           <option value="" selected disabled hidden>Select Sub Category</option>
                           <option *ngFor="let subcategory of filteredSubCategories" [value]="subcategory.subCategoryId">
+                            <!-- [value]="subcategory.subCategoryId" -->
                             {{ subcategory.subCategoryName }}
                           </option>
                         </select>
@@ -55,11 +57,19 @@
 
                   <!-- Category Type -->
                   <div class="col-12">
-                    <div class="input-group mb-3">
+                    <!-- <div class="input-group mb-3">
                       <span class="input-group-text"><i class="fa fa-folder-open"></i></span>
                       <div class="form-floating">
                         <input type="text" formControlName="categoryType" class="form-control border-outline"
                           [value]="selectedCategoryType || 'N/A'" readonly>
+                        <label>Category Type</label>
+                      </div>
+                    </div> -->
+                    <div class="input-group mb-3">
+                      <span class="input-group-text"><i class="fa fa-folder-open"></i></span>
+                      <div class="form-floating">
+                        <input type="text" formControlName="categoryType" class="form-control border-outline"
+                         readonly>
                         <label>Category Type</label>
                       </div>
                     </div>

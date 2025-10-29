@@ -43,9 +43,11 @@ export class ViewMaincategoryComponent implements OnInit {
     this.categoryService.mainCategoryId.subscribe({
       next: (category) => {
          this.id=category;
+         console.log(category);
+         
          }
        });
-
+   console.log(categoryId);
       this.categoryService.getMainCategoryById(this.id).subscribe(
         (category) => {
           this.selectedCategory = category;

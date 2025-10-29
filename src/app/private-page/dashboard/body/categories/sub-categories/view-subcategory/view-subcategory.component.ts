@@ -31,7 +31,7 @@ export class ViewSubcategoryComponent implements OnInit {
 
   initializeForm(): void {
     this.editSubCategoryForm = this.fb.group({
-      categoryId: ['', Validators.required],
+      categoryName: ['', Validators.required],
       subcategoryName: ['', Validators.required],
       description: [''],
       categoryType: ['', Validators.required]
@@ -81,10 +81,11 @@ export class ViewSubcategoryComponent implements OnInit {
           this.selectedCategory = category;
 
           this.editSubCategoryForm.patchValue({
-            categoryId: category._id,
+            // categoryName: category.categoryId.categoryName,
+            categoryName:category.categoryId?._id || category.categoryId,
             subcategoryName: category.subCategoryName,
             description: category.description,
-            categoryType: category.categoryTypeInfo.typeName,
+            categoryType: category.categoryType,
             // categoryId: category.categoryId,
             // subcategoryName: category.subCategoryName,
             // description: category.description,
@@ -117,12 +118,15 @@ export class ViewSubcategoryComponent implements OnInit {
   
       if (this.id) {
         // Convert the categoryName to integer
-        const mainCategoryId = parseInt(this.editSubCategoryForm.value.categoryName, 10);
+        // const categoryName = parseInt(this.editSubCategoryForm.value.categoryName, 10);
   
         const updatedData = {
-          name: this.editSubCategoryForm.value.subcategoryName,
+          categoryName: this.editSubCategoryForm.value.categoryName,
+          subcategoryName: this.editSubCategoryForm.value.subcategoryName,
           description: this.editSubCategoryForm.value.description,
-          mainCategoryId: this.editSubCategoryForm.value.categoryId,
+          mainCategoryId: this.editSubCategoryForm.value._id,
+          categoryType: this.editSubCategoryForm.value.categoryType,
+          image: this.editSubCategoryForm.value.image,
          
         };
   

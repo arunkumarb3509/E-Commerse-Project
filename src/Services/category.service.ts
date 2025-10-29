@@ -74,6 +74,11 @@ export class CategoryService {
     return this.http.get<any>(this.environment.CATEGORY.GET_MAIN_CATEGORY_BY_ID + categoryId);
   }
 
+   getMainCategoryByIdForProduct(categoryId: string): Observable<any> {
+    // const headers = this.getHeaders();
+    return this.http.get<any>(this.environment.CATEGORY.GET_MAIN_CATEGORY_BY_ID + categoryId);
+  }
+
   getSubCategories(): Observable<any> {
     // const headers = this.getHeaders();
     return this.http.get<any>(this.environment.CATEGORY.GET_SUB_CATEGORIES);

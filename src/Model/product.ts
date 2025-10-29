@@ -1,7 +1,10 @@
 export class Products {
-  categoryId: number = 0;
-  subCategoryId: number = 0;
-  categoryTypeId: number | null = null; // Ensure null is valid
+  // categoryId: number = 0;
+  // subCategoryId: number = 0;
+  // categoryTypeId: number | null = null; // Ensure null is valid
+  categoryId: number | null = null;
+  subCategoryId: number | null = null;
+  categoryTypeId: number | null = null;
   materialType: string = '';
   returnPolicy: string = '';
   careInstructions: string = '';
