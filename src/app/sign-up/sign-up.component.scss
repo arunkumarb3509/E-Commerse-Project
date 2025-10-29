@@ -1,155 +1,297 @@
-@import "src/styles.scss";
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Teko:wght@300..700&display=swap');
+// @import "src/styles.scss";
+// @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Teko:wght@300..700&display=swap');
 
-.card-header{
-    background-color:$top-banner-bg;
-    color:$top-banner-color ;
-    font-style: normal;
+// .card-header{
+//     background-color:$top-banner-bg;
+//     color:$top-banner-color ;
+//     font-style: normal;
+// }
+
+// .btn {
+//     color: $top-banner-icon; 
+//     background-color: $top-banner-bg;
+//     width: 50%;
+//     font-weight: bold;
+// }
+
+// .btn:hover {
+//     color: $white-color; 
+// }
+
+// .card{
+//     background-color:$signup-bg; 
+//     margin-top: 18%;
+//     margin-left: 25px;
+//     width: 75%;
+// }
+
+// .offSide{
+//     text-align: -webkit-center;
+    
+// }
+
+// .d-flex {
+//     // background-color:rgb(222 228 195);
+//     // background-color: #d0ffd0;
+//     background-color: $global-grid-header-bg;
+// }
+
+// .col-lg-7{
+//     background-color: $global-grid-header-bg;
+// }
+
+
+// .content{
+//     color: $signUp-content-color;
+//     text-align: justify;
+//     font-weight: 400;
+//     font-style: normal;
+// }
+
+// @media screen and (min-width:320px) and (max-width: 575px) 
+// {
+//   .btn{
+//       color:$top-banner-icon;
+//        background-color:$top-banner-bg;
+//        width:100%;
+//        font-weight: bold;
+       
+//    }
+
+//    .card{
+//     background-color:$signup-bg; 
+//     // margin-top: 18%;
+//     margin-left: 2px;
+//     // width: 75%;
+// }
+// }
+
+// @media screen and (max-width:430px) {
+//     .signup{
+//         margin-right: 0%;
+//         margin-left: 0%;
+//         margin-top: 10%;
+//         margin-bottom: 10%;
+//     }
+
+//     .carousel-inner{
+//         display: none;
+//     }
+
+//     .btn{
+//        color:$top-banner-icon;
+//         background-color:$top-banner-bg;
+//         width:100%;
+//         font-weight: bold;
+//     }
+// }
+
+// @media screen and (min-width:320px) and (max-width: 991px) {
+//     #signUpCarousel {
+//         display: none;
+//       }  
+// }
+
+
+// @media screen and (min-width: 1024px) and (max-width: 1366px) {
+//     .col-lg-5 {
+//         display: none;
+//       }
+      
+//       .col-lg-7 {
+//         margin: 0 auto;
+//         float: none;
+//       }
+//   }
+
+//   @media screen and (min-width: 1024px) and (max-width: 823px) {
+//     .btn{
+//         color:$top-banner-icon;
+//          background-color:$top-banner-bg;
+//          width:100%;
+//          font-weight: bold;
+//      }
+//   }
+
+
+
+// @media screen and (min-width: 1440px) and (max-width: 2560px) {
+//     .cardRow{
+//             margin-top: 2%;
+//             margin-left: -38px;
+//           }
+//     .offSide{
+//         margin-top: 4%;
+//     }
+// }
+
+// @media screen and (min-width: 1875px) {
+//     .cardRow{
+//             margin-top: 6%;
+//             margin-left: -38px;
+//           }
+//     .offSide{
+//         margin-top: 4%;
+//     }
+// }
+
+// @media screen and (min-width:992px) and (max-width: 1024px) {
+//     .carouselImg{
+//        height: 40vh;
+//     }
+
+//     .btn {
+//           width: 100%;
+//          }
+//     .cardRow{
+//         margin-top: 3%;
+//     }
+//   }
+
+ @import "src/styles.scss";
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Teko:wght@400;600&display=swap');
+
+.card-header {
+  background-color: $top-banner-bg;
+  color: $top-banner-color;
+  font-style: normal;
+  letter-spacing: 0.5px;
+}
+
+.card {
+  background-color: $signup-bg;
+  margin-top: 18%;
+  margin-left: 25px;
+  width: 75%;
+  border-radius: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .btn {
-    color: $top-banner-icon; 
-    background-color: $top-banner-bg;
-    width: 50%;
-    font-weight: bold;
+  color: $top-banner-icon;
+  background-color: $top-banner-bg;
+  width: 60%;
+  font-weight: bold;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  margin: 0 auto;
 }
 
 .btn:hover {
-    color: $white-color; 
+  color: $white-color;
+  background-color: darken($top-banner-bg, 8%);
 }
 
-.card{
-    background-color:$signup-bg; 
-    margin-top: 18%;
-    margin-left: 25px;
-    width: 75%;
+.offSide {
+  text-align: -webkit-center;
 }
 
-.offSide{
-    text-align: -webkit-center;
-    
+.content {
+  color: $signUp-content-color;
+  text-align: justify;
+  font-weight: 400;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .d-flex {
-    // background-color:rgb(222 228 195);
-    // background-color: #d0ffd0;
-    background-color: $global-grid-header-bg;
+  background-color: $global-grid-header-bg;
 }
 
-.col-lg-7{
-    background-color: $global-grid-header-bg;
+.col-lg-7 {
+  background-color: $global-grid-header-bg;
 }
 
+/* RESPONSIVE DESIGN */
+@media screen and (min-width: 320px) and (max-width: 575px) {
+  .btn {
+    width: 100%;
+  }
 
-.content{
-    color: $signUp-content-color;
-    text-align: justify;
-    font-weight: 400;
-    font-style: normal;
-}
-
-@media screen and (min-width:320px) and (max-width: 575px) 
-{
-  .btn{
-      color:$top-banner-icon;
-       background-color:$top-banner-bg;
-       width:100%;
-       font-weight: bold;
-       
-   }
-
-   .card{
-    background-color:$signup-bg; 
-    // margin-top: 18%;
+  .card {
     margin-left: 2px;
-    // width: 75%;
-}
-}
+    width: 95%;
+    margin-top: 10%;
+  }
 
-@media screen and (max-width:430px) {
-    .signup{
-        margin-right: 0%;
-        margin-left: 0%;
-        margin-top: 10%;
-        margin-bottom: 10%;
-    }
-
-    .carousel-inner{
-        display: none;
-    }
-
-    .btn{
-       color:$top-banner-icon;
-        background-color:$top-banner-bg;
-        width:100%;
-        font-weight: bold;
-    }
+  .content {
+    text-align: center;
+  }
 }
 
-@media screen and (min-width:320px) and (max-width: 991px) {
-    #signUpCarousel {
-        display: none;
-      }  
+@media screen and (max-width: 430px) {
+  .signup {
+    margin: 5% auto;
+  }
+
+  .carousel-inner {
+    display: none;
+  }
+
+  .btn {
+    width: 100%;
+  }
 }
 
+@media screen and (min-width: 320px) and (max-width: 991px) {
+  #signUpCarousel {
+    display: none;
+  }
+}
 
 @media screen and (min-width: 1024px) and (max-width: 1366px) {
-    .col-lg-5 {
-        display: none;
-      }
-      
-      .col-lg-7 {
-        margin: 0 auto;
-        float: none;
-      }
+  .col-lg-5 {
+    display: none;
   }
 
-  @media screen and (min-width: 1024px) and (max-width: 823px) {
-    .btn{
-        color:$top-banner-icon;
-         background-color:$top-banner-bg;
-         width:100%;
-         font-weight: bold;
-     }
+  .col-lg-7 {
+    margin: 0 auto;
+    float: none;
   }
-
-
+}
 
 @media screen and (min-width: 1440px) and (max-width: 2560px) {
-    .cardRow{
-            margin-top: 2%;
-            margin-left: -38px;
-          }
-    .offSide{
-        margin-top: 4%;
-    }
+  .cardRow {
+    margin-top: -8%;
+    margin-left: -38px;
+  }
+
+  .offSide {
+    margin-top: 4%;
+  }
 }
 
 @media screen and (min-width: 1875px) {
-    .cardRow{
-            margin-top: 6%;
-            margin-left: -38px;
-          }
-    .offSide{
-        margin-top: 4%;
-    }
-}
-
-@media screen and (min-width:992px) and (max-width: 1024px) {
-    .carouselImg{
-       height: 40vh;
-    }
-
-    .btn {
-          width: 100%;
-         }
-    .cardRow{
-        margin-top: 3%;
-    }
+  .cardRow {
+    margin-top: 6%;
+    margin-left: -38px;
   }
 
- 
+  .offSide {
+    margin-top: 4%;
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1024px) {
+  .btn {
+    width: 100%;
+  }
+
+  .cardRow {
+    margin-top: 3%;
+  }
+
+  .carouselImg {
+    height: 40vh;
+  }
+}
+
 
 
   

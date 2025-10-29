@@ -60,7 +60,7 @@ export class ProductsComponent implements OnInit {
 
     this.productForm = this.fb.group({
       mainCategoryName: ['', Validators.required],
-      subCategoryName: ['', Validators.required],
+      SubCategoryName: ['', Validators.required],
       // categoryType: [{ value: '', disabled: true }], 
       categoryType: [null],
       materialType: [''],
@@ -151,9 +151,10 @@ export class ProductsComponent implements OnInit {
 
   onCategoryChange(event: Event): void {
     const selectedCategoryId = (event.target as HTMLSelectElement).value;
+     const selectedCategory = this.mainCategories.find(category => category.categoryId == selectedCategoryId);
     if (!selectedCategoryId) {
       this.filteredSubCategories = [];
-      this.productForm.patchValue({ subCategoryName: '', categoryType: '' });
+      this.productForm.patchValue({ SubCategoryName: '', categoryType: '' });
       return;
     }
 
@@ -162,7 +163,7 @@ export class ProductsComponent implements OnInit {
         // response: { categoryId, categoryName, subCategories: [...] }
         // Each subcategory: { subCategoryId, subCategoryName, categoryType, categoryTypeInfo }
         this.filteredSubCategories = response.subCategories || [];
-        this.productForm.patchValue({ subCategoryName: '' });
+        this.productForm.patchValue({ SubCategoryName: '' });
         this.selectedCategoryType = null;
         this.selectedCategoryTypeId = null;
         this.productForm.get('categoryType')?.setValue('');
@@ -171,6 +172,34 @@ export class ProductsComponent implements OnInit {
         console.error('Error fetching subcategories', err);
       }
     });
+
+        if (selectedCategory) {
+      const categoryName = selectedCategory.categoryName;
+  
+      if (categoryName === "Men's Clothing" || categoryName === "Men's Activewear") {
+        this.selectedCategory = 'Men';
+      } else if (categoryName === "Women's Clothing" || categoryName === "Women's Activewear" ) {
+        this.selectedCategory = 'Women';
+      } else if (categoryName === "Boys's Clothing" || categoryName === "Girls's Clothing" ) {
+        this.selectedCategory = 'Kids';
+      } else if (categoryName === "Newborn Clothing") {
+        this.selectedCategory = 'Newborn';
+      }else if (categoryName === "Toddler Clothing") {
+        this.selectedCategory = 'Kids';
+      }else if (categoryName === "Seasonal Clothing" || categoryName === "Specialty Clothing") {
+        this.selectedCategory = 'Seasonal';
+      }else {
+        this.selectedCategory = 'Seasonal';
+      }
+
+       // Reset sizes and stocks when category changes
+     this.resetSizesAndStocks();
+
+      // Validate selection after each change
+    // this.validateSizeSelection();
+
+        }
+    
   }
 
 
@@ -287,13 +316,35 @@ export class ProductsComponent implements OnInit {
   onSubmit() {
     if (this.productForm.invalid) {
       this.productForm.markAllAsTouched(); 
+       
       return;
     }
 
+     // 🔹 Extract selected SubCategoryId
+  let selectedSubCategoryId = this.productForm.value.subCategoryName;
+  if (!selectedSubCategoryId) {
+    // fallback if not selected but list available
+    selectedSubCategoryId = this.filteredSubCategories.length > 0
+      ? this.filteredSubCategories[0].subCategoryId
+      : null;
+  }
+
+  // 🔹 Find the selected subcategory object (to get type info)
+  const selectedSubCategory = this.filteredSubCategories.find(
+    s => String(s.subCategoryId) === String(selectedSubCategoryId)
+  );
+
+  // 🔹 Get the correct category type ID
+  let selectedCategoryTypeId = this.selectedCategoryTypeId;
+  if (!selectedCategoryTypeId && selectedSubCategory?.categoryTypeInfo?.categoryTypeId) {
+    selectedCategoryTypeId = selectedSubCategory.categoryTypeInfo.categoryTypeId;
+  }
+
     if (this.productForm.valid) {
       // Map form values to product model
-      this.product.categoryId = this.productForm.value.mainCategoryName;
-      this.product.subCategoryId = this.productForm.value.subCategoryName;
+      this.product.categoryId = this.productForm.value.mainCategoryName || null;
+      this.product.subCategoryId = this.productForm.value.SubCategoryName  || null;
+      // this.product.subCategoryId =  selectedSubCategoryId|| null;
       this.product.categoryTypeId = this.productForm.value.categoryType ??  this.selectedCategoryTypeId;
       this.product.materialType = this.productForm.value.materialType;
       this.product.returnPolicy = this.productForm.value.returnPolicy;
