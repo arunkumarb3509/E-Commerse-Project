@@ -33,6 +33,17 @@ export class SellerSignupComponent implements OnInit {
   isOTPReSendMessage : boolean =false;
   resendMsg:string ='';
   value!: string;
+  timer: any;
+  timeLeft: number = 300; // 5 minutes = 300 seconds
+  formattedTime: string = '05:00';
+  isTimerRunning: boolean = false;
+   passwordCriteria = {
+  minLength: false,
+  uppercase: false,
+  lowercase: false,
+  number: false,
+  special: false
+};
 
   constructor(private fb: FormBuilder, private router: Router, public customerService: CustomerService,private toastr:ToastrService) {
     this.registrationForm = this.fb.group({
@@ -68,7 +79,22 @@ export class SellerSignupComponent implements OnInit {
   get passwordFormField() {
     return this.passwordForm.get('newPassword');
   }
+  checkPasswordStrength() {
+  const password = this.passwordForm.get('newPassword')?.value || '';
+  this.passwordCriteria.minLength = password.length >= 8;
+  this.passwordCriteria.uppercase = /[A-Z]/.test(password);
+  this.passwordCriteria.lowercase = /[a-z]/.test(password);
+  this.passwordCriteria.number = /[0-9]/.test(password);
+  this.passwordCriteria.special = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+}
 
+ onKeyDown(event: KeyboardEvent, index: number): void {
+  const input = event.target as HTMLInputElement;
+  if (event.key === 'Backspace' && !input.value && index > 0) {
+    const prev = document.querySelectorAll('.otp-box')[index - 1] as HTMLElement;
+    prev?.focus();
+  }
+}
 
   ngOnInit(): void {
     this.otpForm = this.fb.group({
@@ -91,19 +117,28 @@ export class SellerSignupComponent implements OnInit {
     }
   }
 
-  onInput(event: Event, index: number): void {
-    const inputElement = event.target as HTMLInputElement;
-    if (inputElement.value.length > 1) {
-      inputElement.value = inputElement.value.slice(0, 1);
-    }
+  // onInput(event: Event, index: number): void {
+  //   const inputElement = event.target as HTMLInputElement;
+  //   if (inputElement.value.length > 1) {
+  //     inputElement.value = inputElement.value.slice(0, 1);
+  //   }
+  // }
+     onInput(event: any, index: number): void {
+  const input = event.target;
+  const value = input.value;
+
+  if (value && index < this.otpArray.length - 1) {
+    const next = document.querySelectorAll('.otp-box')[index + 1] as HTMLElement;
+    next?.focus();
   }
+}
 
   onNext(): void {
     this.emailExists = false;
     if (this.registrationForm.invalid) {
       return;
     }
-console.log("seller");
+
 
     // this.email = this.registrationForm.value.email;
 
@@ -134,7 +169,9 @@ console.log("seller");
   this.customerService.signUpSendOTP(this.email).subscribe(
     (response: any) => {
       this.isOTPSent = true;
-      this.toastr.success(`OTP send to ${this.email}`, response);
+       this.timeLeft = 300; // reset to 5 minutes
+       this.startTimer();
+      this.toastr.success(`OTP send to ${this.email}`);
     },
     (error) => {
       this.isOTPSent = false;
@@ -153,8 +190,38 @@ console.log("seller");
   );
 }
 
+   startTimer() {
+  this.isTimerRunning = true;
+  this.updateTimerDisplay();
+
+  this.timer = setInterval(() => {
+    if (this.timeLeft > 0) {
+      this.timeLeft--;
+      this.updateTimerDisplay();
+    } else {
+      this.isTimerRunning = false;
+      clearInterval(this.timer);
+    }
+  }, 1000);
+ }
+
+ updateTimerDisplay() {
+  const minutes = Math.floor(this.timeLeft / 60);
+  const seconds = this.timeLeft % 60;
+  this.formattedTime = `${this.padTime(minutes)}:${this.padTime(seconds)}`;
+}
+
+padTime(time: number): string {
+  return time < 10 ? '0' + time : time.toString();
+}
+
   verifyOTP(): void {
     const enteredOTP = this.otpForm.value.otp.join('');
+
+    if (enteredOTP.length < 6 || !/^\d{6}$/.test(enteredOTP) ) {
+      this.toastr.error('Please enter a OTP.');
+      return;
+    }
 
     this.customerService.signUpVerifyOTP(this.email, enteredOTP).subscribe(
       response => {
@@ -193,9 +260,11 @@ console.log("seller");
       (response: any) => {
 
         if (response.message === 'OTP resent to email') {
-          console.log(`OTP resend to ${this.email}`, response);
+          console.log(`OTP resend to ${this.email}`);
           this.isOTPReSendMessage=true;
           this.toastr.success(`OTP resend to ${this.email}`);
+          this.timeLeft = 300; // reset to 5 minutes
+          this.startTimer();
           // this.resendMsg =`OTP resent to ${this.email}`;
         }
        else{

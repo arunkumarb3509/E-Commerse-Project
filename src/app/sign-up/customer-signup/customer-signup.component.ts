@@ -30,6 +30,17 @@ export class CustomerSignupComponent implements OnInit {
   resendMsg:string ='';
   isOTPReSendMessage:boolean = false;
   value!: string;
+  timer: any;
+  timeLeft: number = 300; // 5 minutes = 300 seconds
+  formattedTime: string = '05:00';
+  isTimerRunning: boolean = false;
+   passwordCriteria = {
+  minLength: false,
+  uppercase: false,
+  lowercase: false,
+  number: false,
+  special: false
+};
 
   constructor(private fb: FormBuilder, private router: Router, public customerService: CustomerService,private toastr:ToastrService) {
     this.registrationForm = this.fb.group({
@@ -73,6 +84,15 @@ export class CustomerSignupComponent implements OnInit {
     return this.otpForm.get('otp') as FormArray;
   }
 
+  checkPasswordStrength() {
+  const password = this.passwordForm.get('newPassword')?.value || '';
+  this.passwordCriteria.minLength = password.length >= 8;
+  this.passwordCriteria.uppercase = /[A-Z]/.test(password);
+  this.passwordCriteria.lowercase = /[a-z]/.test(password);
+  this.passwordCriteria.number = /[0-9]/.test(password);
+  this.passwordCriteria.special = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+}
+
   onKeyUp(event: KeyboardEvent, index: number): void {
     const inputElement = event.target as HTMLInputElement;
     const otpInputsArray = this.otpInputs.toArray();
@@ -84,12 +104,21 @@ export class CustomerSignupComponent implements OnInit {
     }
   }
 
-  onInput(event: Event, index: number): void {
-    const inputElement = event.target as HTMLInputElement;
-    if (inputElement.value.length > 1) {
-      inputElement.value = inputElement.value.slice(0, 1);
-    }
+  // onInput(event: Event, index: number): void {
+  //   const inputElement = event.target as HTMLInputElement;
+  //   if (inputElement.value.length > 1) {
+  //     inputElement.value = inputElement.value.slice(0, 1);
+  //   }
+  // }
+     onInput(event: any, index: number): void {
+  const input = event.target;
+  const value = input.value;
+
+  if (value && index < this.otpArray.length - 1) {
+    const next = document.querySelectorAll('.otp-box')[index + 1] as HTMLElement;
+    next?.focus();
   }
+}
 
   onNext(): void {
     this.emailExists = false;
@@ -135,7 +164,9 @@ generateOTP() {
   this.customerService.signUpSendOTP(this.email).subscribe(
     (response: any) => {
       this.isOTPSent = true;
-      this.toastr.success(`OTP send to ${this.email}`, response);
+      this.toastr.success(`OTP send to ${this.email}`);
+      this.timeLeft = 300; // reset to 5 minutes
+      this.startTimer();
     },
     (error) => {
       this.isOTPSent = false;
@@ -154,44 +185,112 @@ generateOTP() {
   );
 }
 
+   startTimer() {
+  this.isTimerRunning = true;
+  this.updateTimerDisplay();
+
+  this.timer = setInterval(() => {
+    if (this.timeLeft > 0) {
+      this.timeLeft--;
+      this.updateTimerDisplay();
+    } else {
+      this.isTimerRunning = false;
+      clearInterval(this.timer);
+    }
+  }, 1000);
+ }
+
+ updateTimerDisplay() {
+  const minutes = Math.floor(this.timeLeft / 60);
+  const seconds = this.timeLeft % 60;
+  this.formattedTime = `${this.padTime(minutes)}:${this.padTime(seconds)}`;
+}
+
+padTime(time: number): string {
+  return time < 10 ? '0' + time : time.toString();
+}
+
 
   verifyOTP(): void {
     const enteredOTP = this.otpForm.value.otp.join('');
 
     this.customerService.signUpVerifyOTP(this.email, enteredOTP).subscribe(
-      response => {
-        if (response.message === 'OTP verified successfully') {
-          this.isOTPVerified = true;
-          this.toastr.success('OTP verified');
-          // this.errorMessage = '';
-          this.otpExpiredMessage = false;
-          this.passwordForm.controls['newPassword'].enable();
-          this.passwordForm.controls['confirmPassword'].enable();
-          this.afterOtpVerified = true;
-          // Store token and userId in localStorage
-          localStorage.setItem('jwt', response.token);
-          localStorage.setItem('userId', response.user.id);
+    //   response => {
+    //     if (response.message === 'OTP verified successfully') {
+    //       this.isOTPVerified = true;
+    //       this.toastr.success('OTP verified');
+    //       // this.errorMessage = '';
+    //       this.otpExpiredMessage = false;
+    //       this.passwordForm.controls['newPassword'].enable();
+    //       this.passwordForm.controls['confirmPassword'].enable();
+    //       this.afterOtpVerified = true;
+    //       // Store token and userId in localStorage
+    //       localStorage.setItem('jwt', response.token);
+    //       localStorage.setItem('userId', response.user.id);
 
-          console.log(response.user);
+    //       console.log(response.user);
           
-        } else if (response.message === 'OTP expired') {
-          this.isOTPVerified = false;
-          this.toastr.error('OTP expired');
-          // this.errorMessage = '';
-          this.otpExpiredMessage = true;
-        } else {
-          this.isOTPVerified = false;
-          this.toastr.error('Incorrect OTP. Please try again.');
-          // this.errorMessage = 'Incorrect OTP. Please try again.';
-          this.otpExpiredMessage = false;
-        }
-      },
-      error => {
+    //     } else if (response.message === 'OTP expired') {
+    //       this.isOTPVerified = false;
+    //       this.toastr.error('OTP expired');
+    //       // this.errorMessage = '';
+    //       this.otpExpiredMessage = true;
+    //     } else {
+    //       this.isOTPVerified = false;
+    //       this.toastr.error('Incorrect OTP. Please try again.');
+    //       // this.errorMessage = 'Incorrect OTP. Please try again.';
+    //       this.otpExpiredMessage = false;
+    //     }
+    //   },
+    //   error => {
+    //     this.isOTPVerified = false;
+    //     this.errorMessage = error.error.message || 'Error verifying OTP. Please try again.';
+    //     this.otpExpiredMessage = false;
+    //   }
+    // );
+    (response) => {
+      const msg = (response?.message || '').trim();
+
+      if (msg === 'OTP verified successfully') {
+        this.isOTPVerified = true;
+        this.isOTPReSendMessage=false;
+        this.toastr.success('OTP verified successfully');
+        this.otpExpiredMessage = false;
+        this.passwordForm.controls['newPassword'].enable();
+        this.passwordForm.controls['confirmPassword'].enable();
+        this.afterOtpVerified = true;
+         localStorage.setItem('jwt', response.token);
+         localStorage.setItem('userId', response.user.id);
+      }
+
+      else if (msg === 'OTP expired') {
         this.isOTPVerified = false;
-        this.errorMessage = error.error.message || 'Error verifying OTP. Please try again.';
+        this.otpExpiredMessage = true;
+        this.toastr.error('OTP expired. Please request a new one.');
+      }
+
+      else if (msg === 'Incorrect OTP') {
+        this.isOTPVerified = false;
+       this.isOTPVerified = false;
+        this.toastr.error('Incorrect OTP. Please try again.');
+      }
+
+      else {
+        this.isOTPVerified = false;
+        this.otpExpiredMessage = false;
+        this.toastr.error(msg || 'Unexpected error. Please try again.');
         this.otpExpiredMessage = false;
       }
-    );
+    },
+    (error) => {
+      const errorMsg = error?.error?.message?.trim?.() || 'Server error. Please try again.';
+      this.isOTPVerified = false;
+      this.otpExpiredMessage = false;
+      this.afterOtpVerified = false;
+      this.toastr.error(errorMsg);
+      console.error('Error verifying OTP:', error);
+    }
+  );
   }
 
   resendOTP(): void {
@@ -201,6 +300,8 @@ generateOTP() {
           // console.log(`OTP resent to ${this.email}`, response);
           this.toastr.success(`OTP resend to ${this.email}`);
           this.isOTPReSendMessage=true;
+          this.timeLeft = 300; // reset to 5 minutes
+          this.startTimer();
           // this.resendMsg =`OTP resent to ${this.email}`;
         }
        else{
@@ -252,4 +353,12 @@ generateOTP() {
       }
     );
   }
+
+  onKeyDown(event: KeyboardEvent, index: number): void {
+  const input = event.target as HTMLInputElement;
+  if (event.key === 'Backspace' && !input.value && index > 0) {
+    const prev = document.querySelectorAll('.otp-box')[index - 1] as HTMLElement;
+    prev?.focus();
+  }
+}
 }
