@@ -29,7 +29,8 @@ header {
   left: 90px;
   background-color: transparent;
   cursor: pointer;
-  position: absolute;
+  // position: absolute;
+  position: static;
   transition: all 0.3s ease-in-out;
 }
 

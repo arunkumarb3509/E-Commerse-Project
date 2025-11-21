@@ -28,7 +28,7 @@ export class ProductsComponent implements OnInit {
   // selectedCategoryType: string = '';
   // selectedCategoryTypeId:number =0;
    selectedCategoryType: string | null = null;
-  selectedCategoryTypeId: number | null = null;
+  selectedCategoryTypeId: string | null = null;
   
   countries: string[] = [
     'United States',
@@ -56,7 +56,7 @@ export class ProductsComponent implements OnInit {
   newbornSizes=['Newborn(NB)','0-3 Month','3-6 Month','6-9 Month','9-12 Month'];
   seasonalSizes=['XXXL', 'XXL','XL','L', 'M', 'S'];
 
-  constructor(private fb: FormBuilder, private toastr: ToastrService,public categoryService: CategoryService,public productService:ProductService) {
+  constructor(private fb: FormBuilder, private toastr: ToastrService,public categoryService: CategoryService,public productService:ProductService,private router: Router) {
 
     this.productForm = this.fb.group({
       mainCategoryName: ['', Validators.required],
@@ -247,7 +247,9 @@ export class ProductsComponent implements OnInit {
       const typeInfo = selectedSubCategory.categoryTypeInfo;
       if (typeInfo && typeInfo.typeName) {
         this.selectedCategoryType = typeInfo.typeName;
-        this.selectedCategoryTypeId = typeInfo.categoryTypeId;
+        this.selectedCategoryTypeId = typeInfo._id;
+        console.log("cat type id"+this.selectedCategoryTypeId);
+        
         this.productForm.get('categoryType')?.setValue(this.selectedCategoryType);
       } else if (selectedSubCategory.categoryType) {
         // Fallback: numeric id exists but no populated info
@@ -336,16 +338,20 @@ export class ProductsComponent implements OnInit {
 
   // 🔹 Get the correct category type ID
   let selectedCategoryTypeId = this.selectedCategoryTypeId;
-  if (!selectedCategoryTypeId && selectedSubCategory?.categoryTypeInfo?.categoryTypeId) {
-    selectedCategoryTypeId = selectedSubCategory.categoryTypeInfo.categoryTypeId;
+  if (!selectedCategoryTypeId && selectedSubCategory?.categoryTypeInfo?._id) {
+    selectedCategoryTypeId = selectedSubCategory.categoryTypeInfo._id;
   }
+  console.log("alert 2 "+ this.selectedCategoryTypeId);
+  
 
-    if (this.productForm.valid) {
-      // Map form values to product model
-      this.product.categoryId = this.productForm.value.mainCategoryName || null;
-      this.product.subCategoryId = this.productForm.value.SubCategoryName  || null;
-      // this.product.subCategoryId =  selectedSubCategoryId|| null;
-      this.product.categoryTypeId = this.productForm.value.categoryType ??  this.selectedCategoryTypeId;
+    if (this.productForm.valid) { 
+      // Map form values to product model dashboard/products/view-products
+      // this.product.categoryId = this.productForm.value.mainCategoryName || null;
+      // this.product.subCategoryId = this.productForm.value.SubCategoryName  || null;
+      // this.product.categoryTypeId = this.productForm.value.categoryType ??  this.selectedCategoryTypeId;
+      this.product.categoryId = this.productForm.value.mainCategoryName; // <-- string objectId
+      this.product.subCategoryId = this.productForm.value.subCategoryName; // <-- string objectId
+      this.product.categoryTypeId = this.selectedCategoryTypeId; // <-- string objectId
       this.product.materialType = this.productForm.value.materialType;
       this.product.returnPolicy = this.productForm.value.returnPolicy;
       this.product.careInstructions = this.productForm.value.careInstructions;
@@ -375,6 +381,7 @@ export class ProductsComponent implements OnInit {
           if (response.message === 'Product added successfully') {
             this.toastr.success('Product details submitted successfully!');
             this.productForm.reset();
+            this.router.navigate(['/dashboard/products/view-products']);
           } else {
             this.toastr.error('Failed to add product. Please try again.');
           }

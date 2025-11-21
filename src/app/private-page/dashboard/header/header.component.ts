@@ -14,7 +14,7 @@ import { UserLoginService } from 'src/Services/user-login.service';
 export class HeaderComponent implements OnInit {
 loggedInUserDetails: any[] = [];
 loggedInUserType: any;
-
+isFullscreen: boolean = false;
   constructor( 
     private router: Router,
     private userLoginService: UserLoginService,
@@ -28,6 +28,18 @@ loggedInUserType: any;
      this.loggedInUser();
   }
 
+
+toggleFullscreen() {
+  const elem = document.documentElement;
+
+  if (!document.fullscreenElement) {
+    elem.requestFullscreen();
+    this.isFullscreen = true;
+  } else {
+    document.exitFullscreen();
+    this.isFullscreen = false;
+  }
+}
   //  loggedInUser(): void {
       
   //     const userId = localStorage.getItem('userId');

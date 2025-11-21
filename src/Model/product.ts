@@ -2,9 +2,12 @@ export class Products {
   // categoryId: number = 0;
   // subCategoryId: number = 0;
   // categoryTypeId: number | null = null; // Ensure null is valid
-  categoryId: number | null = null;
-  subCategoryId: number | null = null;
-  categoryTypeId: number | null = null;
+    categoryId: string | null = null;    // ObjectId → String
+  subCategoryId: string | null = null; // ObjectId → String
+  categoryTypeId: string | null = null; // ObjectId → String
+  // categoryId: number | null = null;
+  // subCategoryId: number | null = null;
+  // categoryTypeId: number | null = null;
   materialType: string = '';
   returnPolicy: string = '';
   careInstructions: string = '';

@@ -46,14 +46,14 @@ export class ProductGridComponent implements OnInit {
     );
   }
 
-  navigateToEditProducts(productId: number) {
+  navigateToEditProducts(productId: any) {
     // this.categoryService.setSubCategoryId(categoryId);
     this.productService.productId.next(productId);
 
     this.router.navigate(['/fashionflair/dashboard/products/edit-products']);
   }
 
-  navigateToViewProductDetails(productId: number) {
+  navigateToViewProductDetails(productId: any) {
     this.productService.productId.next(productId);
 
     this.router.navigate([

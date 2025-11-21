@@ -38,16 +38,17 @@
         <td class="hidden-cols">{{ product.totalStock }}</td>
         <td class="hidden-cols">{{ product.availability }}</td>
         <td class="fs-5 text-center">
+           <!-- (click)="navigateToEditProducts(product.productId) old -->
           <i
             class="fa fa-pencil-square-o btn-primary"
             aria-hidden="true"
-            (click)="navigateToEditProducts(product.productId)"
+            (click)="navigateToEditProducts(product._id)"
           ></i>
 
           <i
             class="fa fa-chevron-circle-right edit-btn"
             aria-hidden="true"
-            (click)="navigateToViewProductDetails(product.productId)"
+            (click)="navigateToViewProductDetails(product._id)"
           ></i>
         </td>
       </tr>
