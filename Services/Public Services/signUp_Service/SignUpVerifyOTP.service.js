@@ -95,7 +95,7 @@ const signUpVerifyOTPService = async (req) => {
   if (!email || !otp) {
     return {
       status: 400,
-      body: { message: 'Email and OTP are required' },
+      body: { message: 'OTP are required' },
     };
   }
 

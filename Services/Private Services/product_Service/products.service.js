@@ -253,9 +253,9 @@ const createProductService = async (data) => {
     materialType,
     createdBy: parseInt(userId),
     modifiedBy: parseInt(userId),
-    categoryId: parseInt(categoryId),
-    subcategoryId: parseInt(subCategoryId),
-    categoryTypeId: parseInt(categoryTypeId),
+    categoryId: categoryId,
+    subcategoryId: subCategoryId,
+    categoryTypeId: categoryTypeId,
   });
 
   const seoInformation = await SEOInformation.create({
