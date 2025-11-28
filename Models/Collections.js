@@ -398,6 +398,7 @@ SubCategorySchema.set('toJSON', { virtuals: true });
 //   typeName: String
 // }, { collection: 'category_types' });
 const CategoryTypeSchema = new Schema({
+  // categoryTypeId: { type: Number, unique: true },
   categoryTypeId: { type: Number, unique: true },
   typeName: String
 }, { collection: 'category_types' });
@@ -469,6 +470,7 @@ const ProductSizeSchema = new Schema({
 ------------------------------------------------ */
 const ProductImageSchema = new Schema({
   productId: { type: Schema.Types.ObjectId, ref: 'Product' },
+  imageId: { type: Number, auto: true },
   images: Buffer,
   imageName: String,
   imageTitle: String,

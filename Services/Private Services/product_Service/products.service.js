@@ -221,7 +221,9 @@
 //   updateProductService,
 //   getProductsByCategoryTypeService
 // };
-
+const {MainCategory} = require('../../../Models/Collections');
+const {SubCategory} = require('../../../Models/Collections');
+const {CategoryType} = require('../../../Models/Collections');
 const {Product} = require('../../../Models/Collections');
 const {SEOInformation} = require('../../../Models/Collections');
 const {ShippingInformation} = require('../../../Models/Collections');
@@ -311,9 +313,37 @@ const getAllProductsService = async () => {
   return populated;
 };
 
+// const getProductByIdService = async (id) => {
+//   const product = await Product.findById(id).lean();
+//   console.log(product);
+  
+//   if (!product) return null;
+
+//   const seo = await SEOInformation.findOne({ productId: product._id });
+//   const ship = await ShippingInformation.findOne({ productId: product._id });
+//   const sizes = await ProductSize.find({ productId: product._id });
+//   const images = await ProductImage.find({ productId: product._id });
+
+//   return {
+//     ...product,
+//     seoInformation: seo,
+//     shippingInformation: ship,
+//     productSizes: sizes,
+//     productImages: images.map(img => ({
+//       ...img.toObject(),
+//       images: img.images ? img.images.toString('base64') : null
+//     }))
+//   };
+// };
 const getProductByIdService = async (id) => {
   const product = await Product.findById(id).lean();
   if (!product) return null;
+
+  // Fetch Main Category
+  const mainCategory = await MainCategory.findById(product.categoryId).lean();
+
+  // Fetch Category Type
+  const categoryType = await CategoryType.findById(product.categoryTypeId).lean();
 
   const seo = await SEOInformation.findOne({ productId: product._id });
   const ship = await ShippingInformation.findOne({ productId: product._id });
@@ -322,20 +352,29 @@ const getProductByIdService = async (id) => {
 
   return {
     ...product,
+    mainCategory,
+    categoryType,
     seoInformation: seo,
     shippingInformation: ship,
     productSizes: sizes,
     productImages: images.map(img => ({
       ...img.toObject(),
-      images: img.images ? img.images.toString('base64') : null
+      images: img.images ? img.images.toString("base64") : null
     }))
   };
 };
+
 
 const getProductByCodeService = async (productCode) => {
   const product = await Product.findOne({ productCode }).lean();
   if (!product) return null;
 
+  // Fetch Main Category
+  const mainCategory = await MainCategory.findById(product.categoryId).lean();
+   const subCategory = await SubCategory.findById(product.categoryId).lean();
+
+  // Fetch Category Type
+  const categoryType = await CategoryType.findById(product.categoryTypeId).lean();
   const seo = await SEOInformation.findOne({ productId: product._id });
   const ship = await ShippingInformation.findOne({ productId: product._id });
   const sizes = await ProductSize.find({ productId: product._id });
@@ -343,6 +382,9 @@ const getProductByCodeService = async (productCode) => {
 
   return {
     ...product,
+     mainCategory,
+     subCategory,
+     categoryType,
     seoInformation: seo,
     shippingInformation: ship,
     productSizes: sizes,

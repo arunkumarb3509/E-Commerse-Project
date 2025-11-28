@@ -192,19 +192,20 @@ const {
 } = require('../../../Models/Collections'); // Adjust path as needed
 
 const addToCartService = async (productId, guestUserId) => {
-  const parsedProductId = parseInt(productId);
+  // const parsedProductId = parseInt(productId);
+console.log("ar"+ productId,guestUserId);
 
-  const existingProduct = await Product.findOne({ productId: parsedProductId });
+  const existingProduct = await Product.findById(productId);
   if (!existingProduct) throw { status: 404, message: "Product not found." };
 
-  const existingCartItem = await AddToCart.findOne({ productId: parsedProductId, guestUserId });
+  const existingCartItem = await AddToCart.findById({ _id: productId, guestUserId });
   if (existingCartItem) return { exists: true };
 
-  const existingSavedItem = await CustomerSavedOrder.findOne({ productId: parsedProductId, guestUserId });
+  const existingSavedItem = await CustomerSavedOrder.findOne({ _id: productId, guestUserId });
   if (existingSavedItem) return { saved: true };
 
   const newCartItem = await AddToCart.create({
-    productId: parsedProductId,
+    productId: productId,
     customerId: null,
     guestUserId,
     createdAt: "customer",
@@ -214,31 +215,80 @@ const addToCartService = async (productId, guestUserId) => {
   return { added: true, cart: newCartItem };
 };
 
+// const getCartItemsByGuestUserIdService = async (guestUserId) => {
+//   console.log(guestUserId+"empty");
+  
+//   return AddToCart.find({ guestUserId }).populate({
+//     path: 'productId',
+//     populate: [
+//       'subcategory',
+//       'mainCategory',
+//       'productImages',
+//       'productSizes',
+//       'seoInformation',
+//       'shippingInformation',
+//       'categoryType',
+//       'productOffers',
+//     ],
+//   });
+// };
+
 const getCartItemsByGuestUserIdService = async (guestUserId) => {
-  return AddToCart.find({ guestUserId }).populate({
-    path: 'productId',
-    populate: [
-      'subcategory',
-      'mainCategory',
-      'productImages',
-      'productSizes',
-      'seoInformation',
-      'shippingInformation',
-      'categoryType',
-      'productOffers',
-    ],
-  });
+  try {
+    console.log("guestUserId:", guestUserId);
+
+    return await AddToCart.find({ guestUserId }).populate({
+      path: 'productId',
+      populate: [
+        { path: 'subcategoryId' },
+        { path: 'categoryId' },
+        { path: 'categoryTypeId' },
+        // { path: 'productImages' },
+        // { path: 'productSizes' },
+        // { path: 'seoInformation' },
+        // { path: 'shippingInformation' },
+        // { path: 'productOffers' }
+      ]
+    });
+
+  } catch (error) {
+    console.error("Populate Error:", error);
+    throw error;
+  }
 };
 
+// const getCartItemsByGuestUserIdService = async (guestUserId) => {
+//   try {
+//     console.log("guestUserId:", guestUserId);
+
+//     return await AddToCart.find({ guestUserId }).populate({
+//       path: 'productId',
+//       populate: [
+//         'subcategory',
+//         'mainCategory',
+//         'productImages',
+//         'productSizes',
+//         'seoInformation',
+//         'shippingInformation',
+//         'categoryType',
+//         'productOffers',
+//       ],
+//     });
+//   } catch (error) {
+//     console.error("Populate Error:", error);
+//     throw error;
+//   }
+// };
+
 const removeItemFromCartService = async (productId) => {
-  const productIdInt = parseInt(productId);
-  return AddToCart.deleteMany({ productId: productIdInt });
+  // const productIdInt = parseInt(productId);
+  return AddToCart.deleteMany({ productId: productId });
 };
 
 const saveItemForLaterService = async (productId, guestUserId) => {
-  const parsedProductId = parseInt(productId);
+  // const parsedProductId = parseInt(productId);
 
-  const productExists = await Product.findOne({ productId: parsedProductId });
+  const productExists = await Product.findOne({ productId: productId });
   if (!productExists) throw { status: 404, message: "Product not found." };
 
   const alreadySaved = await CustomerSavedOrder.findOne({ productId: parsedProductId, guestUserId });

@@ -14,15 +14,16 @@ const createProductOffer = async (req, res) => {
       modified_by,
     } = req.body;
 
-    if (
-      !product_id ||
-      !offer_name || offer_name.trim() === "" ||
-      !description || description.trim() === "" ||
-      !start_date ||
-      !end_date
-    ) {
-      return res.status(400).json({ message: "Required fields are missing or invalid." });
-    }
+
+    // if (
+    //   !product_id ||
+    //   !offer_name || offer_name.trim() === "" ||
+    //   !description || description.trim() === "" ||
+    //   !start_date ||
+    //   !end_date
+    // ) {
+    //   return res.status(400).json({ message: "Required fields are missing or invalid." });
+    // }
 
     const today = new Date();
 
