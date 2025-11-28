@@ -5,6 +5,7 @@ import { ProductService } from 'src/Services/product.service';
 import * as CryptoJS from 'crypto-js';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home-pg-cards',
@@ -24,7 +25,9 @@ export class HomePgCardsComponent implements OnInit {
   id:number=0;
 
 
-  constructor(public productService:ProductService,private router: Router,private cartService: CartService ,private toastr: ToastrService) { }
+  constructor(public productService:ProductService,private router: Router,
+    private cartService: CartService ,private toastr: ToastrService,
+  private sanitizer: DomSanitizer) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['categoryTypeId'] && changes['categoryTypeId'].currentValue) {
@@ -67,7 +70,16 @@ export class HomePgCardsComponent implements OnInit {
       }
     );
   }
-  
+
+getFirstImage(product: any) {
+  if (product.productImages && product.productImages.length > 0) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      'data:image/jpeg;base64,' + product.productImages[0].images
+    );
+  }
+  return '../../assets/Images/No-Image.png'; // fallback image
+}
+
   
   // Convert byte array to base64 string
   arrayBufferToBase64(buffer: any): string {
@@ -122,8 +134,9 @@ export class HomePgCardsComponent implements OnInit {
   }
 
 
-  addToCart(productId: number) {
+  addToCart(productId: string) {
     const guestUserId = sessionStorage.getItem('guestUserId');
+  console.log(productId,guestUserId+"dur");
   
     if (!guestUserId) {
       console.log("Please refresh your screen: guestUserId is missing");

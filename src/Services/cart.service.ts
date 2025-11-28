@@ -38,7 +38,7 @@ export class CartService {
     //   });
     // }
 
-    addToCart(productId: number, guestUserId: string): Observable<any> {
+    addToCart(productId: string, guestUserId: string): Observable<any> {
       // const headers = this.getHeaders();
       return this.http.post<any>(this.environment.ADDTOCART.CREATE_ADD_TO_CART, { productId, guestUserId });
     }
@@ -53,14 +53,14 @@ export class CartService {
     this.cartCountSource.next(newCount); // Update BehaviorSubject value
   }
 
-  removeItemFromCart(productId: number) {
+  removeItemFromCart(productId: string) {
     // this.cartItems = this.cartItems.filter(item => item.productId !== productId);
     this.updateCartCount();
     // const headers = this.getHeaders();
     return this.http.delete<any>(`${this.environment.ADDTOCART.DELETE_ITEM_FROM_CART}${productId}`);
   }
 
-  saveItemForLater(productId: number, guestUserId: string) {
+  saveItemForLater(productId: string, guestUserId: string) {
     // const headers = this.getHeaders();
     return this.http.post<any>(this.environment.ADDTOCART.CREATE_SAVE_FOR_LATER, { productId, guestUserId });
   }

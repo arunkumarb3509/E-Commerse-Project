@@ -75,7 +75,7 @@ decryptProductCode(encryptedCode: string): string {
 //   });
   
 // }
-addToCart(productId: number) {
+addToCart(productId: any) {
   const guestUserId = sessionStorage.getItem('guestUserId');
 
   if (!guestUserId) {

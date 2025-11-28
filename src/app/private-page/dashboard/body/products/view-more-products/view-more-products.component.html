@@ -55,7 +55,7 @@
                   selectedProduct.shippingInformation.shippingClass }}</p>
                 <p class="card-text"><strong>Dimensions:</strong> {{ selectedProduct.shippingInformation.dimensions }}
                 </p>
-                <p class="card-text"><strong>Weight:</strong> {{ selectedProduct.shippingInformation.weight }}</p>
+                <p class="card-text"><strong>Weight:</strong> {{ selectedProduct.shippingInformation.weight.$numberDecimal }}</p>
               </div>
             </div>
           </div>
@@ -108,7 +108,7 @@
               <div class="card-body">
                 <h5 class="card-title"><strong>Category Information</strong></h5>
                 <p class="card-text"><strong>Main Category:</strong> {{ selectedProduct.mainCategory.categoryName }}</p>
-                <p class="card-text"><strong>Subcategory:</strong> {{ selectedProduct.subcategory.subCategoryName }}</p>
+                <!-- <p class="card-text"><strong>Subcategory:</strong> {{ selectedProduct.subcategory.subCategoryName }}</p> -->
                 <p class="card-text"><strong>Category Type:</strong> {{ selectedProduct.categoryType.typeName }}</p>
                 <p class="card-text"><strong>Material Type:</strong> {{ selectedProduct.materialType }}</p>
                 <p class="card-text"><strong>Return Policy:</strong> {{ selectedProduct.seoInformation.returnPolicy }}

@@ -1,9 +1,9 @@
 <!-- Product Details Page -->
 <div class="product-container-alt" *ngIf="selectedProduct">
   <ul class="breadcrumb">
-    <li><a href="#">{{selectedProduct.mainCategory.categoryName}}</a></li>
-    <li><a href="#">{{selectedProduct.subcategory.subCategoryName}}</a></li>
-    <li><a href="#">{{selectedProduct.categoryType.typeName}}</a></li>
+    <li><a href="#">{{selectedProduct.mainCategory?.categoryName}}</a></li>
+    <li><a href="#">{{selectedProduct.subcategory?.subCategoryName}}</a></li>
+    <li><a href="#">{{selectedProduct.categoryType?.typeName}}</a></li>
     <li><a href="#">{{selectedProduct.productName}}</a></li>
   </ul>
 
@@ -106,7 +106,7 @@
       <!-- Buttons -->
       <div class="buttons-alt">
         <button class="add-to-cart-alt" [disabled]="selectedProduct.addedToCart"
-          (click)="addToCart(selectedProduct.productId);$event.stopPropagation()">
+          (click)="addToCart(selectedProduct._id);$event.stopPropagation()">
           {{ selectedProduct.addedToCart ? 'Go to Cart' : 'Add to Cart' }}
         </button>
 

@@ -17,7 +17,7 @@
                             style="width: 100px; height: 100px; object-fit: cover;">
 
                         <div class="flex-grow-1">
-                            <h6 class="mb-1">{{ item.product.productName }}</h6>
+                            <h6 class="mb-1">{{ item.product?.productName }}</h6>
                             <!-- <p class="mb-1 text-muted">Seller: ReniSales <span class="badge bg-success">Assured</span>
                             </p> -->
                             <p class="mb-1" *ngIf="item.product.productOffers?.length > 0; else noOffer"><s>₹{{

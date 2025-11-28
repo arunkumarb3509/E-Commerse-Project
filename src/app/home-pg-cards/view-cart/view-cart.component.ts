@@ -28,7 +28,8 @@ export class ViewCartComponent implements OnInit {
   finalAmount = 0;
   savedAmount = 0;
 
-  constructor(private cartService: CartService, private productService: ProductService,private toastr: ToastrService,private router: Router) {}
+  constructor(private cartService: CartService, private productService: ProductService,
+    private toastr: ToastrService,private router: Router) {}
 
   ngOnInit() {
     this.getCartItems();
@@ -97,7 +98,7 @@ export class ViewCartComponent implements OnInit {
             this.cartItems = response.cartItems.map((item: any) => {
               let displayImage = this.mainImage;
 
-              if (item.product && item.product.productImages && item.product.productImages.length > 0) {
+              if (item.productId  && item.productId.productImages && item.productId.productImages.length > 0) {
                 const firstImage = item.product.productImages[0];
   
                 if (firstImage.images && firstImage.images.data) {
@@ -111,7 +112,7 @@ export class ViewCartComponent implements OnInit {
                 ...item,
                 quantity: item.quantity ?? 1,
                 product: {
-                  ...item.product,
+                  ...item.productId,
                   displayImage: displayImage
                 }
               };
@@ -222,7 +223,7 @@ export class ViewCartComponent implements OnInit {
   }
   
   
-  removeItem(productId: number): void {
+  removeItem(productId: string): void {
     const guestUserId = sessionStorage.getItem('guestUserId');
     if (!guestUserId) {
       this.toastr.error("Guest User ID not found. Please refresh the page.");
@@ -265,7 +266,7 @@ export class ViewCartComponent implements OnInit {
   }
 
 
-  saveForLater(productId: number): void {
+  saveForLater(productId: string): void {
     const guestUserId = sessionStorage.getItem('guestUserId');
 
     if (!guestUserId) {

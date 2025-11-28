@@ -19,8 +19,8 @@
         <p><strong>Price:</strong> ${{ selectedProduct.price }}</p>
       </div>
       <div class="col-12 col-md-4 col-lg-4 col-sm-6">
-        <p><strong>Category:</strong> {{ selectedProduct.mainCategory.categoryName }}</p>
-        <p><strong>Subcategory:</strong> {{ selectedProduct.subcategory.subCategoryName }}</p>
+        <p><strong>Category:</strong> {{ selectedProduct.mainCategory?.categoryName }}</p>
+        <p><strong>Subcategory:</strong> {{ selectedProduct.subcategory?.subCategoryName }}</p>
       </div>
       <div class="col-12 col-md-4 col-lg-4 col-sm-6">
         <p><strong>Material:</strong> {{ selectedProduct.materialType }}</p>

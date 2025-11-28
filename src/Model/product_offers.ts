@@ -1,5 +1,5 @@
 export class ProductOffers {
-    product_id: number | null = null;
+    product_id: string | null = null;
     offer_name: string = '';
     description: string = '';
     discount_percentage: number | null = null;

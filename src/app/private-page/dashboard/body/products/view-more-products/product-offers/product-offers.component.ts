@@ -122,7 +122,8 @@ export class ProductOffersComponent implements OnInit {
       const offerData = this.productOfferForm.value;
       console.log('Offer Data:', offerData);
 
-      this.productOffers.product_id = this.selectedProduct.productId;
+      // this.productOffers.product_id = this.selectedProduct.productId;
+      this.productOffers.product_id = this.selectedProduct._id;
       this.productOffers.offer_name = this.productOfferForm.value.offerName;
       this.productOffers.description = this.productOfferForm.value.description;
       this.productOffers.discount_percentage = this.productOfferForm.value.discountPercentage;
