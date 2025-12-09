@@ -99,7 +99,7 @@ export class ViewCartComponent implements OnInit {
               let displayImage = this.mainImage;
 
               if (item.productId  && item.productId.productImages && item.productId.productImages.length > 0) {
-                const firstImage = item.product.productImages[0];
+                const firstImage = item.productId.productImages[0];
   
                 if (firstImage.images && firstImage.images.data) {
                   displayImage = this.arrayBufferToBase64(firstImage.images.data);
@@ -170,8 +170,8 @@ export class ViewCartComponent implements OnInit {
             this.savedSuccess = true;
             this.savedItems = response.savedItems.map((item: any) => {
               let displayImage = this.mainImage;
-              if (item.product && item.product.productImages?.length > 0) {
-                const firstImage = item.product.productImages[0];
+              if (item.productId?.productImages?.length > 0) {
+                const firstImage = item.productId.productImages[0];
                 if (firstImage.images?.data) {
                   displayImage = this.arrayBufferToBase64(firstImage.images.data);
                 } else if (firstImage.imageUrl) {
@@ -182,7 +182,7 @@ export class ViewCartComponent implements OnInit {
               return {
                 ...item,
                 product: {
-                  ...item.product,
+                  ...item.productId,
                   displayImage: displayImage
                 }
               };
@@ -291,7 +291,7 @@ export class ViewCartComponent implements OnInit {
     );
   }
   
-  moveToCart(productId: number): void {
+  moveToCart(productId: string): void {
     const guestUserId = sessionStorage.getItem('guestUserId');
 
     if (!guestUserId) {
@@ -323,7 +323,7 @@ export class ViewCartComponent implements OnInit {
   }
   
   
-  removeSavedItem(productId: number): void {
+  removeSavedItem(productId: string): void {
     const guestUserId = sessionStorage.getItem('guestUserId');
     if (!guestUserId) {
       this.toastr.error("Guest User ID not found. Please refresh the page.");

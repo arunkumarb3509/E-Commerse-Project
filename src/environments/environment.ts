@@ -2,6 +2,8 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { finalize } from "rxjs";
+
 const URL = `http://localhost:5000/api`; // LOCAL
 
 
@@ -92,6 +94,12 @@ export const environment = {
    GET_PRODUCT_OFFER_BY_ID:`${URL}/products/getProductOffers/`,
    GET_PRODUCT_BY_CODE:`${URL}/productDetails/`,
    GET_ALL_PRODUCT_OFFER:`${URL}/products/getAllProductOffers`,
+ },
+
+ CHECKOUT:{
+   CREATE_SESSION:`${URL}/create-session`,
+   VERIFY_PAYMENT:`${URL}/verify-payment`,
+   FINALIZE_COD:`${URL}/finalize-cod`,
  },
 };
 

@@ -65,7 +65,7 @@ export class CartService {
     return this.http.post<any>(this.environment.ADDTOCART.CREATE_SAVE_FOR_LATER, { productId, guestUserId });
   }
   
-  moveItemToCart(productId: number, guestUserId: string) {
+  moveItemToCart(productId: string, guestUserId: string) {
     // const headers = this.getHeaders();
     return this.http.post<any>(this.environment.ADDTOCART.CREATE_MOVE_TO_CART, { productId, guestUserId },);
   }
@@ -77,7 +77,7 @@ export class CartService {
   
   
   
-  removeSavedItemFromCart(productId: number) {
+  removeSavedItemFromCart(productId: string) {
     // this.cartItems = this.cartItems.filter(item => item.productId !== productId);
     this.updateCartCount();
     // const headers = this.getHeaders();
@@ -99,6 +99,24 @@ export class CartService {
         this.cartCountSource.next(0);
       }
     );
+  }
+
+
+
+  // checkout page methods
+   // create order session (locks prices, create razorpay order server-side)
+  createSession(payload: any): Observable<any> {
+    return this.http.post(`${this.environment.CHECKOUT.CREATE_SESSION}`, payload);
+  }
+
+  // verify payment (signature) and finalize order into final order document
+  verifyPayment(payload: any): Observable<any> {
+    return this.http.post(`${this.environment.CHECKOUT.VERIFY_PAYMENT}`, payload);
+  }
+
+  // finalize COD order (optional dedicated endpoint)
+  finalizeCOD(payload: any): Observable<any> {
+    return this.http.post(`${this.environment.CHECKOUT.FINALIZE_COD}`, payload);
   }
 }
 

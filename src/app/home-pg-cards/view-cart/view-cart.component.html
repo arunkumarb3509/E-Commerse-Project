@@ -22,9 +22,9 @@
                             </p> -->
                             <p class="mb-1" *ngIf="item.product.productOffers?.length > 0; else noOffer"><s>₹{{
                                     item.product.price }}</s>
-                                <strong class="ms-1">₹{{ item.product.productOffers[0].discountPrice }} </strong>
+                                <strong class="ms-1">₹{{ item.product?.productOffers[0]?.discountPrice }} </strong>
 
-                                <span class="text-success ms-1">({{ item.product.productOffers[0].discountPercentage }}%
+                                <span class="text-success ms-1">({{ item.product.productOffers[0]?.discountPercentage }}%
                                     off)
                                 </span>
                             </p>
@@ -32,7 +32,7 @@
                             <ng-template #noOffer>
                                 ₹{{ item.product.price }}
                             </ng-template>
-                            <p class="size">Sizes: <span>{{item.product.productSizes[0].sizeId}}</span></p>
+                            <p class="size">Sizes: <span>{{item.product.productSizes[0]?.sizeId}}</span></p>
 
                             <!-- Quantity, Save, Remove -->
                             <div class="d-flex align-items-center mt-3">
@@ -45,10 +45,10 @@
 
                                 <!-- <button class="btn btn-link text-decoration-none me-3" (click)="saveForLater()">Save for Later</button> -->
                                 <button class="btn btn-link text-decoration-none me-3"
-                                    (click)="saveForLater(item.product.productId)">Save for Later</button>
+                                    (click)="saveForLater(item.productId._id)">Save for Later</button>
 
                                 <button class="btn btn-link text-danger text-decoration-none"
-                                    (click)="removeItem(item.product.productId)">Remove</button>
+                                    (click)="removeItem(item.productId._id)">Remove</button>
                             </div>
 
                         </div>
@@ -104,28 +104,28 @@
             <div class="saved-container mt-1">
                 <div class="saved-header">Saved Items ({{ savedItems.length }})</div>
                 <div *ngFor="let item of savedItems" class="saved-item">
-                    <img [src]="item.product.displayImage" alt="Saved Item">
+                    <img [src]="item.product?.displayImage" alt="Saved Item">
                     <div class="item-details">
-                        <div class="item-title">{{ item.product.productName }}</div>
+                        <div class="item-title">{{ item.product?.productName }}</div>
                         <p class="mb-1" *ngIf="item.product.productOffers?.length > 0; else noOffer"><s>₹{{
                                 item.product.price }}</s>
-                            <strong class="ms-1">₹{{ item.product.productOffers[0].discountPrice }} </strong>
+                            <strong class="ms-1">₹{{ item.product?.productOffers[0].discountPrice }} </strong>
 
-                            <span class="text-success ms-1">({{ item.product.productOffers[0].discountPercentage }}%
+                            <span class="text-success ms-1">({{ item.product?.productOffers[0].discountPercentage }}%
                                 off)
                             </span>
                         </p>
 
                         <ng-template #noOffer>
-                            ₹{{ item.product.price }}
+                            ₹{{ item.product?.price }}
                         </ng-template>
 
-                        <p class="size">Sizes: <span>{{item.product.productSizes[0].sizeId}}</span></p>
+                        <p class="size">Sizes: <span>{{item.product?.productSizes[0].sizeId}}</span></p>
                         <div class="d-flex align-items-center mt-3">
                             <button class="btn btn-link text-decoration-none me-3"
-                                (click)="moveToCart(item.product.productId)">Move to Cart</button>
+                                (click)="moveToCart(item.product._id)">Move to Cart</button>
                             <button class="btn btn-link text-danger text-decoration-none"
-                                (click)="removeSavedItem(item.product.productId)">Remove</button>
+                                (click)="removeSavedItem(item.product._id)">Remove</button>
                         </div>
                     </div>
                 </div>

@@ -97,19 +97,21 @@
 <div class="banner">
     <b>Review & Confirm Your Order</b>
 </div>
-<div class="container py-4" *ngIf="customerProducts.length > 0; else emptyCart">
+
+
+<!--last 1.12.25 <div class="container py-4" *ngIf="customerProducts.length > 0; else emptyCart">
     <div class="row g-3">
-        <!-- Left Column -->
+  
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
-                    <!-- Delivery Info -->
+               
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-3">
                         <div>
                           <h5 class="mb-0 fw-semibold">Delivery Information Required for Order</h5>
                         </div>
                     </div>
-                    <!-- Product Details -->
+                    
                     <div class="d-flex py-3" *ngFor="let item of customerProducts; let i = index">
                          <img 
                               [src]="getProductImage(item)" 
@@ -118,8 +120,7 @@
                       />
                         <div class="flex-grow-1">
                             <h6 class="mb-1">{{ item.product.productName }}</h6>
-                            <!-- <p class="mb-1 text-muted">Seller: ReniSales <span class="badge bg-success">Assured</span>
-                            </p> -->
+                           
                             <p class="mb-1" *ngIf="item.product.productOffers?.length > 0; else noOffer"><s>₹{{
                                     item.product.price }}</s>
                                 <strong class="ms-1">₹{{ item.product.productOffers[0].discountPrice }} </strong>
@@ -134,7 +135,7 @@
                             </ng-template>
                             <p class="size">Sizes: <span>{{item.product.productSizes[0].sizeId}}</span></p>
 
-                            <!-- Quantity, Save, Remove -->
+                          
                             <div class="d-flex align-items-center mt-3">
                                 <div class="input-group input-group-sm me-3" style="width: 100px;">
                                     <button class="btn btn-outline-secondary" (click)="decreaseQuantity(i)">-</button>
@@ -143,10 +144,7 @@
                                     <button class="btn btn-outline-secondary" (click)="increaseQuantity(i)">+</button>
                                 </div>
 
-                                <!-- <button class="btn btn-link text-decoration-none me-3" (click)="saveForLater()">Save for Later</button> -->
-                                
-                                <!-- <button class="btn btn-link text-danger text-decoration-none"
-                                    (click)="removeItem(item.product.productId)">Remove</button> -->
+                              
                             </div>
 
                         </div>
@@ -155,7 +153,7 @@
             </div>
         </div>
 
-        <!-- Right Column -->
+
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
@@ -191,13 +189,13 @@
                         </p>
 
                     </div>
-                    <!-- Place Order Button -->
-<!-- Trigger Button -->
+                   
+
 <button class="btn btn-warning place-order-btn mt-3" data-bs-toggle="modal" data-bs-target="#orderModal">
   PLACE ORDER
 </button>
 
-<!-- Modal -->
+
 <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form class="modal-content" [formGroup]="orderForm" (ngSubmit)="submitOrder()">
@@ -207,7 +205,7 @@
       </div>
 
       <div class="modal-body">
-        <!-- Step 1 -->
+        
         <div *ngIf="step === 1">
           <div class="mb-3">
             <label class="form-label">Full Address *</label>
@@ -234,7 +232,7 @@
           </div>
         </div>
 
-        <!-- Step 2 -->
+        
         <div *ngIf="step === 2">
           <div class="mb-3">
             <label class="form-label">Zip Code *</label>
@@ -279,6 +277,8 @@
             </div>
         </div>
     </div>
+  </div> last 1.12.25 -->
+
 
     <!-- <div *ngIf="savedSuccess"> -->
         <!-- <div *ngIf="savedItems.length > 0">
@@ -312,10 +312,290 @@
                 </div>
             </div>
         </div> -->
+  <div class="container py-4" *ngIf="customerProducts.length > 0 && checkOutPage == false; else emptyCart">
+
+  <div class="row g-4">
+
+    <!-- LEFT: CART ITEMS -->
+    <div class="col-lg-8">
+      <div class="cart-card">
+        <h5 class="fw-bold border-bottom pb-3">Shopping Cart</h5>
+
+        <div class="cart-item" *ngFor="let item of customerProducts; let i = index">
+          <img
+            [src]="getProductImage(item)"
+            class="cart-img"
+          />
+
+          <div class="cart-info">
+            <h6 class="fw-semibold">{{ item.product.productName }}</h6>
+
+            <div class="price-box">
+              <span class="old-price" *ngIf="item.product.productOffers?.length">
+                ₹{{ item.product.price }}
+              </span>
+
+              <span class="new-price">
+                ₹{{ item.product.productOffers?.length ? 
+                      item.product.productOffers[0].discountPrice : 
+                      item.product.price }}
+              </span>
+
+              <span class="discount" *ngIf="item.product.productOffers?.length">
+                {{ item.product.productOffers[0].discountPercentage }}% off
+              </span>
+            </div>
+
+            <p class="size">Size: {{ item.product.productSizes[0].sizeId }}</p>
+
+            <!-- Quantity & Actions -->
+            <div class="d-flex align-items-center mt-2 gap-3">
+              <div class="qty-box">
+                <button (click)="decreaseQuantity(i)">−</button>
+                <input [value]="item.quantity" readonly />
+                <button (click)="increaseQuantity(i)">+</button>
+              </div>
+
+              <span class="link-action text-primary">Save for Later</span>
+              <span class="link-action text-danger" (click)="removeSavedItem(item.product._id)">
+                Remove
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
+
+
+    <!-- price details -->
+
+        <!-- RIGHT: PRICE DETAILS -->
+    <div class="col-lg-4">
+      <div class="price-card">
+        <h6 class="fw-bold text-uppercase border-bottom pb-2">Price Details</h6>
+
+        <div class="d-flex justify-content-between mb-2">
+          <span>Price ({{ cartCount }} items)</span>
+          <span>₹{{ totalPrice }}</span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+          <span>Discount</span>
+          <span class="text-success">− ₹{{ totalDiscount }}</span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+          <span>Platform Fee</span>
+          <span>₹{{ platformFee }}</span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+          <span>Delivery</span>
+          <strong>{{ deliveryCharge === 0 ? 'Free' : '₹' + deliveryCharge }}</strong>
+        </div>
+
+        <div class="d-flex justify-content-between total-line">
+          <strong>Total Amount</strong>
+          <strong>₹{{ finalAmount }}</strong>
+        </div>
+
+        <div class="text-success small mt-2">
+          You save ₹{{ savedAmount }} on this order.
+        </div>
+
+        <button
+          class="btn btn-warning w-100 mt-3 fw-bold"
+          (click)="goToCheckout()"
+        >
+          Place Order
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    <!-- <div class="modal fade" id="orderModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <form class="modal-content" [formGroup]="orderForm" (ngSubmit)="submitOrder()">
+
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Delivery Information</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+    
+        <div *ngIf="step === 1" class="step-box">
+          <h6 class="fw-bold mb-3">Address Details</h6>
+
+          <div class="mb-3">
+            <label>Full Address *</label>
+            <textarea class="form-control" formControlName="address"></textarea>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label>State *</label>
+              <input class="form-control" formControlName="state" />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label>City *</label>
+              <input class="form-control" formControlName="city" />
+            </div>
+          </div>
+
+        </div>
+
+        
+        <div *ngIf="step === 2" class="step-box">
+          <h6 class="fw-bold mb-3">Contact & Payment</h6>
+
+          <div class="mb-3">
+            <label>Zip Code *</label>
+            <input class="form-control" formControlName="zipCode" />
+          </div>
+
+          <div class="mb-3">
+            <label>Phone Number *</label>
+            <input class="form-control" formControlName="phone" />
+          </div>
+
+          <div class="mb-3">
+            <label>Payment Method *</label>
+            <select class="form-select" formControlName="paymentMethod">
+              <option value="COD">Cash on Delivery</option>
+              <option value="Online">Online Payment</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button *ngIf="step === 1" class="btn btn-primary" type="button" (click)="goToStep2()">Next</button>
+        <button *ngIf="step === 2" class="btn btn-success" type="submit">Submit Order</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+
+    </form>
+  </div>
+</div> -->
+
+<!-- <div *ngIf="step === 1" class="step-section container">
+
+  <h3 class="page-title">Shopping Cart</h3>
+
+  <div class="cart-card" *ngFor="let item of customerProducts">
+    <img [src]="item.productImage" class="cart-img" />
+
+    <div class="cart-info">
+      <h6>{{ item.productName }}</h6>
+      <p class="price">₹{{ item.price }}</p>
+    </div>
+  </div>
+
+  <div class="price-card">
+    <h5>Total: ₹{{ finalAmount }}</h5>
+
+    <button class="btn-primary" (click)="goTo(2)">
+      Proceed to Delivery
+    </button>
+  </div>
+
+</div>
+
+
+<div *ngIf="step === 2" class="step-section container">
+  <h3 class="page-title">Delivery Address</h3>
+
+  <div class="row">
+    <div class="col-md-6" *ngFor="let address of savedAddresses">
+      <div class="address-card">
+        <input type="radio" name="addr" (change)="selectAddress(address)" />
+        <div>
+          <h6>{{ address.name }}</h6>
+          <p>{{ address.fullAddress }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="add-new-address">
+        <i class="fa fa-plus-circle"></i>
+        <p>Add New Address</p>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-primary mt-3"
+          [disabled]="!selectedAddress"
+          (click)="goTo(3)">
+    Continue to Payment
+  </button>
+
+</div>
+
+
+<div *ngIf="step === 3" class="step-section container">
+
+  <h3 class="page-title">Payment Method</h3>
+
+  <div class="payment-option" 
+       *ngFor="let option of paymentOptions">
+    <input type="radio" name="pay" (change)="selectPayment(option)" />
+    <label>{{ option.name }}</label>
+  </div>
+
+  <button class="btn-primary mt-3"
+          [disabled]="!selectedPayment"
+          (click)="goTo(4)">
+    Review Order
+  </button>
+
+</div>
+
+
+
+<div *ngIf="step === 4" class="step-section container">
+
+  <h3 class="page-title">Order Summary</h3>
+
+  <div class="summary-card">
+    <h6>Deliver To</h6>
+    <p>{{ selectedAddress.fullAddress }}</p>
+  </div>
+
+  <div class="summary-card">
+    <h6>Payment</h6>
+    <p>{{ selectedPayment.name }}</p>
+  </div>
+
+  <div class="summary-card">
+    <h6>Items</h6>
+    <div *ngFor="let item of customerProducts">
+      {{ item.productName }}
+      <strong class="float-end">₹{{ item.price }}</strong>
+    </div>
+  </div>
+
+  <div class="summary-total">
+    <strong>Total Amount</strong>
+    <strong>₹{{ finalAmount }}</strong>
+  </div>
+
+  <button class="btn-success" (click)="placeOrder()">
+    Place Order
+  </button>
+
+</div> -->
+
+
+
     <ng-template #emptyCart>
-    <div class="container empty-cart-container">
+    <div class="container empty-cart-container" *ngIf="customerProducts.length == 0 && checkOutPage == false">
         <div class="emptyCard">
             <img src="https://img.freepik.com/premium-vector/add-cart-icon-template-graphic-web-design-vector-illustration_1286261-80.jpg"
                 alt="Empty Cart" class="cart-image img-fluid">
@@ -328,3 +608,142 @@
         </div>
     </div>
 </ng-template>
+
+<!-- checkout page -->
+
+<!-- src/app/pages/checkout/checkout.component.html -->
+<div class="checkout-page container py-4" *ngIf="checkOutPage == true;">
+  <div class="row gx-4 gy-4">
+
+    <!-- LEFT: Address & Payment -->
+    <div class="col-lg-7">
+      <div class="card p-3 shadow-sm">
+        <h5 class="mb-3">Shipping Address</h5>
+
+        <form [formGroup]="checkoutForm" (ngSubmit)="onPlaceOrder()">
+          <div class="row g-2">
+            <div class="col-sm-6">
+              <label class="form-label small">Full name</label>
+              <input type="text" class="form-control" formControlName="fullName" [class.is-invalid]="checkoutForm.get('fullName')?.invalid && checkoutForm.get('fullName')?.touched">
+              <div *ngIf="checkoutForm.get('fullName')?.invalid && checkoutForm.get('fullName')?.touched" class="invalid-feedback">
+                Enter a valid name.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label class="form-label small">Phone</label>
+              <input type="text" class="form-control" formControlName="phone" [class.is-invalid]="checkoutForm.get('phone')?.invalid && checkoutForm.get('phone')?.touched">
+              <div *ngIf="checkoutForm.get('phone')?.invalid && checkoutForm.get('phone')?.touched" class="invalid-feedback">
+                Enter 10 digit phone.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label small">Email</label>
+              <input type="email" class="form-control" formControlName="email" [class.is-invalid]="checkoutForm.get('email')?.invalid && checkoutForm.get('email')?.touched">
+              <div *ngIf="checkoutForm.get('email')?.invalid && checkoutForm.get('email')?.touched" class="invalid-feedback">
+                Enter a valid email.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label small">Address</label>
+              <input class="form-control mb-2" placeholder="House, apartment, or company" formControlName="addressLine1" [class.is-invalid]="checkoutForm.get('addressLine1')?.invalid && checkoutForm.get('addressLine1')?.touched">
+              <input class="form-control" placeholder="Landmark, Building, etc (optional)" formControlName="addressLine2">
+              <div *ngIf="checkoutForm.get('addressLine1')?.invalid && checkoutForm.get('addressLine1')?.touched" class="invalid-feedback d-block">
+                Address is required.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label class="form-label small">City</label>
+              <input class="form-control" formControlName="city" [class.is-invalid]="checkoutForm.get('city')?.invalid && checkoutForm.get('city')?.touched">
+            </div>
+
+            <div class="col-sm-3">
+              <label class="form-label small">State</label>
+              <input class="form-control" formControlName="state" [class.is-invalid]="checkoutForm.get('state')?.invalid && checkoutForm.get('state')?.touched">
+            </div>
+
+            <div class="col-sm-3">
+              <label class="form-label small">Pincode</label>
+              <input class="form-control" formControlName="pincode" [class.is-invalid]="checkoutForm.get('pincode')?.invalid && checkoutForm.get('pincode')?.touched">
+            </div>
+          </div>
+
+          <hr class="my-3">
+
+          <h6>Payment Method</h6>
+          <div class="mb-3 form-check">
+            <input class="form-check-input" type="radio" id="online" formControlName="paymentMethod" value="ONLINE">
+            <label class="form-check-label" for="online">Online (Card / UPI / Netbanking)</label>
+          </div>
+          <div class="mb-3 form-check">
+            <input class="form-check-input" type="radio" id="cod" formControlName="paymentMethod" value="COD">
+            <label class="form-check-label" for="cod">Cash On Delivery (COD)</label>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-4">
+            <button type="submit" class="btn btn-warning px-4" [disabled]="processing">
+              <span *ngIf="!processing">Place Order — {{ formatAmount(finalAmount) }}</span>
+              <span *ngIf="processing"><i class="bi bi-arrow-repeat spinner-border spinner-border-sm"></i> Processing...</span>
+            </button>
+
+            <div class="text-muted small">Secure payment with trusted providers</div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- RIGHT: Price Summary -->
+    <div class="col-lg-5">
+      <div class="card p-3 shadow-sm">
+        <h5 class="mb-3">Price Details</h5>
+
+        <div class="d-flex justify-content-between mb-2">
+          <span>Price ({{ cartCount }} items)</span>
+          <span>{{ formatAmount(totalPrice) }}</span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+          <span>Discount</span>
+          <span class="text-success">− {{ formatAmount(totalDiscount) }}</span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+          <span>Platform Fee</span>
+          <span>{{ formatAmount(platformFee) }}</span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+          <span>Delivery</span>
+          <strong>{{ deliveryCharge === 0 ? 'Free' : formatAmount(deliveryCharge) }}</strong>
+        </div>
+
+        <div class="d-flex justify-content-between total-line align-items-center">
+          <strong>Total Amount</strong>
+          <strong class="fs-5">{{ formatAmount(finalAmount) }}</strong>
+        </div>
+
+        <div class="text-success small mt-2">
+          You save {{ formatAmount(savedAmount) }} on this order.
+        </div>
+
+        <hr>
+
+        <div class="mb-2">
+          <h6 class="small mb-1">Items</h6>
+          <div *ngFor="let item of customerProducts" class="d-flex align-items-center mb-2">
+            <img [src]="getProductImage(item)" class="small-thumb me-2" alt="thumb" />
+            <div class="flex-grow-1">
+              <div class="small fw-semibold">{{ item.product.productName }}</div>
+              <div class="small text-muted">x {{ item.quantity || 1 }}</div>
+            </div>
+            <div class="small">{{ formatAmount((item.product.productOffers?.[0]?.discountPrice || item.product.price) * (item.quantity || 1)) }}</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
