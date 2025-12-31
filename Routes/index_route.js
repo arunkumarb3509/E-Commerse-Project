@@ -23,6 +23,7 @@ const productOfferController = require('../Controllers/Private Controllers/produ
 const addToProductController = require('../Controllers/Private Controllers/addToCart_Controller/addToCart');
 const loggedInCustomerController = require('../Controllers/Private Controllers/customerLogin_Controller/loggedCustomerProduct');
 const submitCustomerOrderController = require('../Controllers/Private Controllers/customerLogin_Controller/customerOrder')
+const checkoutController = require('../Controllers/Private Controllers/customerLogin_Controller/checkOut_Controller');
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -57,6 +58,7 @@ router.post('/submitCustomerOrder', submitCustomerOrderController.submitOrder);
 router.post('/mainCategories', tokenController.verifyToken, mainCategoryController.mainCategories);
 router.get('/getMainCategories', mainCategoryController.getMainCategories);
 router.get('/getMainCategoryById/:id', mainCategoryController.getMainCategoryWithDetails);
+router.get('/getMainCategoryBasedSubCategory/:id', mainCategoryController.getMainCategoryWithDetailsForProduct);
 router.put('/updateMainCategory/:id', tokenController.verifyToken, mainCategoryController.updateMainCategoryById);
 router.delete('/deleteMainCategory/:id', mainCategoryController.deleteMainCategory);
 
@@ -89,6 +91,15 @@ router.post('/cart/moveToCart', addToProductController.moveToCart);
 router.delete('/removeSavedItemFromCart/:productId', addToProductController.removeSavedItemFromCart);
 router.get('/products/getProductByCustomer/:customerId', addToProductController.customerProduct);
 
+// 6.Checkout & Orders
+router.post('/create-session', checkoutController.createSession);
+router.post('/verify-payment', checkoutController.verifyPayment);
+router.post('/finalize-cod', checkoutController.finalizeCOD);
+// Get all orders for customer
+router.get('/customer/:customerId', checkoutController.getOrdersByCustomer);
+
+// Get single order
+router.get('/:orderId', checkoutController.getOrderById);
 module.exports = router;
 
 

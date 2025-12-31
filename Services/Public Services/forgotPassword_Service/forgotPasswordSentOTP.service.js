@@ -142,7 +142,7 @@ const sendForgotOTP = async (email) => {
       service: 'gmail',
       auth: {
         user: 'arunbusiness1433@gmail.com',
-        pass: 'mwot tscs qent actm',
+        pass: 'ahhy inpq lvpj gqjx',
       },
     });
 

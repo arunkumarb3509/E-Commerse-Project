@@ -23,13 +23,14 @@ app.use(express.json());
 app.use(cors({
   credentials: true,
   origin: ['http://localhost:3000', 'http://localhost:4200', 'https://lovable.dev',
-    'https://lovable.dev/projects/639318a6-36f4-4a62-9a94-1d96f3197b8d' ,'http://localhost:64224']
+    'https://lovable.dev/projects/639318a6-36f4-4a62-9a94-1d96f3197b8d' ,'http://localhost:50948']
 }));
 
 // Routes
 app.get('/', (req, res) => {
   res.json({ message: "sample api" });
 });
+
 
 app.use('/api', indexRoutes);
 

@@ -151,7 +151,7 @@ const signUpService = async (req) => {
   } = req.body;
 
   const headerToken = req.headers["authorization"];
-    console.log(headerToken)
+
   if (!headerToken) {
     return {
       status: 400,

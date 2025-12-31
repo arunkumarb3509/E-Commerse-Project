@@ -12,7 +12,10 @@ const getMainCategories = async (req, res) => {
     // extra
      const mapped = categories.map(c => ({
       categoryId: c._id,
-      categoryName: c.categoryName
+      categoryName: c.categoryName,
+      description: c.description,
+      updatedAt: c.updatedAt,
+      createdAt: c.createdAt
     }));
 
      res.status(200).json(mapped);
@@ -26,11 +29,46 @@ const getMainCategories = async (req, res) => {
 const getMainCategoryWithDetails = async (req, res) => {
   const id = req.params.id;
 
-  console.log("MainCategoryId:", id);
-
   try {
+    console.log("main id"+id);
     // ✅ Step 1: Get Main Category
     const mainCategory = await service.findMainCategoryByIdWithDetails(id);
+  
+    
+    if (!mainCategory) {
+      return res.status(404).json({ message: "Main category not found" });
+    }
+
+    // ✅ Step 2: Get related SubCategories by categoryId
+    // const subCategories = await service.findSubCategoryByCategoryId(id);
+
+    // if (!subCategories || subCategories.length === 0) {
+    //   return res.status(404).json({ message: "No subcategories found for this main category" });
+    // }
+
+    // ✅ Step 3: Return structured data
+    return res.status(200).json({
+      categoryId: mainCategory._id,
+      categoryName: mainCategory.categoryName,
+      description: mainCategory.description,
+      // subCategories,
+    });
+
+  } catch (err) {
+    console.error("Error fetching category details:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const getMainCategoryWithDetailsForProduct = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    // console.log("main id"+id);
+    // ✅ Step 1: Get Main Category
+    const mainCategory = await service.findMainCategoryByIdWithDetails(id);
+  
+    
     if (!mainCategory) {
       return res.status(404).json({ message: "Main category not found" });
     }
@@ -163,4 +201,5 @@ module.exports = {
   getMainCategoryWithDetails,
   updateMainCategoryById,
   deleteMainCategory,
+  getMainCategoryWithDetailsForProduct
 };

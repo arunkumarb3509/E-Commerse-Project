@@ -191,29 +191,30 @@ const {
   CustomerSavedOrder,
 } = require('../../../Models/Collections'); // Adjust path as needed
 
-const addToCartService = async (productId, guestUserId) => {
-  // const parsedProductId = parseInt(productId);
-console.log("ar"+ productId,guestUserId);
+// const addToCartService = async (productId, guestUserId) => {
+//   // const parsedProductId = parseInt(productId);
+// console.log(productId,guestUserId);
 
-  const existingProduct = await Product.findById(productId);
-  if (!existingProduct) throw { status: 404, message: "Product not found." };
+//   const existingProduct = await Product.findById(productId);
+//   if (!existingProduct) throw { status: 404, message: "Product not found." };
 
-  const existingCartItem = await AddToCart.findById({ _id: productId, guestUserId });
-  if (existingCartItem) return { exists: true };
+//   const existingCartItem = await AddToCart.findById({ _id: productId, guestUserId });
+//   if (existingCartItem) return { exists: true };
+//  console.log("existingCart"+ existingCartItem);
+ 
+//   const existingSavedItem = await CustomerSavedOrder.findOne({ _id: productId, guestUserId });
+//   if (existingSavedItem) return { saved: true };
+//  console.log("existingSavedItem"+ existingSavedItem);
+//   const newCartItem = await AddToCart.create({
+//     productId: productId,
+//     customerId: null,
+//     guestUserId,
+//     createdAt: "customer",
+//     modifiedAt: "customer",
+//   });
 
-  const existingSavedItem = await CustomerSavedOrder.findOne({ _id: productId, guestUserId });
-  if (existingSavedItem) return { saved: true };
-
-  const newCartItem = await AddToCart.create({
-    productId: productId,
-    customerId: null,
-    guestUserId,
-    createdAt: "customer",
-    modifiedAt: "customer",
-  });
-
-  return { added: true, cart: newCartItem };
-};
+//   return { added: true, cart: newCartItem };
+// };
 
 // const getCartItemsByGuestUserIdService = async (guestUserId) => {
 //   console.log(guestUserId+"empty");
@@ -233,9 +234,34 @@ console.log("ar"+ productId,guestUserId);
 //   });
 // };
 
+const addToCartService = async (productId, guestUserId) => {
+
+  const existingProduct = await Product.findById(productId);
+  if (!existingProduct) throw { status: 404, message: "Product not found." };
+
+  // CHECK CART ITEM CORRECTLY
+  const existingCartItem = await AddToCart.findOne({ productId, guestUserId });
+
+  if (existingCartItem) return { exists: true };
+
+  // CHECK SAVED ITEM CORRECTLY
+  const existingSavedItem = await CustomerSavedOrder.findOne({ productId, guestUserId });
+
+  if (existingSavedItem) return { saved: true };
+
+  const newCartItem = await AddToCart.create({
+    productId,
+    customerId: null,
+    guestUserId,
+    createdAt: new Date(),
+    modifiedAt: new Date(),
+  });
+
+  return { added: true, cart: newCartItem };
+};
+
 const getCartItemsByGuestUserIdService = async (guestUserId) => {
   try {
-    console.log("guestUserId:", guestUserId);
 
     return await AddToCart.find({ guestUserId }).populate({
       path: 'productId',
@@ -243,11 +269,11 @@ const getCartItemsByGuestUserIdService = async (guestUserId) => {
         { path: 'subcategoryId' },
         { path: 'categoryId' },
         { path: 'categoryTypeId' },
-        // { path: 'productImages' },
-        // { path: 'productSizes' },
-        // { path: 'seoInformation' },
-        // { path: 'shippingInformation' },
-        // { path: 'productOffers' }
+        { path: 'productImages' },
+        { path: 'productSizes' },
+        { path: 'seoInformation' },
+        { path: 'shippingInformation' },
+        { path: 'productOffers' }
       ]
     });
 
@@ -282,36 +308,38 @@ const getCartItemsByGuestUserIdService = async (guestUserId) => {
 
 const removeItemFromCartService = async (productId) => {
   // const productIdInt = parseInt(productId);
-  return AddToCart.deleteMany({ productId: productId });
+  // return AddToCart.deleteMany( productId );
+  return AddToCart.deleteMany({ productId });
 };
 
 const saveItemForLaterService = async (productId, guestUserId) => {
   // const parsedProductId = parseInt(productId);
 
-  const productExists = await Product.findOne({ productId: productId });
+  // const productExists = await Product.findOne( productId );
+  const productExists = await Product.findOne({ _id: productId });
   if (!productExists) throw { status: 404, message: "Product not found." };
 
-  const alreadySaved = await CustomerSavedOrder.findOne({ productId: parsedProductId, guestUserId });
+  const alreadySaved = await CustomerSavedOrder.findOne({ productId, guestUserId });
   if (alreadySaved) throw { status: 409, message: "Product already saved." };
 
-  await CustomerSavedOrder.create({ productId: parsedProductId, guestUserId });
+  await CustomerSavedOrder.create({ productId, guestUserId });
 
-  await AddToCart.deleteMany({ productId: parsedProductId, guestUserId });
+  await AddToCart.deleteMany({ productId, guestUserId });
 
   return true;
 };
 
 const moveToCartService = async (productId, guestUserId) => {
-  const parsedProductId = parseInt(productId);
+  // const parsedProductId = parseInt(productId);
 
-  const existingCartItem = await AddToCart.findOne({ productId: parsedProductId, guestUserId });
+  const existingCartItem = await AddToCart.findOne({ productId, guestUserId });
   if (existingCartItem) return { alreadyInCart: true };
 
-  const existingSavedItem = await CustomerSavedOrder.findOne({ productId: parsedProductId, guestUserId });
+  const existingSavedItem = await CustomerSavedOrder.findOne({ productId, guestUserId });
   if (!existingSavedItem) throw { status: 404, message: "Product not in saved items." };
 
   await AddToCart.create({
-    productId: parsedProductId,
+    productId: productId,
     customerId: null,
     guestUserId,
     createdDate: new Date(),
@@ -320,7 +348,7 @@ const moveToCartService = async (productId, guestUserId) => {
     modifiedAt: "customer",
   });
 
-  await CustomerSavedOrder.deleteMany({ productId: parsedProductId, guestUserId });
+  await CustomerSavedOrder.deleteMany({productId, guestUserId });
 
   return true;
 };
@@ -329,16 +357,26 @@ const getSavedItemsService = async (guestUserId) => {
   return CustomerSavedOrder.find({ guestUserId })
     .populate({
       path: 'productId',
-      populate: [
-        'subcategory',
-        'mainCategory',
-        'productImages',
-        'productSizes',
-        'seoInformation',
-        'shippingInformation',
-        'categoryType',
-        'productOffers',
-      ],
+      // populate: [
+      //   'subcategory',
+      //   'mainCategory',
+      //   'productImages',
+      //   'productSizes',
+      //   'seoInformation',
+      //   'shippingInformation',
+      //   'categoryType',
+      //   'productOffers',
+      // ],
+        populate: [
+        { path: 'subcategoryId' },
+        { path: 'categoryId' },
+        { path: 'categoryTypeId' },
+        { path: 'productImages' },
+        { path: 'productSizes' },
+        { path: 'seoInformation' },
+        { path: 'shippingInformation' },
+        { path: 'productOffers' }
+      ]
     })
     .sort({ createdDate: -1 });
 };
@@ -352,16 +390,26 @@ const getCustomerCartItemsService = async (customerId) => {
   const parsedCustomerId = parseInt(customerId);
   return AddToCart.find({ customerId: parsedCustomerId }).populate({
     path: 'productId',
+    // populate: [
+    //   'subcategory',
+    //   'mainCategory',
+    //   'productImages',
+    //   'productSizes',
+    //   'seoInformation',
+    //   'shippingInformation',
+    //   'categoryType',
+    //   'productOffers',
+    // ],
     populate: [
-      'subcategory',
-      'mainCategory',
-      'productImages',
-      'productSizes',
-      'seoInformation',
-      'shippingInformation',
-      'categoryType',
-      'productOffers',
-    ],
+        { path: 'subcategoryId' },
+        { path: 'categoryId' },
+        { path: 'categoryTypeId' },
+        { path: 'productImages' },
+        { path: 'productSizes' },
+        { path: 'seoInformation' },
+        { path: 'shippingInformation' },
+        { path: 'productOffers' }
+      ]
   });
 };
 

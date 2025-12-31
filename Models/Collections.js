@@ -364,7 +364,9 @@ const MainCategorySchema = new Schema({
   updatedAt: { type: Date, default: Date.now },
   userId: { type: Number, ref: 'UserRegistration' },
   subCategories: [{ type: Schema.Types.ObjectId, ref: 'SubCategory' }]
-}, { collection: 'main_categories' });
+}, { collection: 'main_categories',
+  timestamps: true,
+ });
 
 /* ------------------------------------------------
    Sub Category
@@ -379,7 +381,9 @@ const SubCategorySchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   userId: { type: Number, ref: 'UserRegistration' }
-}, { collection: 'subcategories' });
+}, { collection: 'subcategories',
+  timestamps: true,
+ });
 
 // ✅ Virtual populate to join numeric field
 SubCategorySchema.virtual('categoryTypeInfo', {
@@ -401,7 +405,9 @@ const CategoryTypeSchema = new Schema({
   // categoryTypeId: { type: Number, unique: true },
   categoryTypeId: { type: Number, unique: true },
   typeName: String
-}, { collection: 'category_types' });
+}, { collection: 'category_types',
+  timestamps: true,
+ });
 
 
 /* ------------------------------------------------
@@ -425,7 +431,9 @@ const ProductSchema = new Schema({
   updatedAt: { type: Date, default: Date.now },
   createdBy: { type: Number, ref: 'UserRegistration' },
   modifiedBy: { type: Number, ref: 'UserRegistration' }
-}, { collection: 'products' });
+}, { collection: 'products',
+  timestamps: true,
+ });
 
 /* ------------------------------------------------
    SEO Information
@@ -440,7 +448,9 @@ const SEOInformationSchema = new Schema({
   createdDate: { type: Date, default: Date.now },
   modifiedDate: { type: Date, default: Date.now },
   userId: { type: Number, ref: 'UserRegistration' }
-}, { collection: 'seo_information' });
+}, { collection: 'seo_information',
+  timestamps: true,
+ });
 
 /* ------------------------------------------------
    Shipping Information
@@ -453,7 +463,9 @@ const ShippingInformationSchema = new Schema({
   createdDate: { type: Date, default: Date.now },
   modifiedDate: { type: Date, default: Date.now },
   userId: { type: Number, ref: 'UserRegistration' }
-}, { collection: 'shipping_information' });
+}, { collection: 'shipping_information',
+  timestamps: true,
+ });
 
 /* ------------------------------------------------
    Product Size
@@ -479,7 +491,9 @@ const ProductImageSchema = new Schema({
   modifiedDate: { type: Date, default: Date.now },
   createdBy: { type: Number, ref: 'UserRegistration' },
   modifiedBy: { type: Number, ref: 'UserRegistration' }
-}, { collection: 'product_image' });
+}, { collection: 'product_image',
+  timestamps: true,
+ });
 
 /* ------------------------------------------------
    Product Offer
@@ -497,7 +511,9 @@ const ProductOfferSchema = new Schema({
   modifiedDate: { type: Date, default: Date.now },
   createdBy: { type: Number, ref: 'UserRegistration' },
   modifiedBy: { type: Number, ref: 'UserRegistration' }
-}, { collection: 'product_offers' });
+}, { collection: 'product_offers',
+  timestamps: true,
+ });
 
 /* ------------------------------------------------
    Add to Cart
@@ -508,7 +524,9 @@ const AddToCartSchema = new Schema({
   guestUserId: String,
   createdDate: { type: Date, default: Date.now },
   modifiedDate: { type: Date, default: Date.now }
-}, { collection: 'add_to_cart' });
+}, { collection: 'add_to_cart',
+  timestamps: true,
+ });
 
 /* ------------------------------------------------
    Customer Saved Order
@@ -519,40 +537,148 @@ const CustomerSavedOrderSchema = new Schema({
   createdDate: { type: Date, default: Date.now }
 }, { collection: 'customer_saved_order' });
 
+// Prevent same guest saving the same product twice
+CustomerSavedOrderSchema.index({ productId: 1, guestUserId: 1 }, { unique: true });
 /* ------------------------------------------------
    Customer Address
 ------------------------------------------------ */
-const CustomerAddressSchema = new Schema({
-  customerId: { type: Number, ref: 'UserRegistration' },
-  address: String,
-  city: String,
-  state: String,
-  zipCode: String,
-  phone: String,
-  paymentMethod: String,
-  createdAt: { type: Date, default: Date.now }
-}, { collection: 'customer_address' });
+// const CustomerAddressSchema = new Schema({
+//   customerId: { type: Number, ref: 'UserRegistration' },
+//   address: String,
+//   city: String,
+//   state: String,
+//   zipCode: String,
+//   phone: String,
+//   paymentMethod: String,
+//   createdAt: { type: Date, default: Date.now }
+// }, { collection: 'customer_address' });
 
-/* ------------------------------------------------
-   Order
------------------------------------------------- */
+// /* ------------------------------------------------
+//    Order
+// ------------------------------------------------ */
+// const OrderSchema = new Schema({
+//   customerId: { type: Number, ref: 'UserRegistration' },
+//   addressId: { type: Schema.Types.ObjectId, ref: 'CustomerAddress' },
+//   totalAmount: Number,
+//   createdAt: { type: Date, default: Date.now }
+// }, { collection: 'Order' });
+
+// /* ------------------------------------------------
+//    Order Item
+// ------------------------------------------------ */
+// const OrderItemSchema = new Schema({
+//   orderId: { type: Schema.Types.ObjectId, ref: 'Order' },
+//   productId: { type: Schema.Types.ObjectId, ref: 'Product' },
+//   quantity: Number,
+//   price: Number,
+//   discountPrice: Number
+// }, { collection: 'order_item' });
+
+
+// Product → Product Images (1-to-many)
+ProductSchema.virtual('productImages', {
+  ref: 'ProductImage',
+  localField: '_id',
+  foreignField: 'productId',
+  justOne: false
+});
+
+// Product → Product Sizes (1-to-many)
+ProductSchema.virtual('productSizes', {
+  ref: 'ProductSize',
+  localField: '_id',
+  foreignField: 'productId',
+  justOne: false
+});
+
+// Product → SEO Information (1-to-1)
+ProductSchema.virtual('seoInformation', {
+  ref: 'SEOInformation',
+  localField: '_id',
+  foreignField: 'productId',
+  justOne: true
+});
+
+// Product → Shipping Information (1-to-1)
+ProductSchema.virtual('shippingInformation', {
+  ref: 'ShippingInformation',
+  localField: '_id',
+  foreignField: 'productId',
+  justOne: true
+});
+
+// Product → Product Offers (1-to-many)
+ProductSchema.virtual('productOffers', {
+  ref: 'ProductOffer',
+  localField: '_id',
+  foreignField: 'productId',
+  justOne: false
+});
+
+// Enable virtuals
+ProductSchema.set('toObject', { virtuals: true });
+ProductSchema.set('toJSON', { virtuals: true });
+
+const OrderSessionSchema = new Schema({
+  customerId: { type: Number, ref: 'UserRegistration' },
+  guestUserId: String,
+
+  items: [{
+    productId: { type: Schema.Types.ObjectId, ref: 'Product' },
+    productName: String,
+    price: Number,
+    discountPrice: Number,
+    quantity: Number,
+    lockedPrice: Number
+  }],
+
+  totalAmount: Number,
+  currency: { type: String, default: "INR" },
+
+  razorpayOrderId: String,
+
+  status: { 
+    type: String, 
+    enum: ["CREATED", "PAID", "EXPIRED", "CANCELLED"], 
+    default: "CREATED" 
+  },
+
+  createdDate: { type: Date, default: Date.now },
+  expiresAt: { type: Date, required: true },
+  modifiedDate: { type: Date, default: Date.now }
+}, { collection: "order_session" });
+
+
+
 const OrderSchema = new Schema({
   customerId: { type: Number, ref: 'UserRegistration' },
-  addressId: { type: Schema.Types.ObjectId, ref: 'CustomerAddress' },
-  totalAmount: Number,
-  createdAt: { type: Date, default: Date.now }
-}, { collection: 'Order' });
+  guestUserId: String,
 
-/* ------------------------------------------------
-   Order Item
------------------------------------------------- */
-const OrderItemSchema = new Schema({
-  orderId: { type: Schema.Types.ObjectId, ref: 'Order' },
-  productId: { type: Schema.Types.ObjectId, ref: 'Product' },
-  quantity: Number,
-  price: Number,
-  discountPrice: Number
-}, { collection: 'order_item' });
+  items: [{
+    productId: { type: Schema.Types.ObjectId, ref: 'Product' },
+    productName: String,
+    quantity: Number,
+    price: Number,
+    discountPrice: Number
+  }],
+
+  payment: {
+    provider: String,
+    paymentId: String,
+    razorpayOrderId: String,
+    method: String,
+    status: String
+  },
+
+  totalAmount: Number,
+  address: Object,
+
+  status: { type: String, default: "Order Placed" },
+
+  createdDate: { type: Date, default: Date.now },
+  modifiedDate: { type: Date, default: Date.now }
+}, { collection: "orders" });
+
 
 /* ------------------------------------------------
    EXPORT MODELS
@@ -577,7 +703,10 @@ module.exports = {
   ProductOffer: mongoose.model('ProductOffer', ProductOfferSchema),
   AddToCart: mongoose.model('AddToCart', AddToCartSchema),
   CustomerSavedOrder: mongoose.model('CustomerSavedOrder', CustomerSavedOrderSchema),
-  CustomerAddress: mongoose.model('CustomerAddress', CustomerAddressSchema),
-  Order: mongoose.model('Order', OrderSchema),
-  OrderItem: mongoose.model('OrderItem', OrderItemSchema),
+  OrderSession:mongoose.model("OrderSession", OrderSessionSchema),
+  Order:mongoose.model("Orders", OrderSchema),
+  
+  // CustomerAddress: mongoose.model('CustomerAddress', CustomerAddressSchema),
+  // Order: mongoose.model('Order', OrderSchema),
+  // OrderItem: mongoose.model('OrderItem', OrderItemSchema),
 };

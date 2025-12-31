@@ -135,7 +135,7 @@ const signInVerifyOtpService = async (email, otp, guestUserId) => {
           { guestUserId },
           {
             $set: {
-              customerId: user._id,
+              customerId: user.userId,
               guestUserId: null,
             },
           }

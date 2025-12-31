@@ -3,7 +3,6 @@ const orderService = require('../../../Services/Private Services/customerLogin_S
 const submitOrder = async (req, res) => {
   try {
     const orderData = req.body;
-    console.log(orderData);
     
     const savedOrder = await orderService.saveOrder(orderData);
     res.status(201).json({ message: 'Order placed successfully', data: savedOrder });

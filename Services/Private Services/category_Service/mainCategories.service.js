@@ -75,7 +75,7 @@ const findAllMainCategories = async () => {
   //     select: 'subCategoryName description images createdAt updatedAt', // fields to return
   //   })
   //   .lean(); // returns plain JS objects instead of Mongoose docs
-  return await MainCategory.find({}, 'categoryName _id').lean();
+  return await MainCategory.find({}, 'categoryName _id description createdAt updatedAt').lean();
 }
 
 const findMainCategoryByIdWithDetails = async (id) => {
