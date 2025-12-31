@@ -15,8 +15,8 @@
 
     <tbody>
       <tr *ngFor="let category of mainCategories">
-        <td>{{ category.categoryName }}</td>
-        <td>{{ category.description }}</td>
+        <td>{{ category?.categoryName }}</td>
+        <td>{{ category?.description }}</td>
         <td class="hidden-cols">{{ category.createdAt | date : "medium" }}</td>
         <!-- <td>{{ category.createdAt | date: 'dd/mm/yyyy' }}</td> -->
         <td class="hidden-cols">{{ category.updatedAt | date : "medium" }}</td>

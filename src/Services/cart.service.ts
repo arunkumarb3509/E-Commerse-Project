@@ -118,5 +118,23 @@ export class CartService {
   finalizeCOD(payload: any): Observable<any> {
     return this.http.post(`${this.environment.CHECKOUT.FINALIZE_COD}`, payload);
   }
+  private base =  'http://localhost:5000/api/';
+
+
+
+  getCustomerOrders(customerId: number): Observable<any> {
+    return this.http.get<any>(`${this.base}/customer/${customerId}`);
+  }
+
+  getOrderById(orderId: string): Observable<any> {
+    return this.http.get<any>(`${this.base}/${orderId}`);
+  }
+
+  updateStatus(orderId: string, status: string): Observable<any> {
+    return this.http.put<any>(`${this.base}/${orderId}/status`, { status });
+  }
+
+
+
 }
 

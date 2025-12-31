@@ -27,6 +27,7 @@ export class NavbarComponent implements OnInit {
     this.categoryService.getMainCategories().subscribe(
       (categories) => {
         this.main_category = categories;
+        // alert("main_category 1"+JSON.stringify(this.main_category));
         this.loadSubCategories();
       },
       (error) => {
@@ -37,9 +38,10 @@ export class NavbarComponent implements OnInit {
 
   loadSubCategories(): void {
     const requests = this.main_category.map(category =>
-      this.categoryService.getMainCategoryById(category.categoryId)
+      this.categoryService.getMainCategoryByIdForProduct(category.categoryId)
     );
 
+    // alert("main_category 2"+requests+JSON.stringify(this.main_category));
     forkJoin(requests).subscribe(
       (responses) => {
         responses.forEach((res, i) => {

@@ -33,7 +33,6 @@ import { NgChartsModule } from 'ng2-charts';
 import { WelcomeSellerComponent } from './private-page/dashboard/body/welcome-seller/welcome-seller.component';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +53,7 @@ import { WelcomeSellerComponent } from './private-page/dashboard/body/welcome-se
     ViewCartComponent,
     ProductImagesComponent,
     ProductOffersComponent,
+
        
   ],
 

@@ -38,6 +38,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       initialNavigation: 'enabledBlocking',
+      onSameUrlNavigation: 'ignore'
     }),
     RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' }),
   ],

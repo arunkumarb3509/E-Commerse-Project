@@ -8,6 +8,37 @@
   .sticky-top {
     background-color: $nav-bg-color;
   }
+
+  .input-group {
+  .input-group-prepend.dropdown {
+    position: relative; /* anchor the absolute menu */
+
+    /* target only the dropdown-menu that sits inside the input-group "All" button */
+    > .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 1273%;        /* requested wide width */
+      max-width: none;
+      min-width: 200px;
+      z-index: 1100;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      padding: 1rem;
+      transform-origin: top left;
+    }
+  }
+
+  /* keep input-group layout stable on small screens */
+  @media (max-width: 992px) {
+    .input-group-prepend.dropdown > .dropdown-menu {
+      width: 100%;
+      left: 0;
+      right: 0;
+    }
+  }
+}
+
   
   .form-control {
     width: 150px;

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from 'src/Services/cart.service';
 import { CustomerService } from 'src/Services/customer.service';
@@ -61,8 +62,8 @@ export class CustomerProductComponent implements OnInit {
     private toastr: ToastrService,
     private fb: FormBuilder,
     private cartService: CartService,
-    private customerService: CustomerService
-
+    private customerService: CustomerService,
+    private router: Router
   ) {
     // this.orderForm = this.fb.group({
     //   address: ['', Validators.required],
@@ -387,8 +388,11 @@ calculatePriceDetails222(): void {
 
         if (codResp && codResp.success) {
           this.toastr.success('Order placed (Cash on Delivery).');
+          // this.router.navigate(['/fashionflair/dashboard/sub-categories']);
+          this.router.navigate(['/fashionflair/dashboard/order-success/'+ codResp.orderId]);
           this._onOrderSuccess(codResp.orderId);
           alert('Order placed successfully with Cash on Delivery!'+ codResp.orderId);
+          console.log('Order placed successfully with Cash on Delivery!'+ codResp.orderId);
         } else {
           this.toastr.error('Failed to place COD order.');
         }

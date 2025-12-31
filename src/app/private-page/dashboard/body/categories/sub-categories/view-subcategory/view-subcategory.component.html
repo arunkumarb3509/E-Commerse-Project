@@ -6,7 +6,7 @@
 <div class="container-fluid">
   <div class="card">
     <div class="card-body">
-      <form class="text-center row" [formGroup]="editSubCategoryForm" (ngSubmit)="onSubmit()">
+      <form class="text-center row" [formGroup]="editSubCategoryForm" >
         <div class="row">
           <div class="col-12 col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="row">
@@ -22,7 +22,7 @@
                     <select class="form-select border-outline" formControlName="categoryName"
                       [ngClass]="{'is-invalid': editSubCategoryForm.get('categoryName')?.invalid && editSubCategoryForm.get('categoryName')?.touched}">
                       <option value="" selected disabled hidden>Select Main Category</option>
-                      <option *ngFor="let category of mainCategories" [value]="category._id">{{
+                      <option *ngFor="let category of mainCategories" [ngValue]="category.categoryName">{{
                         category.categoryName }}</option>
                     </select>
                     <label>Select Main Category</label>
@@ -104,7 +104,7 @@
 
           <!-- <div class="col-12"> -->
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button class="btn" type="submit" [disabled]="editSubCategoryForm.invalid">Submit</button>
+            <button class="btn" type="submit" [disabled]="editSubCategoryForm.invalid" (click)="onSubmit()">Submit</button>
             <button class="btn" type="button" routerLink="/dashboard">Cancel</button>
           </div>
           <!-- </div> -->

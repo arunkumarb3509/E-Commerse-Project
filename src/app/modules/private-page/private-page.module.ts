@@ -27,6 +27,8 @@ import { GlobalModule } from '../global/global.module';
 import { CustomerProductComponent } from 'src/app/private-page/dashboard/body/customer-product/customer-product.component';
 import { NgChartsModule } from 'ng2-charts';
 import { WelcomeSellerComponent } from 'src/app/private-page/dashboard/body/welcome-seller/welcome-seller.component';
+import { CustOrderSuccessComponent } from 'src/app/private-page/dashboard/body/cust-order-success/cust-order-success.component';
+import { CustMyOrderComponent } from 'src/app/private-page/dashboard/body/cust-my-order/cust-my-order.component';
 
 
 @NgModule({
@@ -51,7 +53,9 @@ import { WelcomeSellerComponent } from 'src/app/private-page/dashboard/body/welc
     ViewProductsComponent,
     ViewMoreProductsComponent,
     CustomerProductComponent,
-    WelcomeSellerComponent
+    WelcomeSellerComponent,
+    CustOrderSuccessComponent,
+    CustMyOrderComponent,
     // ProductSizeComponent
     
   ],

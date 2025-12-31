@@ -96,11 +96,11 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
           class="dropdown-toggle"
-          (click)="onSidebarItemClick()"
+           (click)="toggleDropdown('generalSetup')"
         >
           <i class="fa fa-tachometer me-3"></i>Home
         </a>
-        <ul class="collapse list-unstyled" id="generalSetup">
+        <ul class="collapse list-unstyled" id="generalSetup"  [class.show]="activeDropdown === 'generalSetup'">
           <li>
             <a
               routerLinkActive="active"
@@ -120,11 +120,11 @@
         </ul>
       </li>
       <!-- Add click events for all sidebar links -->
-      <li>
+      <!-- <li>
         <ul class="collapse list-unstyled" id="Jobs">
        
         </ul>
-      </li>
+      </li> -->
     <!-- </div> -->
       <!-- <div *ngIf="userType === 'customer'"> -->
       <li>

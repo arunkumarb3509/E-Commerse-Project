@@ -11,6 +11,8 @@ export class SideBarComponent implements OnInit {
   routerName = 'dashboard';
   isSidebarActive = false;
   userType: string | null = null;
+activeDropdown: string | null = null;
+
   constructor(
     private router: Router,
     private userLoginService: UserLoginService,
@@ -50,6 +52,10 @@ export class SideBarComponent implements OnInit {
       this.isSidebarActive = false;
     }
   }
+ // ⭐ Friend logic — dropdown open/close function
+  toggleDropdown(menu: string) {
+    this.activeDropdown = this.activeDropdown === menu ? null : menu;
+  } 
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {

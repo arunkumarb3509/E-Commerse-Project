@@ -79,10 +79,12 @@ export class ViewSubcategoryComponent implements OnInit {
       this.categoryService.getSubCategoryById(this.id).subscribe(
         (category) => {
           this.selectedCategory = category;
-
+  // alert("catuu"+JSON.stringify(this.selectedCategory))
           this.editSubCategoryForm.patchValue({
             // categoryName: category.categoryId.categoryName,
-            categoryName:category.categoryId?._id || category.categoryId,
+            // categoryName:category.categoryId?._id || category.categoryId,
+            categoryName: category.categoryId?.categoryName || category.categoryId?._id,
+
             subcategoryName: category.subCategoryName,
             description: category.description,
             categoryType: category.categoryType,
@@ -116,22 +118,35 @@ export class ViewSubcategoryComponent implements OnInit {
     if (this.editSubCategoryForm.valid) {
       console.log("Form is valid. ID: " + this.id);
   
-      if (this.id) {
+     
         // Convert the categoryName to integer
         // const categoryName = parseInt(this.editSubCategoryForm.value.categoryName, 10);
   
-        const updatedData = {
-          categoryName: this.editSubCategoryForm.value.categoryName,
-          subcategoryName: this.editSubCategoryForm.value.subcategoryName,
-          description: this.editSubCategoryForm.value.description,
-          mainCategoryId: this.editSubCategoryForm.value._id,
-          categoryType: this.editSubCategoryForm.value.categoryType,
-          image: this.editSubCategoryForm.value.image,
+        // const updatedData = {
+        //   categoryId: this.editSubCategoryForm.value.categoryId,
+        //   categoryName: this.editSubCategoryForm.value.categoryName,
+        //   subcategoryName: this.editSubCategoryForm.value.subcategoryName,
+        //   description: this.editSubCategoryForm.value.description,
+        //   mainCategoryId: this.editSubCategoryForm.value._id,
+        //   categoryType: this.editSubCategoryForm.value.categoryType,
+        //   image: this.editSubCategoryForm.value.image,
          
+        // };
+        const formValue = this.editSubCategoryForm.value;
+
+        const updatedData = {
+          categoryId: {
+            _id: formValue.categoryName   // 🔥 MAIN CATEGORY ID
+          },
+          subCategoryName: formValue.subcategoryName,
+          description: formValue.description,
+          categoryType: formValue.categoryType,
+          image: formValue.image
         };
+    console.log("new up"+ JSON.stringify(updatedData));
   
-        // Call the service to update the subcategory
-        this.categoryService.updateSubCategory(this.id, updatedData).subscribe(
+        // Call the service to update the subcategory command this.id
+        this.categoryService.updateSubCategory(this.selectedCategory._id, updatedData).subscribe(
           (response) => {
             if (response.updatedSubCategory) {
               this.editSubCategoryForm.reset();
@@ -148,9 +163,7 @@ export class ViewSubcategoryComponent implements OnInit {
             this.toastr.error('Server error. Please try again later.');
           }
         );
-      } else {
-        this.toastr.error('Subcategory ID is missing.');
-      }
+    
     }
   }
   

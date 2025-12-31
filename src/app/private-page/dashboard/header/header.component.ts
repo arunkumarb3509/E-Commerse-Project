@@ -40,6 +40,11 @@ toggleFullscreen() {
     this.isFullscreen = false;
   }
 }
+
+goToMyOrders() {
+  this.router.navigate(['/fashionflair/dashboard/my-orders']);
+}
+
   //  loggedInUser(): void {
       
   //     const userId = localStorage.getItem('userId');

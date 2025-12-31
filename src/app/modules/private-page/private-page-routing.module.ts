@@ -6,6 +6,8 @@ import { MainCategoriesComponent } from "src/app/private-page/dashboard/body/cat
 import { ViewMaincategoryComponent } from "src/app/private-page/dashboard/body/categories/main-categories/view-maincategory/view-maincategory.component";
 import { SubCategoriesComponent } from "src/app/private-page/dashboard/body/categories/sub-categories/sub-categories.component";
 import { ViewSubcategoryComponent } from "src/app/private-page/dashboard/body/categories/sub-categories/view-subcategory/view-subcategory.component";
+import { CustMyOrderComponent } from "src/app/private-page/dashboard/body/cust-my-order/cust-my-order.component";
+import { CustOrderSuccessComponent } from "src/app/private-page/dashboard/body/cust-order-success/cust-order-success.component";
 import { MyProfileComponent } from "src/app/private-page/dashboard/body/my-profile/my-profile.component";
 import { ProductsComponent } from "src/app/private-page/dashboard/body/products/products.component";
 import { ProductImagesComponent } from "src/app/private-page/dashboard/body/products/view-more-products/product-images/product-images.component";
@@ -26,7 +28,12 @@ const privatePageRoutes: Routes = [
         { path: 'dashboard/welcome', 
         component: WelcomeSellerComponent,
       },
-        
+        { path: 'dashboard/order-success/:orderId',
+           component: CustOrderSuccessComponent 
+          },
+        { path: 'dashboard/my-orders',
+           component: CustMyOrderComponent
+         },
         {
           path: 'dashboard/business-profile',
           component: BusinessProfileComponent,

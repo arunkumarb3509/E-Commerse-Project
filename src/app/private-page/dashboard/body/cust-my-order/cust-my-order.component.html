@@ -1,0 +1,58 @@
+<!-- src/app/pages/my-orders/my-orders.component.html -->
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>My Orders</h4>
+<h3>Arunkumar</h3>
+<h3>Arunkumar</h3>
+<h3>Arunkumar</h3>
+<h3>Arunkumar</h3>
+<h3>Arunkumar</h3>
+<h3>Arunkumar</h3>
+<h3>Arunkumar</h3>
+    <div class="d-flex gap-2 align-items-center">
+      <select class="form-select" [(ngModel)]="filterStatus" style="width:200px">
+        <option value="">All Status</option>
+        <option>Order Placed</option>
+        <option>Order Confirmed</option>
+        <option>Packed</option>
+        <option>Shipped</option>
+        <option>Out for Delivery</option>
+        <option>Delivered</option>
+        <option>Cancelled</option>
+      </select>
+
+      <input type="text" class="form-control" [(ngModel)]="searchText" placeholder="Search order id or name" style="width:250px" />
+    </div>
+  </div>
+<h3>Arunkumar</h3>
+<h3>Arunkumar</h3>
+<h3>Arunkumar</h3><h3>Arunkumar</h3>
+<h3>Arunkumar</h3>
+
+<h3>Arunkumar</h3>
+<h3>Arunkumar</h3>
+<h3>Arunkumar</h3>
+<h3>Arunkumar</h3>
+<h3>Arunkumar</h3>
+
+  <div *ngIf="loading" class="text-center py-5">Loading orders...</div>
+
+  <div *ngIf="!loading && filteredOrders().length === 0" class="text-center text-muted py-5">No orders found</div>
+
+  <div class="list-group">
+    <a *ngFor="let order of filteredOrders()" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" (click)="viewOrder(order)">
+      <div>
+        <div class="fw-bold">Order ID: {{ order._id }}</div>
+        <div class="small text-muted">Placed: {{ order.createdDate | date:'short' }}</div>
+        <div class="small">Amount: ₹{{ order.totalAmount }}</div>
+      </div>
+
+      <div class="text-end">
+        <div>
+          <span class="badge bg-secondary">{{ order.payment.method }}</span>
+        </div>
+        <div class="small mt-2">{{ order.status }}</div>
+      </div>
+    </a>
+  </div>
+</div>

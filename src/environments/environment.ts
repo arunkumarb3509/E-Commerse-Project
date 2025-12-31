@@ -60,6 +60,7 @@ export const environment = {
    GET_MAIN_CATEGORIES:`${URL}/getMainCategories`,
    GET_SUB_CATEGORIES:`${URL}/getSubcategories`,
    GET_MAIN_CATEGORY_BY_ID:`${URL}/getMainCategoryById/`,
+   GET_MAIN_CATEGORYID_BASED_SUBCATEGORY:`${URL}/getMainCategoryBasedSubCategory/`,
    GET_SUB_CATEGORY_BY_ID:`${URL}/getSubCategoryById/`,
    GET_CATEGORY_TYPES:`${URL}/getCategoryTypes`,
    UPDATE_MAIN_CATEGORY:`${URL}/updateMainCategory/`,
