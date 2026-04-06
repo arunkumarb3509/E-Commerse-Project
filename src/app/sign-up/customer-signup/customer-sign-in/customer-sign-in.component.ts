@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { CustomerService } from 'src/Services/customer.service';
 import * as CryptoJS from 'crypto-js';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare const google: any;
 
 @Component({
@@ -40,7 +41,8 @@ export class CustomerSignInComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private toastr:ToastrService
+    private toastr:ToastrService,
+    private spinner: NgxSpinnerService
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -181,12 +183,14 @@ onKeyDown(event: KeyboardEvent, index: number): void {
     if (this.loginForm.invalid) { 
       return;
     }
+    this.spinner.show();
 
     this.signin.email = this.loginForm.value.email;
     this.signin.password = this.loginForm.value.password;
 
     this.customerService.SignInSendOTP(this.signin.email, this.signin.password).subscribe(
       (response) => {
+        this.spinner.hide();
         this.inCorrectMail = false;
         this.inCorrectMessage = false;
         this.isOTPSent = false;
@@ -211,13 +215,14 @@ onKeyDown(event: KeyboardEvent, index: number): void {
         }
       },
       (error) => {
+        this.spinner.hide();
         console.error("An error occurred: ", error);
         // this.errorMessage = 'An error occurred. Please try again.';
         if (error.error.message === 'Invalid email') {
           this.inCorrectMail = true;
           this.errorMessage = 'Invalid email';
           this.toastr.error('Invalid email');
-        } else if (error.error.message === 'Incorrect email or password') {
+        } else if (error.error.message === 'Incorrect crendials') {
           this.inCorrectMessage = true;
           this.inCorrectMail = false;
           this.toastr.error('Incorrect crenditials');
@@ -255,8 +260,10 @@ onKeyDown(event: KeyboardEvent, index: number): void {
 
   resendOTP(): void {
     // this.generateOTP();
+    this.spinner.show();
     this.customerService.signInResendOTP(this.signin.email).subscribe(
       (response: any) => {
+        this.spinner.hide();
         if (response.message === 'OTP resent to email') {
           this.isOTPReSendMessage=true;
           this.timeLeft = 300; // reset to 5 minutes
@@ -269,6 +276,7 @@ onKeyDown(event: KeyboardEvent, index: number): void {
        }
       },
       error => {
+        this.spinner.hide();
         console.error('Error sending OTP', error);
       }
     );
@@ -277,15 +285,18 @@ onKeyDown(event: KeyboardEvent, index: number): void {
   verifyOTP(): void {
     const enteredOTP = this.signInOtpForm.value.otp.join('');
     const guestUserId = sessionStorage.getItem('guestUserId');
+    this.spinner.show();
 
     if (!guestUserId) {
       console.log("Please refresh your screen: guestUserId is missing");
       this.toastr.error("Please refresh your screen: guestUserId is missing");
+      this.spinner.hide();
       return;
     }
 
     if (!enteredOTP) {
       this.toastr.error("Please enter your OTP");
+      this.spinner.hide();
       return;
     }
 
@@ -336,6 +347,7 @@ onKeyDown(event: KeyboardEvent, index: number): void {
   .signInVerifyOTP(this.signin.email, enteredOTP, guestUserId)
   .subscribe(
     (response) => {
+      this.spinner.hide();
       const msg = (response?.message || '').trim();
 
       if (msg === 'OTP verified successfully') {
@@ -377,6 +389,7 @@ onKeyDown(event: KeyboardEvent, index: number): void {
       }
     },
     (error) => {
+      this.spinner.hide();
       const errorMsg = error?.error?.message?.trim?.() || 'Server error. Please try again.';
       this.isOTPVerified = false;
       this.otpExpiredMessage = false;

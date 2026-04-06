@@ -1,7 +1,6 @@
 @import "src/styles.scss";
 * {
   font-family: $forum-ff;
-  // font-size: $private-page-body-font-size;
 }
 
 .btn {
@@ -111,4 +110,100 @@ i {
   border-radius: 4px;
 }
 
-  
+/* Search Bar */
+.search-bar-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 4px 0;
+}
+.search-input-group {
+  position: relative;
+  width: 280px;
+}
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 14px;
+}
+.search-input {
+  width: 100%;
+  padding: 7px 32px 7px 32px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  &:focus { border-color: $dark-green-color; }
+}
+.search-clear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+  padding: 0;
+  font-size: 13px;
+}
+
+/* Pagination */
+.pagination-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 8px 0 20px;
+  flex-wrap: wrap;
+}
+.pagination-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 4px;
+}
+.page-btn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.15s;
+  &:hover:not(:disabled) {
+    background: $dark-green-color;
+    color: #fff;
+    border-color: $dark-green-color;
+  }
+}
+.pagination-list li.active .page-btn {
+  background: $dark-green-color;
+  color: #fff;
+  border-color: $dark-green-color;
+  font-weight: 600;
+}
+.pagination-list li.disabled .page-btn {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.page-info {
+  font-size: 13px;
+  color: #555;
+}
+.no-data-msg {
+  font-size: 1rem;
+  font-weight: 600;
+  color: red;
+}
+
+@media screen and (max-width: 425px) {
+  .search-input-group { width: 100%; }
+  .search-bar-wrapper { justify-content: stretch; margin: 8px 4px 0; }
+}

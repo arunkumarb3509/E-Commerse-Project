@@ -12,24 +12,16 @@ import { CategoryService } from 'src/Services/category.service';
 export class MainCategoryGridComponent implements OnInit {
   mainCategoryForm!: FormGroup;
   selectedCategory: any;
+  allCategories: any[] = [];
   mainCategories: any[] = [];
   showConfirmDialog = false;
   categoryToDelete: number | null = null;
   noMainCategory: boolean = true;
-  paginationData: any = {
-    info: 'show',
-    data: [],
-    start: 0,
-    back: 0,
-    next: 0,
-    end: 0,
-    backtab: 'hide',
-    nexttab: 'hide',
-  };
 
-  limit: number = 10;
-  total: number = 0;
-  offset: number = 0;
+  searchTerm: string = '';
+  pageSize: number = 7;
+  currentPage: number = 1;
+  totalPages: number = 1;
 
   constructor(
     private router: Router,
@@ -39,38 +31,23 @@ export class MainCategoryGridComponent implements OnInit {
 
   ngOnInit(): void {
     this.categoryService.mainCategoryList.subscribe({
-      next: (mainCategoryListStatus) => {
-        if (mainCategoryListStatus) {
+      next: (status) => {
+        if (status) {
           this.loadMainCategories();
           this.categoryService.mainCategoryList.next(false);
         }
       },
     });
-    // this.loadMainCategories();
-    this.loadMainCategories(0);
+    this.loadMainCategories();
   }
 
-  // loadMainCategories(): void {
-  //   this.categoryService.getMainCategories().subscribe(
-  //     (categories) => {
-  //       this.mainCategories = categories;
-  //       this.noMainCategory=false;
-  //     },
-  //     (error) => {
-  //       this.noMainCategory=true;
-  //       console.error('Error fetching categories', error);
-  //     }
-  //   );
-  // }
-
-  loadMainCategories(offset: number = 0): void {
-    this.categoryService.getMainCategories(offset, this.limit).subscribe(
+  loadMainCategories(): void {
+    this.categoryService.getMainCategories(0, 1000).subscribe(
       (res) => {
-        this.mainCategories = res;
-        this.total = res.total;
-        this.offset = res.offset;
-        this.buildPagination();
-        this.noMainCategory = false;
+        this.allCategories = Array.isArray(res) ? res : (res.data || res.categories || []);
+        this.noMainCategory = this.allCategories.length === 0;
+        this.currentPage = 1;
+        this.applyFilter();
       },
       (error) => {
         this.noMainCategory = true;
@@ -79,29 +56,39 @@ export class MainCategoryGridComponent implements OnInit {
     );
   }
 
-  buildPagination() {
-    let pages = [];
-    const totalPages = Math.ceil(this.total / this.limit);
-    const currentPage = Math.floor(this.offset / this.limit) + 1;
+  applyFilter(): void {
+    const term = this.searchTerm.trim().toLowerCase();
+    const filtered = term
+      ? this.allCategories.filter(
+          (c) =>
+            c.categoryName?.toLowerCase().includes(term) ||
+            c.description?.toLowerCase().includes(term)
+        )
+      : this.allCategories;
+    this.totalPages = Math.max(1, Math.ceil(filtered.length / this.pageSize));
+    if (this.currentPage > this.totalPages) this.currentPage = this.totalPages;
+    const start = (this.currentPage - 1) * this.pageSize;
+    this.mainCategories = filtered.slice(start, start + this.pageSize);
+    this.noMainCategory = filtered.length === 0;
+  }
 
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push({
-        btn_length: i,
-        offset_count: (i - 1) * this.limit,
-        load: i !== currentPage,
-      });
-    }
+  onSearch(): void {
+    this.currentPage = 1;
+    this.applyFilter();
+  }
 
-    this.paginationData = {
-      ...this.paginationData,
-      data: pages,
-      backtab: currentPage > 1 ? 'show' : 'hide',
-      nexttab: currentPage < totalPages ? 'show' : 'hide',
-      back: (currentPage - 2) * this.limit,
-      next: currentPage * this.limit,
-      start: 0,
-      end: (totalPages - 1) * this.limit,
-    };
+  get pageNumbers(): number[] {
+    const pages: number[] = [];
+    const start = Math.max(1, this.currentPage - 2);
+    const end = Math.min(this.totalPages, start + 4);
+    for (let i = start; i <= end; i++) pages.push(i);
+    return pages;
+  }
+
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.applyFilter();
   }
 
   navigateToEditCategory(categoryId: number): void {
@@ -133,20 +120,15 @@ export class MainCategoryGridComponent implements OnInit {
   deleteCategory(categoryId: number): void {
     this.categoryService.deleteMainCategory(categoryId).subscribe(
       (response) => {
-        console.log('Deletion successful', response);
-        // Remove the deleted category from the mainCategories array
-        this.mainCategories = this.mainCategories.filter(
-          (category) => category.id !== categoryId
+        this.allCategories = this.allCategories.filter(
+          (category) => category.categoryId !== categoryId
         );
-        // alert('Category deleted successfully.');
-        this.toastr.success(
-          'Main category and its subcategories successfully deleted'
-        );
+        this.applyFilter();
+        this.toastr.success('Main category and its subcategories successfully deleted');
       },
       (error) => {
         console.error('Error deleting category', error);
         this.toastr.error('Failed to delete the category.');
-        // alert('Failed to delete the category.');
       }
     );
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/Services/category.service';
 
@@ -18,7 +19,7 @@ export class ViewSubcategoryComponent implements OnInit {
   categoryTypes: any[] = [];
   id:number=0;
 
-  constructor(private fb: FormBuilder, private router: Router, public categoryService: CategoryService,private toastr:ToastrService,  private route: ActivatedRoute) {
+  constructor(private fb: FormBuilder, private router: Router, public categoryService: CategoryService,private toastr:ToastrService,  private route: ActivatedRoute,private spinner: NgxSpinnerService) {
 
   }
 
@@ -39,38 +40,46 @@ export class ViewSubcategoryComponent implements OnInit {
   }
 
   loadMainCategories(): void {
+    this.spinner.show();
     this.categoryService.getMainCategories().subscribe(
       (categories) => {
+        this.spinner.hide();
         console.log(categories);
         this.mainCategories=categories;
         
       },
       (error) => {
+        this.spinner.hide();
         console.error('Error fetching categories', error);
       }
     );
   }
 
   loadCategoryTypes(): void {
+    this.spinner.show();
     this.categoryService.getCategoryType().subscribe(
       (categories) => {
+        this.spinner.hide();
         console.log(categories);
         this.categoryTypes=categories;
         
       },
       (error) => {
+        this.spinner.hide();
         console.error('Error fetching categories', error);
       }
     );
   }
   
   loadSubCategories(): void {
+    this.spinner.show();
     // Retrieve the category ID from the route parameters
     const categoryId = this.route.snapshot.paramMap.get('id');
    
    // Confirm categoryId is being captured correctly
     this.categoryService.subCategoryId.subscribe({
      next: (category) => {
+      this.spinner.hide();
         this.id=category;
         }
       });
@@ -78,6 +87,7 @@ export class ViewSubcategoryComponent implements OnInit {
     
       this.categoryService.getSubCategoryById(this.id).subscribe(
         (category) => {
+          this.spinner.hide();
           this.selectedCategory = category;
   // alert("catuu"+JSON.stringify(this.selectedCategory))
           this.editSubCategoryForm.patchValue({
@@ -97,6 +107,7 @@ export class ViewSubcategoryComponent implements OnInit {
     
         // Fetch main categories list for the dropdown
         this.categoryService.getMainCategories().subscribe((categories) => {
+          this.spinner.hide();
           this.mainCategories = categories;
         },
       
@@ -115,9 +126,10 @@ export class ViewSubcategoryComponent implements OnInit {
 
   
   onSubmit(): void {
+    this.spinner.show();
     if (this.editSubCategoryForm.valid) {
       console.log("Form is valid. ID: " + this.id);
-  
+      this.spinner.show();
      
         // Convert the categoryName to integer
         // const categoryName = parseInt(this.editSubCategoryForm.value.categoryName, 10);
@@ -148,6 +160,7 @@ export class ViewSubcategoryComponent implements OnInit {
         // Call the service to update the subcategory command this.id
         this.categoryService.updateSubCategory(this.selectedCategory._id, updatedData).subscribe(
           (response) => {
+            this.spinner.hide();
             if (response.updatedSubCategory) {
               this.editSubCategoryForm.reset();
               this.router.navigate(['/fashionflair/dashboard/sub-categories']);
@@ -159,6 +172,7 @@ export class ViewSubcategoryComponent implements OnInit {
             }
           },
           (error) => {
+            this.spinner.hide();
             console.error('Error updating subcategory', error);
             this.toastr.error('Server error. Please try again later.');
           }

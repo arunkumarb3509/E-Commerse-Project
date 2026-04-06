@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanActivateChild } from '@angular/router';
+import { CanActivate, CanActivateChild, Router } from '@angular/router';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor() {}
+  constructor(private router: Router) {}
 
   canActivate() {
     if (localStorage.getItem('jwt') != null) {
       return true;
     } else {
-      window.location.href = '';
+      this.router.navigate(['/customer-signIn']);
       return false;
     }
   }

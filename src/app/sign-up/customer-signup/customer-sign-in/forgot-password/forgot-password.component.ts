@@ -1,6 +1,7 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { SignIn } from 'src/Model/signIn';
 import { CustomerService } from 'src/Services/customer.service'; // Adjust path as per your project structure
@@ -41,7 +42,7 @@ export class ForgotPasswordComponent implements OnInit {
   special: false
 };
 
-  constructor(private fb: FormBuilder,private customerService: CustomerService, private router: Router,private toastr:ToastrService) {
+  constructor(private fb: FormBuilder,private customerService: CustomerService, private router: Router,private toastr:ToastrService,private spinner: NgxSpinnerService) {
 
     this.passwordForm = this.fb.group({
       newPassword: [
@@ -153,9 +154,11 @@ onKeyDown(event: KeyboardEvent, index: number): void {
       this.invalidMessage =true;
       return;
     }
+    this.spinner.show();
 
     this.customerService.forgotSendOtp(this.email).subscribe(
       (response: any) => {
+        this.spinner.hide();
         if (response.isOTPSendMessage) {
           this.isOTPSendMessage=true;
           this.toastr.success(`OTP send to ${this.email}`);
@@ -170,6 +173,7 @@ onKeyDown(event: KeyboardEvent, index: number): void {
         }
       },
       (error) => {
+        this.spinner.hide();
   this.isOTPSent = false;
   console.error('Error sending OTP', error);
   
@@ -192,6 +196,7 @@ onKeyDown(event: KeyboardEvent, index: number): void {
 
 
   verifyOTP(): void {
+    this.spinner.show();
     const enteredOTP = this.otpForm.value.otp.join('');
 
     // this.customerService.forgotVerifyOTP(this.email, enteredOTP).subscribe(
@@ -228,6 +233,7 @@ onKeyDown(event: KeyboardEvent, index: number): void {
   .forgotVerifyOTP(this.email, enteredOTP)
   .subscribe(
     (response) => {
+      this.spinner.hide();
       const msg = (response?.message || '').trim();
 
       if (msg === 'OTP verified successfully') {
@@ -260,6 +266,7 @@ onKeyDown(event: KeyboardEvent, index: number): void {
       }
     },
     (error) => {
+      this.spinner.hide();
       const errorMsg = error?.error?.message?.trim?.() || 'Server error. Please try again.';
       this.isOTPVerified = false;
       this.otpExpiredMessage = false;
@@ -273,8 +280,10 @@ onKeyDown(event: KeyboardEvent, index: number): void {
   
 
   resendOTP(): void {
+    this.spinner.show();
     this.customerService.forgotPasswordResendOTP(this.email).subscribe(
       (response: any) => {
+        this.spinner.hide();
         if (response.message === 'OTP resent to email') {
           console.log(`OTP resent to ${this.email}`, response);
           this.toastr.success(`OTP resend to ${this.email}`);
@@ -288,13 +297,16 @@ onKeyDown(event: KeyboardEvent, index: number): void {
        }
       },
       error => {
+        this.spinner.hide();
         console.error('Error sending OTP', error);
       }
     );
   }
 
   onSubmit(): void {
+    this.spinner.show();
     if (this.passwordForm.invalid || !this.isOTPVerified) {
+      this.spinner.hide();
       return;
     }
   
@@ -308,6 +320,7 @@ onKeyDown(event: KeyboardEvent, index: number): void {
 
     this.customerService.forgotPassword(this.signin.email,this.signin.password).subscribe(
       response => {
+        this.spinner.hide();
         if (response.message=='Password updated successfully') {
           this.passwordUpdated=true;
           this.toastr.success('Password updated successfully');
@@ -320,6 +333,7 @@ onKeyDown(event: KeyboardEvent, index: number): void {
         }
       },
       error => {
+        this.spinner.hide();
         console.error('Error submitting form', error);
       }
     );

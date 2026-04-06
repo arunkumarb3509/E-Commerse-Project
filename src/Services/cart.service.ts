@@ -78,6 +78,7 @@ export class CartService {
   
   
   removeSavedItemFromCart(productId: string) {
+    alert("removeSavedItemFromCart called with productId: " + productId);
     // this.cartItems = this.cartItems.filter(item => item.productId !== productId);
     this.updateCartCount();
     // const headers = this.getHeaders();

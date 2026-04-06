@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/Services/category.service';
 
@@ -18,7 +19,8 @@ export class SubCategoriesComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private spinner: NgxSpinnerService
   ) {
     this.subCategoryForm = this.fb.group({
       mainCategoryId: ['', Validators.required],
@@ -35,23 +37,29 @@ export class SubCategoriesComponent implements OnInit {
   }
 
   loadMainCategories(): void {
+    this.spinner.show();
     this.categoryService.getMainCategories().subscribe(
       (categories) => {
+        this.spinner.hide();
         this.mainCategories = categories;
       },
       (error) => {
+        this.spinner.hide();
         console.error('Error fetching main categories', error);
       }
     );
   }
   loadCategoryTypes(): void {
+    this.spinner.show();
         this.categoryService.getCategoryType().subscribe(
           (categories) => {
+            this.spinner.hide();
             console.log(categories);
             this.categoryTypes=categories;
             
           },
           (error) => {
+            this.spinner.hide();
             console.error('Error fetching categories', error);
           }
         );
@@ -65,7 +73,9 @@ export class SubCategoriesComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.spinner.show();
     if (this.subCategoryForm.invalid) {
+      this.spinner.hide();
       this.subCategoryForm.markAllAsTouched();
       return;
     }
@@ -78,6 +88,7 @@ export class SubCategoriesComponent implements OnInit {
 
     this.categoryService.addSubCategory(this.formData).subscribe(
       (response) => {
+        this.spinner.hide();
         if (response.subCategory) {
           this.toastr.success('Subcategory successfully inserted');
           this.subCategoryForm.reset();
@@ -87,6 +98,7 @@ export class SubCategoriesComponent implements OnInit {
         }
       },
       (error) => {
+        this.spinner.hide();
         console.error('Error creating subcategory', error);
         this.toastr.error('Server error. Please try again later.');
       }

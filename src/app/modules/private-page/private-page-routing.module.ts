@@ -24,6 +24,7 @@ const privatePageRoutes: Routes = [
       component: DashboardComponent,
     
       children: [
+        { path: '', redirectTo: 'dashboard/welcome', pathMatch: 'full' },
 
         { path: 'dashboard/welcome', 
         component: WelcomeSellerComponent,
@@ -86,12 +87,7 @@ const privatePageRoutes: Routes = [
       },
       ],
     },
-    {
-      path: 'dashboard',
-      component: DashboardComponent,
-      // canActivate: [AuthGuard],
-      // pathMatch: 'full',
-    },
+
 
     
     // {path:'side-bar',component:SideBarComponent},

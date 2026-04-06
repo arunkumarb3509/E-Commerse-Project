@@ -94,22 +94,14 @@
         </div>
         <div class="offcanvas-body">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <!-- Buttons -->
-            <li class="nav-item">
-              <a class="nav-link fw-bold" href="#" (click)="showCategory('men')">MEN</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link fw-bold" href="#" (click)="showCategory('women')">WOMEN</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link fw-bold" href="#" (click)="showCategory('kids')">KIDS</a>
-            </li>
-
-            <!-- SINGLE STATIC DROPDOWN -->
-            <li class="nav-item dropdown" [class.show]="showDropdown">
-              <ul class="dropdown-menu custom-dropdown wide-dropdown" [class.show]="showDropdown">
-                <div class="dropdown-container" *ngIf="selectedCategoryData.length > 0">
-                  <div *ngFor="let category of selectedCategoryData" class="category-block">
+            <!-- MEN Dropdown -->
+            <li class="nav-item dropdown" (mouseenter)="menOpen = true" (mouseleave)="menOpen = false">
+              <a class="nav-link fw-bold dropdown-toggle" href="#" role="button" (click)="showCategory('men'); $event.preventDefault()">
+                MEN
+              </a>
+              <div class="dropdown-menu mega-dropdown" [class.show]="menOpen && selectedCategoryName === 'MEN'">
+                <div class="dropdown-container" *ngIf="selectedCategoryName === 'MEN'">
+                  <div *ngFor="let category of menCategories" class="category-block">
                     <h6 class="categoriesTitle">{{ category.categoryName }}</h6>
                     <div class="row">
                       <div class="col-md-4" *ngFor="let subCategory of category.subCategories">
@@ -118,7 +110,45 @@
                     </div>
                   </div>
                 </div>
-              </ul>
+              </div>
+            </li>
+
+            <!-- WOMEN Dropdown -->
+            <li class="nav-item dropdown" (mouseenter)="womenOpen = true" (mouseleave)="womenOpen = false">
+              <a class="nav-link fw-bold dropdown-toggle" href="#" role="button" (click)="showCategory('women'); $event.preventDefault()">
+                WOMEN
+              </a>
+              <div class="dropdown-menu mega-dropdown" [class.show]="womenOpen && selectedCategoryName === 'WOMEN'">
+                <div class="dropdown-container" *ngIf="selectedCategoryName === 'WOMEN'">
+                  <div *ngFor="let category of womenCategories" class="category-block">
+                    <h6 class="categoriesTitle">{{ category.categoryName }}</h6>
+                    <div class="row">
+                      <div class="col-md-4" *ngFor="let subCategory of category.subCategories">
+                        <a class="dropdown-item" href="#">{{ subCategory.subCategoryName }}</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- KIDS Dropdown -->
+            <li class="nav-item dropdown" (mouseenter)="kidsOpen = true" (mouseleave)="kidsOpen = false">
+              <a class="nav-link fw-bold dropdown-toggle" href="#" role="button" (click)="showCategory('kids'); $event.preventDefault()">
+                KIDS
+              </a>
+              <div class="dropdown-menu mega-dropdown" [class.show]="kidsOpen && selectedCategoryName === 'KIDS'">
+                <div class="dropdown-container" *ngIf="selectedCategoryName === 'KIDS'">
+                  <div *ngFor="let category of kidsCategories" class="category-block">
+                    <h6 class="categoriesTitle">{{ category.categoryName }}</h6>
+                    <div class="row">
+                      <div class="col-md-4" *ngFor="let subCategory of category.subCategories">
+                        <a class="dropdown-item" href="#">{{ subCategory.subCategoryName }}</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </li>
           </ul>
         </div>

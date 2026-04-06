@@ -324,6 +324,7 @@ export class ViewCartComponent implements OnInit {
   
   
   removeSavedItem(productId: string): void {
+    alert("removeSavedItem called with productId 111: " + productId);
     const guestUserId = sessionStorage.getItem('guestUserId');
     if (!guestUserId) {
       this.toastr.error("Guest User ID not found. Please refresh the page.");

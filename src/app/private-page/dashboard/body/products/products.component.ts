@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Products } from 'src/Model/product';
 import { CategoryService } from 'src/Services/category.service';
@@ -56,7 +57,7 @@ export class ProductsComponent implements OnInit {
   newbornSizes=['Newborn(NB)','0-3 Month','3-6 Month','6-9 Month','9-12 Month'];
   seasonalSizes=['XXXL', 'XXL','XL','L', 'M', 'S'];
 
-  constructor(private fb: FormBuilder, private toastr: ToastrService,public categoryService: CategoryService,public productService:ProductService,private router: Router) {
+  constructor(private fb: FormBuilder, private toastr: ToastrService,public categoryService: CategoryService,public productService:ProductService,private router: Router,private spinner: NgxSpinnerService) {
 
     this.productForm = this.fb.group({
       mainCategoryName: ['', Validators.required],
@@ -93,13 +94,16 @@ export class ProductsComponent implements OnInit {
   }
 
   loadMainCategories(): void {
+    this.spinner.show();
     this.categoryService.getMainCategories().subscribe(
       (categories) => {
+        this.spinner.hide();
         console.log(categories);
         this.mainCategories=categories;
         
       },
       (error) => {
+        this.spinner.hide();
         console.error('Error fetching categories', error);
       }
     );
@@ -150,6 +154,7 @@ export class ProductsComponent implements OnInit {
   // }
 
   onCategoryChange(event: Event): void {
+    this.spinner.show();
     const selectedCategoryId = (event.target as HTMLSelectElement).value;
      const selectedCategory = this.mainCategories.find(category => category.categoryId == selectedCategoryId);
     if (!selectedCategoryId) {
@@ -160,6 +165,7 @@ export class ProductsComponent implements OnInit {
 
     this.categoryService.getMainCategoryByIdForProduct(selectedCategoryId).subscribe({
       next: (response) => {
+        this.spinner.hide();
         // response: { categoryId, categoryName, subCategories: [...] }
         // Each subcategory: { subCategoryId, subCategoryName, categoryType, categoryTypeInfo }
         this.filteredSubCategories = response.subCategories || [];
@@ -169,6 +175,7 @@ export class ProductsComponent implements OnInit {
         this.productForm.get('categoryType')?.setValue('');
       },
       error: (err) => {
+        this.spinner.hide();
         console.error('Error fetching subcategories', err);
       }
     });
@@ -316,9 +323,10 @@ export class ProductsComponent implements OnInit {
   }
 
   onSubmit() {
+    this.spinner.show();
     if (this.productForm.invalid) {
-      this.productForm.markAllAsTouched(); 
-       
+      this.spinner.hide();
+      this.productForm.markAllAsTouched();
       return;
     }
 
@@ -378,6 +386,7 @@ export class ProductsComponent implements OnInit {
       // Call the product service to save the product
       this.productService.addProduct(this.product).subscribe(
         (response) => {
+          this.spinner.hide();
           if (response.message === 'Product added successfully') {
             this.toastr.success('Product details submitted successfully!');
             this.productForm.reset();
@@ -387,10 +396,12 @@ export class ProductsComponent implements OnInit {
           }
         },
         (error) => {
+          this.spinner.hide();
           this.toastr.error('An error occurred. Please try again later.');
         }
       );
     } else {
+      this.spinner.hide();
       this.productForm.markAllAsTouched(); 
       this.toastr.error('Please fill all required fields correctly.');
     }

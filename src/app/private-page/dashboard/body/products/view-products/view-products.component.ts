@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/Services/category.service';
 import { ProductService } from 'src/Services/product.service';
@@ -59,7 +60,8 @@ export class ViewProductsComponent implements OnInit {
     public productService:ProductService,
     public categoryService:CategoryService,
     private router: Router,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+  private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -157,13 +159,16 @@ export class ViewProductsComponent implements OnInit {
   }
 
   loadMainCategories(): void {
+    this.spinner.show();
     this.categoryService.getMainCategories().subscribe(
       (categories) => {
+        this.spinner.hide();
         console.log(categories);
         this.mainCategories=categories;
         
       },
       (error) => {
+        this.spinner.hide();
         console.error('Error fetching categories', error);
       }
     );
@@ -171,20 +176,25 @@ export class ViewProductsComponent implements OnInit {
 
 
   loadCategoryTypes(): void {
+    this.spinner.show();
     this.categoryService.getCategoryType().subscribe(
       (categories) => {
+        this.spinner.hide();
         console.log(categories);
         this.categoryTypes=categories;
       },
       (error) => {
+        this.spinner.hide();
         console.error('Error fetching categories', error);
       }
     );
   }
 
   loadAllProductDetails(): void {
+    this.spinner.show();
     this.productService.getAllProductDetails().subscribe(
       (response) => {
+        this.spinner.hide();
         if (response.noProductData) {
           this.noProductData = true;
         } else {
@@ -193,6 +203,7 @@ export class ViewProductsComponent implements OnInit {
         }
       },
       (error) => {
+        this.spinner.hide();
         console.error('Error fetching products', error);
       }
     );
@@ -297,7 +308,9 @@ export class ViewProductsComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.spinner.show();
     if (this.editProductForm.valid) {
+      this.spinner.show();
       // Get the product ID from the route parameters
       const productId = this.route.snapshot.paramMap.get('id');
       
@@ -345,6 +358,7 @@ export class ViewProductsComponent implements OnInit {
         this.productService.updateProduct(this.id, updatedData).subscribe(
           (response) => {
             if (response) {
+              this.spinner.hide();
               // Reset the form and navigate to the main categories list
               this.editProductForm.reset();
               this.router.navigate(['/fashionflair/dashboard/products/view-products']);
@@ -356,15 +370,18 @@ export class ViewProductsComponent implements OnInit {
             }
           },
           (error) => {
+            this.spinner.hide();
             // Handle server error
             console.error('Error updating the product:', error);
             this.toastr.error('Server error. Please try again later.');
           }
         );
       } else {
+        this.spinner.hide();
         this.toastr.error('Product ID is missing');
       }
     } else {
+      this.spinner.hide();
       // Display a message if the form is invalid
       this.toastr.warning('Please fill out the form correctly');
     }

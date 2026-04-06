@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/Services/category.service';
 import { ProductService } from 'src/Services/product.service';
@@ -41,7 +42,8 @@ export class ViewMoreProductsComponent implements OnInit {
     public productService:ProductService,
     public categoryService:CategoryService,
     private router: Router,
-    private route: ActivatedRoute) 
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService) 
     {
       // this.productImageForm = this.fb.group(
       //   this.imageNames.reduce(
@@ -153,8 +155,10 @@ export class ViewMoreProductsComponent implements OnInit {
 
 
   getProductImage(): void {
+    this.spinner.show();
     this.productService.getProductImageById(this.id).subscribe(
       (response) => {
+        this.spinner.hide();
         if (response.productImages && response.productImages.length > 0) {
           this.getProductImages = response.productImages;
 
@@ -164,6 +168,7 @@ export class ViewMoreProductsComponent implements OnInit {
         }
       },
       (error) => {
+        this.spinner.hide();
         console.error('Error fetching product images:', error);
         this.errorMessage = 'Failed to fetch product images. Please try again.';
       }
@@ -172,10 +177,12 @@ export class ViewMoreProductsComponent implements OnInit {
 
  
   loadProductById(): void {
+    this.spinner.show();
     const productId = this.route.snapshot.paramMap.get('id');
  
     this.productService.productId.subscribe({
      next: (product) => {
+      this.spinner.hide();
         this.id=product;
         }
       });
@@ -183,6 +190,7 @@ export class ViewMoreProductsComponent implements OnInit {
     // Fetch product details by ID
     this.productService.getProductById(this.id).subscribe(
       (product) => {
+        this.spinner.hide();
         this.selectedProduct = product;
         if (product.noImagesFound) {
           this.noImagesFound=false;
@@ -191,6 +199,7 @@ export class ViewMoreProductsComponent implements OnInit {
         }
     },
       (error) => {
+        this.spinner.hide();
         console.error('Error fetching product:', error);
       }
     );
@@ -215,10 +224,10 @@ export class ViewMoreProductsComponent implements OnInit {
 
   
   loadProductOfferById(): void {
- 
+    this.spinner.show();
     this.productService.getProductOfferById(this.id).subscribe(
       (response) => {
-
+        this.spinner.hide();
         if (response.message === 'Product offer retrieved successfully.') {
           this.selectedProductOffer = response;
           this.noProductOffer = false;
@@ -232,6 +241,7 @@ export class ViewMoreProductsComponent implements OnInit {
         }
       },
       (error) => {
+        this.spinner.hide();
         // alert("error"+this.id)
         console.error('Error fetching product offer:', error);
         // this.toastr.error('Failed to fetch product offer.', 'Error');

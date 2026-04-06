@@ -245,6 +245,7 @@ arrayBufferToBase64(buffer: number[]): string {
 
 
   removeSavedItem(productId: string): void {
+    alert("removeSavedItem called with productId 222: " + productId);
     const guestUserId = sessionStorage.getItem('guestUserId');
     if (!guestUserId) {
       this.toastr.error("Guest User ID not found. Please refresh the page.");
@@ -267,6 +268,8 @@ arrayBufferToBase64(buffer: number[]): string {
       }
     );
   }
+
+  
   goToCheckout() {
   this.checkOutPage = true;
 }
@@ -454,7 +457,14 @@ calculatePriceDetails222(): void {
 
     } catch (err: any) {
       console.error('checkout error', err);
-      this.toastr.error(err?.error?.message || 'Checkout error. Please try again later.');
+      // this.toastr.error(err?.error?.message || 'Checkout error. Please try again later.');
+      const errorMessage =
+  err?.error?.error?.description ||   // Razorpay error
+  err?.error?.message ||              // Your custom backend message
+  err?.message ||                     // Generic JS error
+  'Checkout error. Please try again later.';
+
+this.toastr.error(errorMessage);
       this.processing = false;
     }
   }

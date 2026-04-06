@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor() {
+  constructor(private spinner: NgxSpinnerService) {
     
   }
 
@@ -14,8 +15,10 @@ export class DashboardComponent implements OnInit {
   }
 
   clearUser(){
+    this.spinner.show();
     localStorage.clear();
     window.location.href = '/customer-signIn';
+    this.spinner.hide();
   }
 
 }

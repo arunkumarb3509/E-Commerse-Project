@@ -16,6 +16,11 @@ export class NavbarComponent implements OnInit {
   selectedCategoryData: any[] = [];
   selectedCategoryName: string = '';
   showDropdown: boolean = false;
+  
+  // Dropdown open/close states
+  menOpen: boolean = false;
+  womenOpen: boolean = false;
+  kidsOpen: boolean = false;
 
   constructor(public categoryService: CategoryService) {}
 
@@ -24,11 +29,13 @@ export class NavbarComponent implements OnInit {
   }
 
   loadCategories(): void {
-    this.categoryService.getMainCategories().subscribe(
+    this.categoryService.getMainCategoryBySubCategory().subscribe(
       (categories) => {
-        this.main_category = categories;
+        // this.main_category = categories;
+        this.main_category = this.formatCategories(categories);
+         this.splitCategories();
         // alert("main_category 1"+JSON.stringify(this.main_category));
-        this.loadSubCategories();
+        // this.loadSubCategories();
       },
       (error) => {
         console.error('Error fetching main categories', error);
@@ -36,45 +43,103 @@ export class NavbarComponent implements OnInit {
     );
   }
 
-  loadSubCategories(): void {
-    const requests = this.main_category.map(category =>
-      this.categoryService.getMainCategoryByIdForProduct(category.categoryId)
-    );
+  formatCategories(data: any[]): any[] {
+  const grouped: any = {};
 
-    // alert("main_category 2"+requests+JSON.stringify(this.main_category));
-    forkJoin(requests).subscribe(
-      (responses) => {
-        responses.forEach((res, i) => {
-          this.main_category[i].subCategories = res.subCategories || [];
-        });
+  data.forEach(item => {
+    // Skip records without main category (safety)
+    if (!item.mainCategoryName) return;
 
-        const men = ["Men's Clothing", "Men's Footwear", "Men's Activewear"];
-        const women = ["Women's Clothing", "Women's Footwear", "Women's Activewear"];
-        const kids = ["Boys' Footwear", "Girls' Footwear", "Newborn Clothing", "Infant Clothing", "Toddler Clothing", "Children's Footwear"];
+    if (!grouped[item.mainCategoryName]) {
+      grouped[item.mainCategoryName] = {
+        categoryName: item.mainCategoryName,
+        mainCategoryId: item.mainCategoryId,
+        subCategories: []
+      };
+    }
 
-        this.menCategories = this.main_category.filter(cat => men.includes(cat.categoryName));
-        this.womenCategories = this.main_category.filter(cat => women.includes(cat.categoryName));
-        this.kidsCategories = this.main_category.filter(cat => kids.includes(cat.categoryName));
-      },
-      (error) => console.error('Error loading subcategories', error)
-    );
-  }
+    grouped[item.mainCategoryName].subCategories.push({
+      subCategoryId: item.subCategoryId,
+      subCategoryName: item.subCategoryName
+    });
+  });
+
+  return Object.values(grouped);
+}
+
+/* Split MEN / WOMEN / KIDS */
+splitCategories(): void {
+  const men = ["Men's Clothing", "Men's Footwear", "Men's Activewear"];
+  const women = ["Women's Clothing", "Women's Footwear", "Women's Activewear"];
+  const kids = [
+    "Boys' Footwear",
+    "Girls' Footwear",
+    "Newborn Clothing",
+    "Infant Clothing",
+    "Toddler Clothing",
+    "Children's Footwear"
+  ];
+
+  this.menCategories = this.main_category.filter(cat =>
+    men.includes(cat.categoryName)
+  );
+
+  this.womenCategories = this.main_category.filter(cat =>
+    women.includes(cat.categoryName)
+  );
+
+  this.kidsCategories = this.main_category.filter(cat =>
+    kids.includes(cat.categoryName)
+  );
+}
+
+/* Dropdown control */
+showCategory(type: 'men' | 'women' | 'kids'): void {
+  if (type === 'men') this.selectedCategoryName = 'MEN';
+  if (type === 'women') this.selectedCategoryName = 'WOMEN';
+  if (type === 'kids') this.selectedCategoryName = 'KIDS';
+}
+
+
+  // loadSubCategories(): void {
+  //   const requests = this.main_category.map(category =>
+  //     this.categoryService.getMainCategoryByIdForProduct(category.categoryId)
+  //   );
+
+  //   // alert("main_category 2"+requests+JSON.stringify(this.main_category));
+  //   forkJoin(requests).subscribe(
+  //     (responses) => {
+  //       responses.forEach((res, i) => {
+  //         this.main_category[i].subCategories = res.subCategories || [];
+  //       });
+
+  //       const men = ["Men's Clothing", "Men's Footwear", "Men's Activewear"];
+  //       const women = ["Women's Clothing", "Women's Footwear", "Women's Activewear"];
+  //       const kids = ["Boys' Footwear", "Girls' Footwear", "Newborn Clothing", "Infant Clothing", "Toddler Clothing", "Children's Footwear"];
+
+  //       this.menCategories = this.main_category.filter(cat => men.includes(cat.categoryName));
+  //       this.womenCategories = this.main_category.filter(cat => women.includes(cat.categoryName));
+  //       this.kidsCategories = this.main_category.filter(cat => kids.includes(cat.categoryName));
+  //     },
+  //     (error) => console.error('Error loading subcategories', error)
+  //   );
+  // }
 
  
-  showCategory(type: string): void {
-    if (type === 'men') {
-      this.selectedCategoryData = this.menCategories;
-      this.selectedCategoryName = 'MEN';
-    } else if (type === 'women') {
-      this.selectedCategoryData = this.womenCategories;
-      this.selectedCategoryName = 'WOMEN';
-    } else if (type === 'kids') {
-      this.selectedCategoryData = this.kidsCategories;
-      this.selectedCategoryName = 'KIDS';
-    }
+  // showCategory(type: string): void {
+  //   if (type === 'men') {
+  //     this.selectedCategoryData = this.menCategories;
+  //     this.selectedCategoryName = 'MEN';
+  //   } else if (type === 'women') {
+  //     this.selectedCategoryData = this.womenCategories;
+  //     this.selectedCategoryName = 'WOMEN';
+  //   } else if (type === 'kids') {
+  //     this.selectedCategoryData = this.kidsCategories;
+  //     this.selectedCategoryName = 'KIDS';
+  //   }
   
-    this.showDropdown = true; // ✅ Automatically show dropdown
-  }
+  //   this.showDropdown = true; // ✅ Automatically show dropdown
+  // }
   
 
   toggleDropdown(event: Event): void {

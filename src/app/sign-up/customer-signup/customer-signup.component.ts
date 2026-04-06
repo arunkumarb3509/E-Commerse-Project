@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Signup } from 'src/Model/sign-up';
 import { CustomerService } from 'src/Services/customer.service';
@@ -42,7 +43,7 @@ export class CustomerSignupComponent implements OnInit {
   special: false
 };
 
-  constructor(private fb: FormBuilder, private router: Router, public customerService: CustomerService,private toastr:ToastrService) {
+  constructor(private fb: FormBuilder, private router: Router, public customerService: CustomerService,private toastr:ToastrService,private spinner: NgxSpinnerService) {
     this.registrationForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -121,9 +122,11 @@ export class CustomerSignupComponent implements OnInit {
 }
 
   onNext(): void {
+    this.spinner.show();
     this.emailExists = false;
 
     if (this.registrationForm.invalid) {
+      this.spinner.hide();
         return;
     }
 
@@ -131,6 +134,7 @@ export class CustomerSignupComponent implements OnInit {
 
     this.customerService.checkEmailExists(this.email).subscribe(
         response => {
+          this.spinner.hide();
             if (response.emailExists) {
                 this.emailExists = true;
                  this.toastr.error(`${this.email} already exists.`);
@@ -142,6 +146,7 @@ export class CustomerSignupComponent implements OnInit {
             }
         },
         error => {
+          this.spinner.hide();
             console.error('Error checking email', error);
         }
     );
@@ -161,14 +166,17 @@ export class CustomerSignupComponent implements OnInit {
 // }
 
 generateOTP() {
+  this.spinner.show();
   this.customerService.signUpSendOTP(this.email).subscribe(
     (response: any) => {
+      this.spinner.hide();
       this.isOTPSent = true;
       this.toastr.success(`OTP send to ${this.email}`);
       this.timeLeft = 300; // reset to 5 minutes
       this.startTimer();
     },
     (error) => {
+      this.spinner.hide();
       this.isOTPSent = false;
       console.error('Error sending OTP', error);
 
@@ -192,7 +200,7 @@ generateOTP() {
   this.timer = setInterval(() => {
     if (this.timeLeft > 0) {
       this.timeLeft--;
-      this.updateTimerDisplay();
+      // this.updateTimerDisplay();
     } else {
       this.isTimerRunning = false;
       clearInterval(this.timer);
@@ -212,6 +220,7 @@ padTime(time: number): string {
 
 
   verifyOTP(): void {
+    this.spinner.show();
     const enteredOTP = this.otpForm.value.otp.join('');
 
     this.customerService.signUpVerifyOTP(this.email, enteredOTP).subscribe(
@@ -249,6 +258,7 @@ padTime(time: number): string {
     //   }
     // );
     (response) => {
+      this.spinner.hide();
       const msg = (response?.message || '').trim();
 
       if (msg === 'OTP verified successfully') {
@@ -283,6 +293,7 @@ padTime(time: number): string {
       }
     },
     (error) => {
+      this.spinner.hide();
       const errorMsg = error?.error?.message?.trim?.() || 'Server error. Please try again.';
       this.isOTPVerified = false;
       this.otpExpiredMessage = false;
@@ -294,8 +305,10 @@ padTime(time: number): string {
   }
 
   resendOTP(): void {
+    this.spinner.show();
     this.customerService.signUpResendOTP(this.email).subscribe(
       (response: any) => {
+        this.spinner.hide();
         if (response.message === 'OTP resent to email') {
           // console.log(`OTP resent to ${this.email}`, response);
           this.toastr.success(`OTP resend to ${this.email}`);
@@ -309,13 +322,16 @@ padTime(time: number): string {
        }
       },
       error => {
+        this.spinner.hide();
         console.error('Error sending OTP', error);
       }
     );
   }
 
   onSubmit(): void {
+    this.spinner.show();
     if (this.passwordForm.invalid || !this.isOTPVerified) {
+      this.spinner.hide();
       return;
     }
 
@@ -339,6 +355,7 @@ padTime(time: number): string {
 
     this.customerService.signUp(this.signup).subscribe(
       response => {
+        this.spinner.hide();
         if (response.message ===  'User registered successfully') {
           this.afterEmailExists = false;
           this.router.navigate(['/signUpSuccess']);    
@@ -349,6 +366,7 @@ padTime(time: number): string {
         
       },
       error => {
+        this.spinner.hide();
         console.error('Error submitting form', error);
       }
     );

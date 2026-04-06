@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/Services/category.service';
 
@@ -20,7 +21,8 @@ export class ViewMaincategoryComponent implements OnInit {
     private route: ActivatedRoute,
     private categoryService: CategoryService,
     private fb: FormBuilder,
-    private toastr:ToastrService
+    private toastr:ToastrService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -38,10 +40,12 @@ export class ViewMaincategoryComponent implements OnInit {
   }
 
   loadSelectedCategory(): void {
+    this.spinner.show();
     const categoryId = this.route.snapshot.paramMap.get('id');
 
     this.categoryService.mainCategoryId.subscribe({
       next: (category) => {
+        this.spinner.hide();
          this.id=category;
          console.log(category);
          
@@ -50,6 +54,7 @@ export class ViewMaincategoryComponent implements OnInit {
    console.log(categoryId);
       this.categoryService.getMainCategoryById(this.id).subscribe(
         (category) => {
+          this.spinner.hide();
           this.selectedCategory = category;
           this.editMainCategoryForm.patchValue({
             MainCategoryName: category.categoryName,
@@ -57,6 +62,7 @@ export class ViewMaincategoryComponent implements OnInit {
           });
         },
         (error) => {
+          this.spinner.hide();
           console.error('Error fetching category', error);
         }
       );
@@ -64,7 +70,7 @@ export class ViewMaincategoryComponent implements OnInit {
   }
 
   onSubmit(): void {
-
+     this.spinner.show();
     if (this.editMainCategoryForm.valid) {
       const categoryId = this.route.snapshot.paramMap.get('id');
 
@@ -79,7 +85,7 @@ export class ViewMaincategoryComponent implements OnInit {
         // Call the service to update the category
         this.categoryService.updateMainCategory(this.id, updatedData).subscribe(
           (response) => {
-
+           this.spinner.hide();
           if (response.updatedCategory) {
             this.editMainCategoryForm.reset();
             this.router.navigate(['/fashionflair/dashboard/main-categories']);
@@ -92,6 +98,7 @@ export class ViewMaincategoryComponent implements OnInit {
           }
       },
       (error) => {
+        this.spinner.hide();
         console.error('Error creating Main category', error);
         this.toastr.error('Server error. Please try again later.');
       }

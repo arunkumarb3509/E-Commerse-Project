@@ -1,15 +1,15 @@
 @import "src/styles.scss";
 
 * {
-    font-family: $forum-ff;
-    font-size: 15px;
-  }
-  
-  .sticky-top {
-    background-color: $nav-bg-color;
-  }
+  font-family: $forum-ff;
+  font-size: 15px;
+}
 
-  .input-group {
+.sticky-top {
+  background-color: $nav-bg-color;
+}
+
+.input-group {
   .input-group-prepend.dropdown {
     position: relative; /* anchor the absolute menu */
 
@@ -18,12 +18,12 @@
       position: absolute;
       top: 100%;
       left: 0;
-      width: 1273%;        /* requested wide width */
+      width: 1273%; /* requested wide width */
       max-width: none;
       min-width: 200px;
       z-index: 1100;
       border-radius: 8px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
       padding: 1rem;
       transform-origin: top left;
     }
@@ -39,140 +39,167 @@
   }
 }
 
-  
-  .form-control {
-    width: 150px;
-    padding: 6px 6px;
-  }
-  
-  .nav-link {
-    margin-left: 20px;
-  }
-  
-  .offcanvas {
-    background-color: $signup-bg;
-  }
-  
-  .offcanvas-header {
-    background-color: $green-color;
-  }
-  
-  .offcanvas-title {
-    color: $white-color;
-  }
-  
-  .cancelBtn {
-    background-color: $global-grid-header-bg;
-  }
-  
-  .offcanvas-body {
-    padding: 20px;
-  }
-  
+.form-control {
+  width: 150px;
+  padding: 6px 6px;
+}
 
-.dropdown-menu.custom-dropdown{
-  background-color: $global-grid-header-bg;
+.nav-link {
+  margin-left: 20px;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #f6c147 !important;
+}
+
+/* Mega Dropdown Styling */
+.nav-item.dropdown {
+  position: relative;
+}
+
+.dropdown-menu.mega-dropdown {
   position: absolute;
-    top: 100%;
-    left: -202px;
-    z-index: 1050;
-    width: 466px;
-    padding: 10px;
-    max-height: 400px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    transition: all 0.3s ease-in-out;
+  top: 100%;
+  left: 0;
+  min-width: 400px;
+  width: max-content;
+  max-width: 700px;
+  background: #fff;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease-in-out;
+}
+
+.dropdown-menu.mega-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.category-block {
+  margin-bottom: 10px;
+}
+
+.categoriesTitle {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 14px;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 6px 0;
+  font-size: 13px;
+  color: #666;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .dropdown-item:hover {
-    background-color: $navbarDropdown-hover-bg;
-  }
-
-/* Keep ALL dropdown aligned properly */
-.input-group-prepend .dropdown-menu.custom-dropdown {
-  left: 0 !important;
-  width: 100%;
+  color: #f6c147;
+  background: none;
+  padding-left: 5px;
 }
 
-/* Category Block Styling */
-.category-block {
-  margin-bottom: 15px;
+.offcanvas {
+  background-color: $signup-bg;
+}
+
+.offcanvas-header {
+  background-color: $green-color;
+}
+
+.offcanvas-title {
+  color: $white-color;
+}
+
+.cancelBtn {
+  background-color: $global-grid-header-bg;
+}
+
+.offcanvas-body {
+  padding: 20px;
+}
+
+.dropdown-menu.custom-dropdown {
+  background-color: $global-grid-header-bg;
+  position: absolute;
+  top: 100%;
+  left: -202px;
+  z-index: 1050;
+  width: 466px;
   padding: 10px;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.3s ease-in-out;
 }
 
-/* Title Styling */
-.categoriesTitle {
-  color: $categories-title;
-  margin-left: 12px;
-}
-
-.dropdown-item.active,
-.dropdown-item:active {
-  background-color: $navbarDrodown-iten-active;
-}
-
-/* 3-column layout for desktops */
-.category-block .row {
-  display: flex;
-  flex-wrap: wrap;
-}
-.category-block .col-md-4,
-.dropdown-container .col-md-4 {
-  flex: 0 0 33.33%;
-  max-width: 33.33%;
+.dropdown-item:hover {
+  background-color: $navbarDropdown-hover-bg;
 }
 
 /* === RESPONSIVE MEDIA QUERIES === */
-@media screen and (max-width: 1024px) {
-  .dropdown-menu.custom-dropdown {
-    width: 100%;
-    left: 0; /* Reset dropdown position */
+@media (max-width: 992px) {
+  .dropdown-menu.mega-dropdown {
+    min-width: 300px;
+    max-width: 600px;
   }
 
-  .input-group-prepend .dropdown-menu.custom-dropdown {
-    width: 100%;
-    left: 0;
+  .dropdown-container {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 }
 
-@media screen and (max-width: 767px) {
-  .dropdown-menu.custom-dropdown {
-    max-height: 250px;
-    width: 100%;
-    left: 0; /* Fully responsive */
+@media (max-width: 768px) {
+  .dropdown-menu.mega-dropdown {
+    position: fixed;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    min-width: 85vw !important;
+    max-width: 85vw !important;
+    max-height: 70vh;
+    overflow-y: auto;
   }
 
-  .dropdown-container .row {
-    flex-direction: column;
+  .dropdown-menu.mega-dropdown.show {
+    transform: translate(-50%, -50%) !important;
   }
 
-  .dropdown-container .col-lg-3,
-  .dropdown-container .col-md-4,
-  .dropdown-container .col-6 {
-    width: 100%; /* Full width on mobile */
-  }
-  .navbar-toggler {
-        margin-left: 82%;
-        margin-top: -26%;
-      }
-}
-
-@media screen and (min-width: 768px) {
-  .dropdown-container .row {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .dropdown-container .col-md-4 {
-    width: 33.33%;
+  .dropdown-container {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
- /* Navbar toggler adjustments */
-@media screen and (max-width: 430px) {
-  .navbar-toggler {
-    margin-left: 82%;
-    margin-top: -28%;
+@media (max-width: 480px) {
+  .dropdown-menu.mega-dropdown {
+    min-width: 90vw;
+    max-width: 90vw;
+  }
+
+  .dropdown-container {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-link {
+    margin-left: 10px;
+    font-size: 14px;
   }
 }
-  

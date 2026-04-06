@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/Services/category.service';
 import { ProductService } from 'src/Services/product.service';
@@ -33,7 +34,8 @@ export class ProductImagesComponent implements OnInit {
     public productService:ProductService,
     public categoryService:CategoryService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService) {
     this.productImageForm = this.fb.group(
       this.imageNames.reduce(
         (acc, name) => ({
@@ -61,8 +63,10 @@ export class ProductImagesComponent implements OnInit {
   }
 
   loadProductDetails(id: number): void {
+    this.spinner.show();
     this.productService.getProductById(id).subscribe(
       (product) => {
+        this.spinner.hide();
         this.selectedProduct = product;
         // Check if the product has images
         if (product.productImages && product.productImages.length > 0) {
@@ -75,6 +79,7 @@ export class ProductImagesComponent implements OnInit {
         }
       },
       (error) => {
+        this.spinner.hide();
         console.error('Error fetching product:', error);
       }
     );
@@ -82,9 +87,10 @@ export class ProductImagesComponent implements OnInit {
 
   loadProductById(): void {
     const productId = this.route.snapshot.paramMap.get('id');
- 
+    this.spinner.show();
     this.productService.productId.subscribe({
      next: (product) => {
+      this.spinner.hide();
         this.id=product;
         }
       });
@@ -92,6 +98,7 @@ export class ProductImagesComponent implements OnInit {
     // Fetch product details by ID
     this.productService.getProductById(this.id).subscribe(
       (product) => {
+        this.spinner.hide();
         this.selectedProduct = product;
         if (product.noImagesFound) {
           this.noImagesFound=false;
@@ -100,6 +107,7 @@ export class ProductImagesComponent implements OnInit {
         }
     },
       (error) => {
+        this.spinner.hide();
         console.error('Error fetching product:', error);
       }
     );
@@ -119,6 +127,7 @@ export class ProductImagesComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.spinner.show();
     this.productImageForm.markAllAsTouched();
 
     // Check if at least one field in `imageNames` and `imageFiles` has a valid value
@@ -126,6 +135,7 @@ export class ProductImagesComponent implements OnInit {
     const isImageFilesValid = this.imageFiles.some(file => this.productImageForm.get(file)?.value);
   
     if (!isImageNamesValid || !isImageFilesValid) {
+      this.spinner.hide();
       this.toastr.error('Please fill at least one Image Title and upload one Image.');
       return;
     }
@@ -145,6 +155,7 @@ export class ProductImagesComponent implements OnInit {
 
     this.productService.uploadProductImage(this.id,this.formData).subscribe(
       (response) => {
+        this.spinner.hide();
         if (response.savedImages) {
           this.productImageForm.reset();
           this.toastr.success('Product image Uploaded successfully');
@@ -156,6 +167,7 @@ export class ProductImagesComponent implements OnInit {
         }
       },
       (error) => {
+        this.spinner.hide();
         console.error('Error uploading product image', error);
         this.toastr.error('Server error. Please try again later.');
       }

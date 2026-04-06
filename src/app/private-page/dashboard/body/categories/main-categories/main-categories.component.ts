@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Main_Category } from 'src/Model/category';
 import { CategoryService } from 'src/Services/category.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class MainCategoriesComponent implements OnInit {
   // paginationData: any = { "info": "hide" };
   // offset_count = 0;
 
-  constructor(private fb: FormBuilder,private route: ActivatedRoute, private router: Router, public categoryService: CategoryService,private toastr:ToastrService) {
+  constructor(private fb: FormBuilder,private route: ActivatedRoute, private router: Router, public categoryService: CategoryService,private toastr:ToastrService,private spinner: NgxSpinnerService) {
     this.mainCategoryForm = this.fb.group({
       MainCategoryName: ['', Validators.required],
       mainDescription: ['']
@@ -173,8 +174,10 @@ export class MainCategoriesComponent implements OnInit {
 //   }
 
   onSubmit(): void {
+    this.spinner.show();
     if (this.mainCategoryForm.invalid) {
       this.toastr.error('Please fill all required fields', 'Form Submission Error');
+      this.spinner.hide();
       return;
     }
 
@@ -184,6 +187,7 @@ export class MainCategoriesComponent implements OnInit {
 
     this.categoryService.addMainCategory(this.main_category).subscribe(
       response => {
+        this.spinner.hide();
         console.log(response);
         if (response.category) {
           this.loadMainCategories();
@@ -198,6 +202,7 @@ export class MainCategoriesComponent implements OnInit {
         }
     },
     (error) => {
+      this.spinner.hide();
       console.error('Error creating category', error);
       this.toastr.error('Server error. Please try again later.');
     }
@@ -205,11 +210,14 @@ export class MainCategoriesComponent implements OnInit {
   }
 
   loadMainCategories(): void {
+    this.spinner.show();
     this.categoryService.getMainCategories().subscribe(
       (categories) => {
+        this.spinner.hide();
         this.main_category = categories;
       },
       (error) => {
+        this.spinner.hide();
         console.error('Error fetching categories', error);
       }
     );

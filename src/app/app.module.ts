@@ -31,6 +31,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '../interceptor/interceptors/auth.interceptor';
 import { NgChartsModule } from 'ng2-charts';
 import { WelcomeSellerComponent } from './private-page/dashboard/body/welcome-seller/welcome-seller.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { WelcomeSellerComponent } from './private-page/dashboard/body/welcome-se
     FormsModule, 
     GlobalModule,
     NgChartsModule,
+    NgxSpinnerModule,
     BsDatepickerModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-top-right', // Position the toastr at the top-right corner

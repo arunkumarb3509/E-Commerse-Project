@@ -18,7 +18,6 @@ export class CustOrderSuccessComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    alert("worked")
     this.orderId = this.route.snapshot.paramMap.get('orderId');
     if (!this.orderId) {
       this.loading = false;

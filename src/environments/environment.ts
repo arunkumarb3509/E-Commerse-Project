@@ -58,6 +58,7 @@ export const environment = {
    CREATE_MAIN_CATEGORY:`${URL}/mainCategories`,
    CREATE_SUB_CATEGORY:`${URL}/subCategories`,
    GET_MAIN_CATEGORIES:`${URL}/getMainCategories`,
+   GET_MAIN_CATEGORIES_BY_SUBCATEGORY:`${URL}/getMainCategoryBySubCategory`,
    GET_SUB_CATEGORIES:`${URL}/getSubcategories`,
    GET_MAIN_CATEGORY_BY_ID:`${URL}/getMainCategoryById/`,
    GET_MAIN_CATEGORYID_BASED_SUBCATEGORY:`${URL}/getMainCategoryBasedSubCategory/`,

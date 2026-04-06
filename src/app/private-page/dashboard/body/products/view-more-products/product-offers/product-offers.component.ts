@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ProductOffers } from 'src/Model/product_offers';
 import { CategoryService } from 'src/Services/category.service';
@@ -34,7 +35,8 @@ export class ProductOffersComponent implements OnInit {
     public productService:ProductService,
     public categoryService:CategoryService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService) { }
 
 
   ngOnInit(): void {
@@ -82,9 +84,10 @@ export class ProductOffersComponent implements OnInit {
 
 
   loadProductById(): void {
- 
+    this.spinner.show();
     this.productService.productId.subscribe({
      next: (product) => {
+      this.spinner.hide();
         this.id=product;
         }
       });
@@ -92,6 +95,7 @@ export class ProductOffersComponent implements OnInit {
     // Fetch product details by ID
     this.productService.getProductById(this.id).subscribe(
       (product) => {
+        this.spinner.hide();
         this.selectedProduct = product;
         if (product.noImagesFound) {
           this.noImagesFound=false;
@@ -100,6 +104,7 @@ export class ProductOffersComponent implements OnInit {
         }
     },
       (error) => {
+        this.spinner.hide();
         console.error('Error fetching product:', error);
       }
     );
@@ -118,7 +123,9 @@ export class ProductOffersComponent implements OnInit {
 
 
   submitProductOffer(): void {
+    this.spinner.show();
     if (this.productOfferForm.valid) {
+      this.spinner.show();
       const offerData = this.productOfferForm.value;
       console.log('Offer Data:', offerData);
 
@@ -152,12 +159,14 @@ export class ProductOffersComponent implements OnInit {
       // }
 
       (response: any) => {
+        this.spinner.hide();
         if (response.message === "Product offer created successfully.") {
           this.toastr.success("Product offer submitted successfully!");
           this.productOfferForm.reset();
         } 
       },
       (error: any) => {
+        this.spinner.hide();
         if (error.error && error.error.errorType === "productExists") {
           this.toastr.error("A product offer already exists for this product.");
         } 
