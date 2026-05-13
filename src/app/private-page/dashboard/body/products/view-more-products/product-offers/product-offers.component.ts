@@ -21,6 +21,7 @@ export class ProductOffersComponent implements OnInit {
   productOffers: ProductOffers = new ProductOffers();
   minEndDate: Date | undefined;
   maxStartDate: Date | undefined;
+  today: Date = new Date();
   // bsConfig: Partial<BsDatepickerConfig> = {
   //   containerClass: 'theme-blue',
   //   dateInputFormat: 'DD MMM YYYY',
@@ -40,6 +41,8 @@ export class ProductOffersComponent implements OnInit {
 
 
   ngOnInit(): void {
+     this.today = new Date();
+     this.today.setHours(0, 0, 0, 0);
     // Initialize the form
     this.productOfferForm = this.fb.group({
       offerName: ['', Validators.required],

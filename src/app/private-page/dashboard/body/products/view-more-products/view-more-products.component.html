@@ -1,7 +1,10 @@
 <div>
   <div class="banner">
-    <i class="fa fa-arrow-left back-icon" aria-hidden="true"
-      routerLink="/fashionflair/dashboard/products/view-products"></i>
+    <i
+      class="fa fa-arrow-left back-icon"
+      aria-hidden="true"
+      routerLink="/fashionflair/dashboard/products/view-products"
+    ></i>
     <b>View Products</b>
   </div>
 
@@ -11,16 +14,33 @@
     <!-- Product Images Section -->
     <div class="product-images-alt">
       <div class="main-image-container-alt">
-        <img [src]="mainImage" alt="Main Product Image" class="main-image-alt" />
+        <img
+          [src]="mainImage"
+          alt="Main Product Image"
+          class="main-image-alt"
+        />
       </div>
-      <div class="thumbnail-container-alt" *ngIf="!noImagesFound; else noImageTemplate">
-        <img *ngFor="let image of selectedProduct.productImages" [src]="'data:image/png;base64,' + image.images"
-          [class.selected]="('data:image/png;base64,' + image.images) === selectedImage" alt="Thumbnail"
-          class="thumbnail-alt" (click)="changeMainImage('data:image/png;base64,' + image.images)" />
+      <div
+        class="thumbnail-container-alt"
+        *ngIf="!noImagesFound; else noImageTemplate"
+      >
+        <img
+          *ngFor="let image of selectedProduct.productImages"
+          [src]="'data:image/png;base64,' + image.images"
+          [class.selected]="
+            'data:image/png;base64,' + image.images === selectedImage
+          "
+          alt="Thumbnail"
+          class="thumbnail-alt"
+          (click)="changeMainImage('data:image/png;base64,' + image.images)"
+        />
       </div>
 
       <!-- Add New Image Icon -->
-      <div class="add-image-alt" routerLink="/fashionflair/dashboard/products/create-product-images">
+      <div
+        class="add-image-alt"
+        routerLink="/fashionflair/dashboard/products/create-product-images"
+      >
         <i class="fa fa-plus-circle add-offer-icon"></i> Add Image
       </div>
 
@@ -34,14 +54,24 @@
       <div class="container product-container">
         <div class="row">
           <!-- Product Details Card (Invisible) -->
-          <div class="col-md-6 ">
+          <div class="col-md-6">
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title"><strong>Product Details</strong></h5>
-                <p class="card-text"><strong>Product Name:</strong>{{ selectedProduct.productName }}</p>
-                <p class="card-text"><strong>Brand:</strong> {{ selectedProduct.brand }}</p>
-                <p class="card-text"><strong>Price:</strong> ${{ selectedProduct.price }}</p>
-                <p class="card-text"><strong>Description:</strong> {{ selectedProduct.productDescription }}</p>
+                <p class="card-text">
+                  <strong>Product Name:</strong
+                  >{{ selectedProduct.productName }}
+                </p>
+                <p class="card-text">
+                  <strong>Brand:</strong> {{ selectedProduct.brand }}
+                </p>
+                <p class="card-text">
+                  <strong>Price:</strong> ${{ selectedProduct.price }}
+                </p>
+                <p class="card-text">
+                  <strong>Description:</strong>
+                  {{ selectedProduct.productDescription }}
+                </p>
               </div>
             </div>
           </div>
@@ -51,11 +81,20 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title"><strong>Shipping Details</strong></h5>
-                <p class="card-text"><strong>Shipping Class:</strong> {{
-                  selectedProduct.shippingInformation.shippingClass }}</p>
-                <p class="card-text"><strong>Dimensions:</strong> {{ selectedProduct.shippingInformation.dimensions }}
+                <p class="card-text">
+                  <strong>Shipping Class:</strong>
+                  {{ selectedProduct.shippingInformation.shippingClass }}
                 </p>
-                <p class="card-text"><strong>Weight:</strong> {{ selectedProduct.shippingInformation.weight.$numberDecimal }}</p>
+                <p class="card-text">
+                  <strong>Dimensions:</strong>
+                  {{ selectedProduct.shippingInformation.dimensions }}
+                </p>
+                <p class="card-text">
+                  <strong>Weight:</strong>
+                  {{
+                    selectedProduct.shippingInformation.weight.$numberDecimal
+                  }}
+                </p>
               </div>
             </div>
           </div>
@@ -65,61 +104,175 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title"><strong>SEO Information</strong></h5>
-                <p class="card-text"><strong>Meta Title:</strong> {{ selectedProduct.seoInformation.metaTitle }}</p>
-                <p class="card-text"><strong>Keywords:</strong> {{ selectedProduct.seoInformation.keywords }}</p>
-                <p class="card-text"><strong>Meta Description:</strong> {{
-                  selectedProduct.seoInformation.metaDescription }}</p>
+                <p class="card-text">
+                  <strong>Meta Title:</strong>
+                  {{ selectedProduct.seoInformation.metaTitle }}
+                </p>
+                <p class="card-text">
+                  <strong>Keywords:</strong>
+                  {{ selectedProduct.seoInformation.keywords }}
+                </p>
+                <p class="card-text">
+                  <strong>Meta Description:</strong>
+                  {{ selectedProduct.seoInformation.metaDescription }}
+                </p>
               </div>
             </div>
           </div>
 
           <!-- Product Offers (Invisible) -->
-          <div class="col-md-6">
+          <!-- <div class="col-md-6">
             <div class="card">
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                   <h5 class="card-title"><strong>Product Offers</strong></h5>
-                  <i class="fa fa-plus-circle add-offer-icon"
-                    routerLink="/fashionflair/dashboard/products/create-product-offers"></i>
+                  <i *ngIf="!selectedProductOffer"
+                    class="fa fa-plus-circle add-offer-icon"
+                    routerLink="/fashionflair/dashboard/products/create-product-offers"
+                  ></i>
+                  <span *ngIf="selectedProductOffer"
+            class="badge px-3 py-2"
+            [ngClass]="{
+              'bg-success': selectedProductOffer.status.includes('in'),
+              'bg-warning text-dark': selectedProductOffer.status.includes('today'),
+              'bg-danger': selectedProductOffer.status.includes('ago')
+            }"
+          >
+            {{ selectedProductOffer.status }}
+          </span>
                 </div>
 
-                <!-- Show product offer details if available -->
+                
                 <div *ngIf="selectedProductOffer; else noOffer">
-                  <p class="card-text"><strong>Offer Name:</strong> {{ selectedProductOffer.productOffer.offerName }}</p>
-                  <p class="card-text"><strong>Description:</strong> {{ selectedProductOffer.productOffer.description }}</p>
-                  <p class="card-text"><strong>Discount Percentage:</strong> {{ selectedProductOffer.productOffer.discountPercentage
-                    }}%</p>
-                  <p class="card-text"><strong>Discount Price:</strong> ${{
-                    selectedProductOffer.productOffer.discountPrice }}</p>
+                  <p class="card-text">
+                    <strong>Offer Name:</strong>
+                    {{ selectedProductOffer.productOffer.offerName }}
+                  </p>
+                  <p class="card-text">
+                    <strong>Description:</strong>
+                    {{ selectedProductOffer.productOffer.description }}
+                  </p>
+                  <p class="card-text">
+                    <strong>Discount Percentage:</strong>
+                    {{ selectedProductOffer.productOffer.discountPercentage }}%
+                  </p>
+                  <p class="card-text">
+                    <strong>Discount Price:</strong> ${{
+                      selectedProductOffer.productOffer.discountPrice
+                    }}
+                  </p>
                 </div>
 
-                <!-- Show "No product offer" message when no data is found -->
+                
                 <ng-template #noOffer>
-                  <p class="text-danger text-center">No product offer for this product.</p>
+                  <p class="text-danger text-center">
+                    No product offer for this product.
+                  </p>
                 </ng-template>
               </div>
-
             </div>
-          </div>
+          </div> -->
 
+          <div class="col-md-6">
+  <div class="card position-relative">
+
+    <div class="card-body">
+
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">
+          <strong>Product Offers</strong>
+        </h5>
+
+        <!-- Plus icon only -->
+        <i
+          *ngIf="!selectedProductOffer"
+          class="fa fa-plus-circle add-offer-icon fs-4"
+          routerLink="/fashionflair/dashboard/products/create-product-offers"
+        ></i>
+      </div>
+
+      <!-- Offer Content -->
+      <div *ngIf="selectedProductOffer; else noOffer" class="mt-3">
+
+        <p class="card-text mb-1">
+          <strong>Offer Name:</strong>
+          {{ selectedProductOffer.productOffer.offerName }}
+        </p>
+
+        <p class="card-text mb-1">
+          <strong>Description:</strong>
+          {{ selectedProductOffer.productOffer.description }}
+        </p>
+
+        <p class="card-text mb-1">
+          <strong>Discount Percentage:</strong>
+          {{ selectedProductOffer.productOffer.discountPercentage }}%
+        </p>
+
+        <p class="card-text mb-0">
+          <strong>Discount Price:</strong>
+          ${{ selectedProductOffer.productOffer.discountPrice }}
+        </p>
+      </div>
+
+      <!-- No Offer -->
+      <ng-template #noOffer>
+        <p class="text-danger text-center mt-3">
+          No product offer for this product.
+        </p>
+      </ng-template>
+
+    </div>
+
+    <!-- ⭐ TOP RIGHT BADGE -->
+    <span
+      *ngIf="selectedProductOffer"
+      class="badge position-absolute top-0 end-0 m-2 px-3 py-2"
+      [ngClass]="{
+        'bg-success': selectedProductOffer.status.includes('in'),
+        'bg-warning text-dark': selectedProductOffer.status.includes('today'),
+        'bg-danger': selectedProductOffer.status.includes('ago')
+      }"
+    >
+      {{ selectedProductOffer.status }}
+    </span>
+
+  </div>
+</div>
           <!-- Category Information (Invisible) -->
           <div class="col-md-6">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title"><strong>Category Information</strong></h5>
-                <p class="card-text"><strong>Main Category:</strong> {{ selectedProduct.mainCategory.categoryName }}</p>
-                <!-- <p class="card-text"><strong>Subcategory:</strong> {{ selectedProduct.subcategory.subCategoryName }}</p> -->
-                <p class="card-text"><strong>Category Type:</strong> {{ selectedProduct.categoryType.typeName }}</p>
-                <p class="card-text"><strong>Material Type:</strong> {{ selectedProduct.materialType }}</p>
-                <p class="card-text"><strong>Return Policy:</strong> {{ selectedProduct.seoInformation.returnPolicy }}
+                <h5 class="card-title">
+                  <strong>Category Information</strong>
+                </h5>
+                <p class="card-text">
+                  <strong>Main Category:</strong>
+                  {{ selectedProduct.mainCategory.categoryName }}
                 </p>
-                <p class="card-text"><strong>Care Instructions:</strong> {{
-                  selectedProduct.seoInformation.careInstructions }}</p>
+                <!-- <p class="card-text"><strong>Subcategory:</strong> {{ selectedProduct.subcategory.subCategoryName }}</p> -->
+                <p class="card-text">
+                  <strong>Category Type:</strong>
+                  {{ selectedProduct.categoryType.typeName }}
+                </p>
+                <p class="card-text">
+                  <strong>Material Type:</strong>
+                  {{ selectedProduct.materialType }}
+                </p>
+                <p class="card-text">
+                  <strong>Return Policy:</strong>
+                  {{ selectedProduct.seoInformation.returnPolicy }}
+                </p>
+                <p class="card-text">
+                  <strong>Care Instructions:</strong>
+                  {{ selectedProduct.seoInformation.careInstructions }}
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
+</div>

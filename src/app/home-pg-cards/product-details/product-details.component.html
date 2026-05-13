@@ -41,7 +41,7 @@
       <p class="product-dimension-alt">Dimensions:
         <span>{{selectedProduct.shippingInformation.dimensions}}</span>
       </p>
-      <p class="product-weight-alt">Weight: <span>{{selectedProduct.shippingInformation.weight}}</span></p>
+      <p class="product-weight-alt">Weight: <span>{{selectedProduct.shippingInformation.weight.$numberDecimal}}</span></p>
 
       <!-- Size & Size Chart Row -->
       <div class="selectors-alt d-flex align-items-center">
@@ -83,7 +83,11 @@
 
       <p class="product-offers-alt" *ngIf="selectedProduct.productOffers?.length > 0; else noOffer">
         Offers:
-        <span>Get ₹{{ selectedProduct.productOffers[0].discountPrice }} off on your first purchase!</span>
+        <span>
+          <!-- Get ₹{{ selectedProduct.productOffers[0].discountPrice }} off on your first purchase! -->
+           Get {{ selectedProduct.productOffers[0].discountPercentage }}% OFF
+          ({{ selectedProduct.productOffers[0].status }})
+        </span>
       </p>
 
       <ng-template #noOffer>

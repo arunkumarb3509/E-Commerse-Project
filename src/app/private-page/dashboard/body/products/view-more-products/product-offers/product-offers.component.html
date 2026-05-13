@@ -108,7 +108,7 @@
                   <input type="text" placeholder="Start Date" class="form-control border-outline"
                     [ngClass]="{ 'is-invalid': productOfferForm.get('startDate')?.invalid && productOfferForm.get('startDate')?.touched }"
                     formControlName="startDate" bsDatepicker
-                    [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', maxDate: maxStartDate ,showWeekNumbers: false }"
+                    [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', minDate: today ,showWeekNumbers: false }"
                     (bsValueChange)="onStartDateChange($event)">
                   <label>Start Date</label>
                 </div>
