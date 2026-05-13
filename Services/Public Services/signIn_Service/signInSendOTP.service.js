@@ -181,7 +181,7 @@ const signInSendOtpService = async (email, password) => {
     if (!match) {
       return {
         status: 400,
-        data: { message: 'Incorrect email or password', inCorrectMessage: true },
+        data: { message: 'Incorrect crendials', inCorrectMessage: true },
       };
     }
 

@@ -61,6 +61,7 @@ router.get('/getMainCategoryById/:id', mainCategoryController.getMainCategoryWit
 router.get('/getMainCategoryBasedSubCategory/:id', mainCategoryController.getMainCategoryWithDetailsForProduct);
 router.put('/updateMainCategory/:id', tokenController.verifyToken, mainCategoryController.updateMainCategoryById);
 router.delete('/deleteMainCategory/:id', mainCategoryController.deleteMainCategory);
+router.get('/getMainCategoryBySubCategory',mainCategoryController.getMainCategoryBySubCategory);
 
 // 3. Sub Categories
 router.post('/subCategories', tokenController.verifyToken, upload.single('Image'), subCategoryController.subCategories);

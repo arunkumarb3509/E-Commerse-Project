@@ -221,26 +221,50 @@
 //   updateProductService,
 //   getProductsByCategoryTypeService
 // };
-const {MainCategory} = require('../../../Models/Collections');
-const {SubCategory} = require('../../../Models/Collections');
-const {CategoryType} = require('../../../Models/Collections');
-const {Product} = require('../../../Models/Collections');
-const {SEOInformation} = require('../../../Models/Collections');
-const {ShippingInformation} = require('../../../Models/Collections');
-const {ProductSize} = require('../../../Models/Collections');
-const {ProductImage} = require('../../../Models/Collections');
+const { MainCategory } = require("../../../Models/Collections");
+const { SubCategory } = require("../../../Models/Collections");
+const { CategoryType } = require("../../../Models/Collections");
+const { Product } = require("../../../Models/Collections");
+const { SEOInformation } = require("../../../Models/Collections");
+const { ShippingInformation } = require("../../../Models/Collections");
+const { ProductSize } = require("../../../Models/Collections");
+const { ProductImage } = require("../../../Models/Collections");
+const { ProductOffer } = require("../../../Models/Collections");
 
 const createProductService = async (data) => {
   const {
-    categoryId, subCategoryId, categoryTypeId, materialType, returnPolicy,
-    careInstructions, productCode, productName, brand, price, totalStock,
-    reducedPrice, availability, productDescription, Weight, Dimension,
-    ShippingClass, metaTitle, metaDescription, keywords, selectedSizes,
-    sizeStockMapping, userId
+    categoryId,
+    subCategoryId,
+    categoryTypeId,
+    materialType,
+    returnPolicy,
+    careInstructions,
+    productCode,
+    productName,
+    brand,
+    price,
+    totalStock,
+    reducedPrice,
+    availability,
+    productDescription,
+    Weight,
+    Dimension,
+    ShippingClass,
+    metaTitle,
+    metaDescription,
+    keywords,
+    selectedSizes,
+    sizeStockMapping,
+    userId,
   } = data;
 
   const existing = await Product.findOne({ productCode });
-  if (existing) throw { status: 400, message: 'Product code already exists.', errorType: 'productExists' };
+  if (existing)
+    throw {
+      status: 400,
+      message: "Product code already exists.",
+      errorType: "productExists",
+    };
 
   const newProduct = await Product.create({
     productCode,
@@ -276,8 +300,8 @@ const createProductService = async (data) => {
     shippingClass: ShippingClass,
   });
 
-  if (Array.isArray(selectedSizes) && typeof sizeStockMapping === 'object') {
-    const productSizes = selectedSizes.map(size => ({
+  if (Array.isArray(selectedSizes) && typeof sizeStockMapping === "object") {
+    const productSizes = selectedSizes.map((size) => ({
       productId: newProduct._id,
       sizeId: size,
       totalQuantity: sizeStockMapping[size] || 0,
@@ -292,23 +316,29 @@ const createProductService = async (data) => {
 
 const getAllProductsService = async () => {
   const products = await Product.find().lean();
-  const populated = await Promise.all(products.map(async (product) => {
-    const sizes = await ProductSize.find({ productId: product._id });
-    const seo = await SEOInformation.findOne({ productId: product._id });
-    const ship = await ShippingInformation.findOne({ productId: product._id });
-    const images = await ProductImage.find({ productId: product._id });
+  const populated = await Promise.all(
+    products.map(async (product) => {
+      const sizes = await ProductSize.find({ productId: product._id });
+      const seo = await SEOInformation.findOne({ productId: product._id });
+      const ship = await ShippingInformation.findOne({
+        productId: product._id,
+      });
+      const images = await ProductImage.find({ productId: product._id });
+      const offers = await ProductOffer.find({ productId: product._id });
 
-    return {
-      ...product,
-      productSizes: sizes,
-      seoInformation: seo,
-      shippingInformation: ship,
-      productImages: images.map(img => ({
-        ...img.toObject(),
-        images: img.images ? img.images.toString('base64') : null
-      }))
-    };
-  }));
+      return {
+        ...product,
+        productSizes: sizes,
+        seoInformation: seo,
+        shippingInformation: ship,
+        productOffers: offers,
+        productImages: images.map((img) => ({
+          ...img.toObject(),
+          images: img.images ? img.images.toString("base64") : null,
+        })),
+      };
+    }),
+  );
 
   return populated;
 };
@@ -316,7 +346,7 @@ const getAllProductsService = async () => {
 // const getProductByIdService = async (id) => {
 //   const product = await Product.findById(id).lean();
 //   console.log(product);
-  
+
 //   if (!product) return null;
 
 //   const seo = await SEOInformation.findOne({ productId: product._id });
@@ -339,16 +369,40 @@ const getProductByIdService = async (id) => {
   const product = await Product.findById(id).lean();
   if (!product) return null;
 
-  // Fetch Main Category
   const mainCategory = await MainCategory.findById(product.categoryId).lean();
-
-  // Fetch Category Type
   const categoryType = await CategoryType.findById(product.categoryTypeId).lean();
 
   const seo = await SEOInformation.findOne({ productId: product._id });
   const ship = await ShippingInformation.findOne({ productId: product._id });
   const sizes = await ProductSize.find({ productId: product._id });
   const images = await ProductImage.find({ productId: product._id });
+  const offers = await ProductOffer.find({ productId: product._id });
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const productOffersWithStatus = offers.map((offer) => {
+    const end = new Date(offer.endDate);
+    end.setHours(0, 0, 0, 0);
+
+    const diffTime = end - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    let status = "";
+
+    if (diffDays > 0) {
+      status = `Expires in ${diffDays} day(s)`;
+    } else if (diffDays === 0) {
+      status = "Expires today";
+    } else {
+      status = `Expired ${Math.abs(diffDays)} day(s) ago`;
+    }
+
+    return {
+      ...offer.toObject(),
+      status,
+    };
+  });
 
   return {
     ...product,
@@ -357,13 +411,13 @@ const getProductByIdService = async (id) => {
     seoInformation: seo,
     shippingInformation: ship,
     productSizes: sizes,
-    productImages: images.map(img => ({
+    productOffers: productOffersWithStatus,
+    productImages: images.map((img) => ({
       ...img.toObject(),
-      images: img.images ? img.images.toString("base64") : null
-    }))
+      images: img.images ? img.images.toString("base64") : null,
+    })),
   };
 };
-
 
 const getProductByCodeService = async (productCode) => {
   const product = await Product.findOne({ productCode }).lean();
@@ -371,70 +425,121 @@ const getProductByCodeService = async (productCode) => {
 
   // Fetch Main Category
   const mainCategory = await MainCategory.findById(product.categoryId).lean();
-   const subCategory = await SubCategory.findById(product.categoryId).lean();
+  const subCategory = await SubCategory.findById(product.categoryId).lean();
 
   // Fetch Category Type
-  const categoryType = await CategoryType.findById(product.categoryTypeId).lean();
+  const categoryType = await CategoryType.findById(
+    product.categoryTypeId,
+  ).lean();
   const seo = await SEOInformation.findOne({ productId: product._id });
   const ship = await ShippingInformation.findOne({ productId: product._id });
   const sizes = await ProductSize.find({ productId: product._id });
   const images = await ProductImage.find({ productId: product._id });
+  const offers = await ProductOffer.find({ productId: product._id });
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const productOffersWithStatus = offers.map((offer) => {
+    const end = new Date(offer.endDate);
+    end.setHours(0, 0, 0, 0);
+
+    const diffTime = end - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    let status = "";
+
+    if (diffDays > 0) {
+      status = `Expires in ${diffDays} day(s)`;
+    } else if (diffDays === 0) {
+      status = "Expires today";
+    } else {
+      status = `Expired ${Math.abs(diffDays)} day(s) ago`;
+    }
+
+    return {
+      ...offer.toObject(),
+      status,
+    };
+  });
 
   return {
     ...product,
-     mainCategory,
-     subCategory,
-     categoryType,
+    mainCategory,
+    subCategory,
+    categoryType,
     seoInformation: seo,
     shippingInformation: ship,
     productSizes: sizes,
-    productImages: images.map(img => ({
+    productOffers: productOffersWithStatus,
+    productImages: images.map((img) => ({
       ...img.toObject(),
-      images: img.images ? img.images.toString('base64') : null
-    }))
+      images: img.images ? img.images.toString("base64") : null,
+    })),
   };
 };
 
 const updateProductService = async (productId, data) => {
   const {
-    categoryId, subCategoryId, categoryTypeId, materialType, returnPolicy,
-    careInstructions, productCode, productName, brand, price, totalStock,
-    reorderLevel, availability, productDescription, weight, dimension,
-    shippingClass, metaTitle, metaDescription, keywords, selectedSizes,
-    sizeStockMapping, userId
-  } = data;
-
-  const updatedProduct = await Product.findByIdAndUpdate(productId, {
+    categoryId,
+    subCategoryId,
+    categoryTypeId,
+    materialType,
+    returnPolicy,
+    careInstructions,
     productCode,
     productName,
-    productDescription,
-    price: parseFloat(price),
-    totalStock: parseInt(totalStock),
-    reorderLevel: parseInt(reorderLevel),
-    availability,
     brand,
-    materialType,
-    modifiedBy: parseInt(userId),
-    categoryId: parseInt(categoryId),
-    subcategoryId: parseInt(subCategoryId),
-    categoryTypeId: parseInt(categoryTypeId),
-  }, { new: true });
+    price,
+    totalStock,
+    reorderLevel,
+    availability,
+    productDescription,
+    weight,
+    dimension,
+    shippingClass,
+    metaTitle,
+    metaDescription,
+    keywords,
+    selectedSizes,
+    sizeStockMapping,
+    userId,
+  } = data;
+
+  const updatedProduct = await Product.findByIdAndUpdate(
+    productId,
+    {
+      productCode,
+      productName,
+      productDescription,
+      price: parseFloat(price),
+      totalStock: parseInt(totalStock),
+      reorderLevel: parseInt(reorderLevel),
+      availability,
+      brand,
+      materialType,
+      modifiedBy: parseInt(userId),
+      categoryId: parseInt(categoryId),
+      subcategoryId: parseInt(subCategoryId),
+      categoryTypeId: parseInt(categoryTypeId),
+    },
+    { new: true },
+  );
 
   const updatedSeo = await SEOInformation.findOneAndUpdate(
     { productId },
     { metaTitle, metaDescription, keywords, returnPolicy, careInstructions },
-    { new: true }
+    { new: true },
   );
 
   const updatedShip = await ShippingInformation.findOneAndUpdate(
     { productId },
     { weight: parseFloat(weight), dimensions: dimension, shippingClass },
-    { new: true }
+    { new: true },
   );
 
-  if (Array.isArray(selectedSizes) && typeof sizeStockMapping === 'object') {
+  if (Array.isArray(selectedSizes) && typeof sizeStockMapping === "object") {
     await ProductSize.deleteMany({ productId });
-    const newSizes = selectedSizes.map(size => ({
+    const newSizes = selectedSizes.map((size) => ({
       productId,
       sizeId: size,
       totalQuantity: sizeStockMapping[size] || 0,
@@ -447,7 +552,9 @@ const updateProductService = async (productId, data) => {
 };
 
 const getProductsByCategoryTypeService = async (categoryTypeId) => {
-  return await Product.find({ categoryTypeId: parseInt(categoryTypeId) }).lean();
+  return await Product.find({
+    categoryTypeId: parseInt(categoryTypeId),
+  }).lean();
 };
 
 module.exports = {

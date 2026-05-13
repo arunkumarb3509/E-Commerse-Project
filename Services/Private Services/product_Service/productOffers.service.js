@@ -41,16 +41,13 @@
 // };
 
 // services/productOfferService.js
-const {ProductOffer} = require('../../../Models/Collections');
-
+const { ProductOffer } = require("../../../Models/Collections");
 
 // Delete expired offers for the given product
 const deleteExpiredOffers = async (productId, today) => {
-  // const pid = parseInt(productId, 10);
-  console.log("ProductOffer model:", ProductOffer);
   return await ProductOffer.deleteMany({
     productId: productId,
-    endDate: { $lte: today },
+    endDate: { $lt: today },
   });
 };
 
@@ -72,7 +69,9 @@ const createNewOffer = async (data) => {
 // Get product offer by product ID
 const getOfferByProductId = async (productId) => {
   // const pid = parseInt(productId, 10);
-  return await ProductOffer.findOne({ productId: productId }).sort({ endDate: -1 });
+  return await ProductOffer.findOne({ productId: productId }).sort({
+    endDate: -1,
+  });
 };
 
 module.exports = {

@@ -26,6 +26,39 @@ const getMainCategories = async (req, res) => {
   }
 };
 
+const getMainCategoryBySubCategory = async (req, res) => {
+  try {
+    const { subCategoryName } = req.query;
+
+    const data = await service.findMainCategoryBySubCategory(subCategoryName);
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({
+        message: "No data found",
+        noData: true
+      });
+    }
+
+    const mappedResponse = data.map(item => ({
+      mainCategoryId: item.categoryId?._id,
+      mainCategoryName: item.categoryId?.categoryName,
+      mainCategoryDescription: item.categoryId?.description,
+
+      subCategoryId: item._id,
+      subCategoryName: item.subCategoryName,
+      subCategoryDescription: item.description,
+
+      createdAt: item.createdAt,
+      updatedAt: item.updatedAt
+    }));
+
+    res.status(200).json(mappedResponse);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 const getMainCategoryWithDetails = async (req, res) => {
   const id = req.params.id;
 
@@ -201,5 +234,6 @@ module.exports = {
   getMainCategoryWithDetails,
   updateMainCategoryById,
   deleteMainCategory,
-  getMainCategoryWithDetailsForProduct
+  getMainCategoryWithDetailsForProduct,
+  getMainCategoryBySubCategory
 };

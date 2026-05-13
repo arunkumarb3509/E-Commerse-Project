@@ -67,6 +67,7 @@
 
 const { MainCategory } = require("../../../Models/Collections");
 const { SubCategory } = require("../../../Models/Collections");
+const mongoose = require("mongoose");
 
 const findAllMainCategories = async () => {
   // return await MainCategory.find()
@@ -78,15 +79,39 @@ const findAllMainCategories = async () => {
   return await MainCategory.find({}, 'categoryName _id description createdAt updatedAt').lean();
 }
 
-const findMainCategoryByIdWithDetails = async (id) => {
-  return await MainCategory.findById(id)
+const findMainCategoryBySubCategory = async (subCategoryName) => {
+  const filter = {};
+
+  if (subCategoryName) {
+    filter.subCategoryName = subCategoryName;
+  }
+
+  return await SubCategory.find(filter)
     .populate({
-      path: 'subCategories',
-      populate: {
-        path: 'categoryTypeInfo',
-        model: 'CategoryType',
-      },
-    });
+      path: 'categoryId',
+      select: 'categoryName description'
+    })
+    .select('subCategoryName description createdAt updatedAt categoryId')
+    .lean();
+};
+
+const findMainCategoryByIdWithDetails = async (id) => {
+  // return await MainCategory.findById(id)
+  //   .populate({
+  //     path: 'subCategories',
+  //     populate: {
+  //       path: 'categoryTypeInfo',
+  //       model: 'CategoryType',
+  //     },
+  //   });
+   if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+    console.error("Invalid MainCategory ID received:", id);
+    return null;
+  }
+
+  return await MainCategory.findById(id)
+    .populate("subCategories")
+    .lean();
 };
 
 const findSubCategoryByCategoryId = async (categoryId) => {
@@ -141,4 +166,5 @@ module.exports = {
   deleteSubCategoriesByMainCategoryId,
   deleteMainCategoryById,
   findSubCategoryByCategoryId,
+  findMainCategoryBySubCategory
 };
