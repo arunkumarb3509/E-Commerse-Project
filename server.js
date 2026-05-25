@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(cors({
   credentials: true,
   origin: ['http://localhost:3000', 'http://localhost:4200', 'https://lovable.dev',
-    'https://lovable.dev/projects/639318a6-36f4-4a62-9a94-1d96f3197b8d' ,'http://localhost:54747']
+    'https://lovable.dev/projects/639318a6-36f4-4a62-9a94-1d96f3197b8d' ,'http://localhost:64246']
 }));
 
 // Routes

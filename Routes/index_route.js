@@ -52,7 +52,7 @@ router.post('/verify-otp', tokenController.verifyToken);
 router.post('/business-profile',tokenController.verifyToken, businessProfileController.businessProfile);
 router.get('/loggedInUserDetails/:userId', loggedInCustomerController.loggedInUserDetails);
 router.post('/submitCustomerOrder', submitCustomerOrderController.submitOrder);
-
+router.put('/updateProfile/:userId', loggedInCustomerController.updateSellerDetails);
 
 // 2. Main Categories
 router.post('/mainCategories', tokenController.verifyToken, mainCategoryController.mainCategories);

@@ -54,7 +54,6 @@
 //   safeJsonStringify,
 // };
 
-const { UserRegistration, UserAddress } = require('../../../Models/Collections'); // adjust path
 
 // const getUserDetailsById = async (userId) => {
 //   // userId in MongoDB is _id (ObjectId), so we use Mongoose ObjectId
@@ -75,6 +74,10 @@ const { UserRegistration, UserAddress } = require('../../../Models/Collections')
 //   const user = await UserRegistration.findOne({ userId: id }).populate('UserAddress');
 //   return user;
 // };
+
+const { UserRegistration } = require('../../../Models/Collections'); // adjust path
+const { UserAddress } = require('../../../Models/Collections');
+
 const getUserDetailsById = async (userId) => {
   const id = parseInt(userId, 10);
   if (isNaN(id)) throw new Error("Invalid user ID");
@@ -105,7 +108,72 @@ const safeJsonStringify = (obj) => {
   );
 };
 
+const updateSellerDetailsService = async (
+  userId,
+  payload
+) => {
+
+  const id = parseInt(userId, 10);
+
+  const {
+    firstName,
+    lastName,
+    phone,
+    address,
+    city,
+    state,
+    zipCode
+  } = payload;
+
+  // UPDATE USER
+  await UserRegistration.findOneAndUpdate(
+    { userId: id },
+    {
+      $set: {
+        firstName,
+        lastName,
+        phone
+      }
+    },
+    { new: true }
+  );
+
+  // UPDATE ADDRESS
+  await UserAddress.findOneAndUpdate(
+    { userId: id },
+    {
+      $set: {
+        address,
+        city,
+        state,
+        zipCode
+      }
+    },
+    { new: true }
+  );
+
+  // GET UPDATED USER
+  const user = await UserRegistration.findOne({
+    userId: id
+  });
+
+  const addresses = await UserAddress.find({
+    userId: id
+  });
+
+  const result = {
+    ...user.toObject(),
+    UserAddress: addresses
+  };
+
+  return result;
+};
+
+  
+
+
 module.exports = {
   getUserDetailsById,
   safeJsonStringify,
+  updateSellerDetailsService
 };
