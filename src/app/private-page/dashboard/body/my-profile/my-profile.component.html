@@ -30,7 +30,7 @@
               </span>
             </div>
             <div class="ms-auto">
-              <button class="btn btn-outline-light rounded-pill px-3" (click)="onEditProfile()">
+              <button class="btn btn-outline-light rounded-pill px-3" (click)="onEditProfile(userData)">
                 <i class="fa fa-pencil me-2"></i>Edit
               </button>
             </div>
@@ -85,4 +85,262 @@
   </div>
 </div>
 
+<div
+  class="modal fade"
+  id="editProfileModal"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 rounded-4">
+
+      <!-- Header -->
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title">
+          <i class="fa fa-pencil me-2"></i>Edit Profile
+        </h5>
+
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body p-4">
+
+        <form [formGroup]="editProfileForm">
+
+  <div class="row">
+
+    <!-- First Name -->
+    <div class="col-md-6 mb-3">
+
+      <label class="form-label fw-semibold">
+        First Name <span class="text-danger">*</span>
+      </label>
+
+      <input
+        type="text"
+        class="form-control"
+        formControlName="firstName"
+        [ngClass]="{
+          'is-invalid':
+          editProfileForm.get('firstName')?.touched &&
+          editProfileForm.get('firstName')?.invalid
+        }"
+      >
+
+    </div>
+
+    <!-- Last Name -->
+    <div class="col-md-6 mb-3">
+
+      <label class="form-label fw-semibold">
+        Last Name <span class="text-danger">*</span>
+      </label>
+
+      <input
+        type="text"
+        class="form-control"
+        formControlName="lastName"
+        [ngClass]="{
+          'is-invalid':
+          editProfileForm.get('lastName')?.touched &&
+          editProfileForm.get('lastName')?.invalid
+        }"
+      >
+
+    </div>
+
+    <!-- Email -->
+    <div class="col-md-6 mb-3">
+
+      <label class="form-label fw-semibold">
+        Email
+      </label>
+
+      <input
+        type="email"
+        class="form-control readonly-input"
+        formControlName="email"
+        readonly
+      >
+
+    </div>
+
+    <!-- Phone -->
+    <div class="col-md-6 mb-3">
+
+  <label class="form-label fw-semibold">
+    Phone <span class="text-danger">*</span>
+  </label>
+
+  <input
+    type="text"
+    class="form-control"
+    formControlName="phone"
+    maxlength="10"
+    (keypress)="allowOnlyNumbers($event)"
+    [ngClass]="{
+      'is-invalid':
+      editProfileForm.get('phone')?.touched &&
+      editProfileForm.get('phone')?.invalid
+    }"
+  >
+
+  <div
+    class="invalid-feedback"
+    *ngIf="
+      editProfileForm.get('phone')?.touched &&
+      editProfileForm.get('phone')?.errors?.['required']
+    "
+  >
+    Phone number is required
+  </div>
+
+  <div
+    class="invalid-feedback"
+    *ngIf="
+      editProfileForm.get('phone')?.touched &&
+      editProfileForm.get('phone')?.errors?.['pattern']
+    "
+  >
+    Enter valid 10 digit phone number
+  </div>
+
+</div>
+
+    <!-- Customer Type -->
+    <div class="col-md-6 mb-3">
+
+      <label class="form-label fw-semibold">
+        Customer Type
+      </label>
+
+      <input
+        type="text"
+        class="form-control readonly-input"
+        formControlName="customerType"
+        readonly
+      >
+
+    </div>
+
+    <!-- Zip Code -->
+    <div class="col-md-6 mb-3">
+
+  <label class="form-label fw-semibold">
+    Zip Code <span class="text-danger">*</span>
+  </label>
+
+  <input
+    type="text"
+    class="form-control"
+    formControlName="zipCode"
+    maxlength="6"
+    (keypress)="allowOnlyNumbers($event)"
+    [ngClass]="{
+      'is-invalid':
+      editProfileForm.get('zipCode')?.touched &&
+      editProfileForm.get('zipCode')?.invalid
+    }"
+  >
+
+  <div
+    class="invalid-feedback"
+    *ngIf="
+      editProfileForm.get('zipCode')?.touched &&
+      editProfileForm.get('zipCode')?.errors?.['required']
+    "
+  >
+    Zip code is required
+  </div>
+
+  <div
+    class="invalid-feedback"
+    *ngIf="
+      editProfileForm.get('zipCode')?.touched &&
+      editProfileForm.get('zipCode')?.errors?.['pattern']
+    "
+  >
+    Enter valid 6 digit zip code
+  </div>
+
+</div>
+
+    <!-- City -->
+    <div class="col-md-6 mb-3">
+
+      <label class="form-label fw-semibold">
+        City <span class="text-danger">*</span>
+      </label>
+
+      <input
+        type="text"
+        class="form-control"
+        formControlName="city"
+      >
+
+    </div>
+
+    <!-- State -->
+    <div class="col-md-6 mb-3">
+
+      <label class="form-label fw-semibold">
+        State <span class="text-danger">*</span>
+      </label>
+
+      <input
+        type="text"
+        class="form-control"
+        formControlName="state"
+      >
+
+    </div>
+
+    <!-- Address -->
+    <div class="col-12 mb-3">
+
+      <label class="form-label fw-semibold">
+        Address <span class="text-danger">*</span>
+      </label>
+
+      <textarea
+        rows="3"
+        class="form-control"
+        formControlName="address"
+      ></textarea>
+
+    </div>
+
+  </div>
+
+</form>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer">
+
+        <button
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Cancel
+        </button>
+
+        <button
+          class="btn btn-primary"
+          (click)="updateProfile()"
+        >
+          Update Profile
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</div>
 

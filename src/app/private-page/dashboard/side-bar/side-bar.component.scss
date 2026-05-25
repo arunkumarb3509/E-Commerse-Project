@@ -213,6 +213,19 @@ ul.CTAs a {
   }
 }
 
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.submenu.show {
+  max-height: 500px;
+}
+
+.custom-toggle::after {
+  display: none !important;
+}
 
 // .sidebar {
 //   width: 250px;

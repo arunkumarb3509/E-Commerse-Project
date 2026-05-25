@@ -79,160 +79,213 @@
   <input type="checkbox" id="sidebar-toggle" hidden>
   <div *ngIf="userType === 'seller'">
   <nav id="sidebar" [ngClass]="{ active: isSidebarActive }">
+  <ul class="list-unstyled components">
 
- 
-    <ul class="list-unstyled components">
-      <!-- <div *ngIf="userType === 'seller'"> -->
-      <li>
-        <a class="text-center dashboard-text" (click)="onSidebarItemClick()">Dashboard</a>
-      </li>
-      <li>
-        <a
-          href="#generalSetup"
-          data-toggle="collapse"
-          data-bs-toggle="collapse"
-          data-bs-target="#generalSetup"
-          aria-controls="generalSetup"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-          class="dropdown-toggle"
-           (click)="toggleDropdown('generalSetup')"
-        >
-          <i class="fa fa-tachometer me-3"></i>Home
-        </a>
-        <ul class="collapse list-unstyled" id="generalSetup"  [class.show]="activeDropdown === 'generalSetup'">
-          <li>
-            <a
-              routerLinkActive="active"
-              routerLink="/fashionflair/dashboard"
-              (click)="onSidebarItemClick()"
-              >About</a
-            >
-          </li>
-          <li>
-            <a
-              routerLinkActive="active"
-              routerLink="/fashionflair/dashboard"
-              (click)="onSidebarItemClick()"
-              >Designation</a
-            >
-          </li>
-        </ul>
-      </li>
-      <!-- Add click events for all sidebar links -->
-      <!-- <li>
-        <ul class="collapse list-unstyled" id="Jobs">
-       
-        </ul>
-      </li> -->
-    <!-- </div> -->
-      <!-- <div *ngIf="userType === 'customer'"> -->
-      <li>
-        <a
-          href="#CompanyProfile"
-          data-toggle="collapse"
-          data-bs-toggle="collapse"
-          data-bs-target="#CompanyProfile"
-          aria-controls="projects"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-          class="dropdown-toggle"
-          (click)="onSidebarItemClick()"
-        >
-          <i class="fa fa-user me-3"></i>Profile
-        </a>
-        <ul class="collapse list-unstyled" id="CompanyProfile">
-          <li>
-            <a
-              routerLinkActive="active"
-              routerLink="/fashionflair/dashboard/my-profile"
-              (click)="onSidebarItemClick()"
-              >My Profile</a
-            >
-          </li>
-          <li>
-            <a
-              routerLinkActive="active"
-              routerLink="/fashionflair/dashboard/business-profile"
-              (click)="onSidebarItemClick()"
-              >Business Profile</a
-            >
-          </li>
-        </ul>
-      </li>
-     
-      <li>
-        <a
-          href="#CompanyProfile"
-          data-toggle="collapse"
-          data-bs-toggle="collapse"
-          data-bs-target="#categories"
-          aria-controls="projects"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-          class="dropdown-toggle"
-          (click)="onSidebarItemClick()"
-        >
-         <i class="fa fa-tags me-2"></i>Categories
-        </a>
-        <ul class="collapse list-unstyled" id="categories">
-          <li>
-            <a
-              routerLinkActive="active"
-              routerLink="/fashionflair/dashboard/main-categories"
-              (click)="onSidebarItemClick()"
-              >Main Categories</a
-            >
-          </li>
-          <li>
-            <a
-              routerLinkActive="active"
-              routerLink="/fashionflair/dashboard/sub-categories"
-              (click)="onSidebarItemClick()"
-              >Sub Categories</a
-            >
-          </li>
-        </ul>
-      </li>
-    <!-- </div> -->
-  
-      <li>
-        <a
-          href="#Products"
-          data-toggle="collapse"
-          data-bs-toggle="collapse"
-          data-bs-target="#Products"
-          aria-controls="projects"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-          class="dropdown-toggle"
-          (click)="onSidebarItemClick()"
-        >
-          <i class="fa fa-cube  me-2"></i>Products
-        </a>
-        <ul class="collapse list-unstyled" id="Products">
-          <li>
-            
-            <a
+    <!-- Dashboard -->
+    <li>
+      <a class="text-center dashboard-text"
+         (click)="onSidebarItemClick()">
+        Dashboard
+      </a>
+    </li>
+
+    <!-- Home -->
+    <li>
+      <a
+        class="dropdown-toggle custom-toggle"
+        (click)="toggleDropdown('generalSetup')"
+      >
+        <div class="d-flex justify-content-between align-items-center w-100">
+
+          <span>
+            <i class="fa fa-tachometer me-3"></i>Home
+          </span>
+
+          <i
+            class="fa"
+            [ngClass]="{
+              'fa-chevron-down': activeDropdown !== 'generalSetup',
+              'fa-chevron-up': activeDropdown === 'generalSetup'
+            }"
+          ></i>
+
+        </div>
+      </a>
+
+      <ul
+        class="list-unstyled submenu"
+        [class.show]="activeDropdown === 'generalSetup'"
+      >
+        <li>
+          <a
+            routerLink="/fashionflair/dashboard"
             routerLinkActive="active"
-            routerLink="/fashionflair/dashboard/products/view-products"
             (click)="onSidebarItemClick()"
-            >View Product</a
           >
-          </li>
+            About
+          </a>
+        </li>
 
-          <li>
-            <a
-              routerLinkActive="active"
-              routerLink="/fashionflair/dashboard/products/create-products"
-              (click)="onSidebarItemClick()"
-              > Create Product</a
-            >
-           
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
+        <li>
+          <a
+            routerLink="/fashionflair/dashboard"
+            routerLinkActive="active"
+            (click)="onSidebarItemClick()"
+          >
+            Designation
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <!-- Profile -->
+    <li>
+      <a
+        class="dropdown-toggle custom-toggle"
+        (click)="toggleDropdown('profile')"
+      >
+        <div class="d-flex justify-content-between align-items-center w-100">
+
+          <span>
+            <i class="fa fa-user me-3"></i>Profile
+          </span>
+
+          <i
+            class="fa"
+            [ngClass]="{
+              'fa-chevron-down': activeDropdown !== 'profile',
+              'fa-chevron-up': activeDropdown === 'profile'
+            }"
+          ></i>
+
+        </div>
+      </a>
+
+      <ul
+        class="list-unstyled submenu"
+        [class.show]="activeDropdown === 'profile'"
+      >
+        <li>
+          <a
+            routerLink="/fashionflair/dashboard/my-profile"
+            routerLinkActive="active"
+            (click)="onSidebarItemClick()"
+          >
+            My Profile
+          </a>
+        </li>
+
+        <li>
+          <a
+            routerLink="/fashionflair/dashboard/business-profile"
+            routerLinkActive="active"
+            (click)="onSidebarItemClick()"
+          >
+            Business Profile
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <!-- Categories -->
+    <li>
+      <a
+        class="dropdown-toggle custom-toggle"
+        (click)="toggleDropdown('categories')"
+      >
+        <div class="d-flex justify-content-between align-items-center w-100">
+
+          <span>
+            <i class="fa fa-tags me-2"></i>Categories
+          </span>
+
+          <i
+            class="fa"
+            [ngClass]="{
+              'fa-chevron-down': activeDropdown !== 'categories',
+              'fa-chevron-up': activeDropdown === 'categories'
+            }"
+          ></i>
+
+        </div>
+      </a>
+
+      <ul
+        class="list-unstyled submenu"
+        [class.show]="activeDropdown === 'categories'"
+      >
+        <li>
+          <a
+            routerLink="/fashionflair/dashboard/main-categories"
+            routerLinkActive="active"
+            (click)="onSidebarItemClick()"
+          >
+            Main Categories
+          </a>
+        </li>
+
+        <li>
+          <a
+            routerLink="/fashionflair/dashboard/sub-categories"
+            routerLinkActive="active"
+            (click)="onSidebarItemClick()"
+          >
+            Sub Categories
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <!-- Products -->
+    <li>
+      <a
+        class="dropdown-toggle custom-toggle"
+        (click)="toggleDropdown('products')"
+      >
+        <div class="d-flex justify-content-between align-items-center w-100">
+
+          <span>
+            <i class="fa fa-cube me-2"></i>Products
+          </span>
+
+          <i
+            class="fa"
+            [ngClass]="{
+              'fa-chevron-down': activeDropdown !== 'products',
+              'fa-chevron-up': activeDropdown === 'products'
+            }"
+          ></i>
+
+        </div>
+      </a>
+
+      <ul
+        class="list-unstyled submenu"
+        [class.show]="activeDropdown === 'products'"
+      >
+        <li>
+          <a
+            routerLink="/fashionflair/dashboard/products/view-products"
+            routerLinkActive="active"
+            (click)="onSidebarItemClick()"
+          >
+            View Product
+          </a>
+        </li>
+
+        <li>
+          <a
+            routerLink="/fashionflair/dashboard/products/create-products"
+            routerLinkActive="active"
+            (click)="onSidebarItemClick()"
+          >
+            Create Product
+          </a>
+        </li>
+      </ul>
+    </li>
+
+  </ul>
+</nav>
   </div>
 </div>

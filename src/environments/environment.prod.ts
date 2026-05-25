@@ -73,6 +73,7 @@ export const environment = {
 
   SELLER_DATA:{
    CREATE_BUSINESS_PROFILE:`${URL}/business-profile/`,
+   UPDATE_PROFILE:`${URL}/updateProfile/`
  },
 
 //  PRODUCT URL'S
